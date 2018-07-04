@@ -41,7 +41,7 @@ function igv_cmb_metaboxes() {
 
   $project_metabox = new_cmb2_box( array(
     'id'            => $prefix . 'project_metabox',
-    'title'         => esc_html__( 'Options', 'cmb2' ),
+    'title'         => esc_html__( 'Documentation', 'cmb2' ),
     'object_types'  => array( 'project' ), // Post type
     // 'show_on_cb' => 'yourprefix_show_if_front_page', // function should return a bool value
     // 'context'    => 'normal',
