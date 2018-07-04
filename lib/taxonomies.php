@@ -29,37 +29,5 @@ function create_project_taxonomies() {
 	);
 
 	register_taxonomy( 'type', array( 'project' ), $args );
-
-	// Add new taxonomy, NOT hierarchical (like tags)
-	$labels = array(
-		'name'                       => _x( 'Themes', 'taxonomy general name', 'textdomain' ),
-		'singular_name'              => _x( 'Theme', 'taxonomy singular name', 'textdomain' ),
-		'search_items'               => __( 'Search Themes', 'textdomain' ),
-		'popular_items'              => __( 'Popular Themes', 'textdomain' ),
-		'all_items'                  => __( 'All Themes', 'textdomain' ),
-		'parent_item'                => null,
-		'parent_item_colon'          => null,
-		'edit_item'                  => __( 'Edit Theme', 'textdomain' ),
-		'update_item'                => __( 'Update Theme', 'textdomain' ),
-		'add_new_item'               => __( 'Add New Theme', 'textdomain' ),
-		'new_item_name'              => __( 'New Theme Name', 'textdomain' ),
-		'separate_items_with_commas' => __( 'Separate themes with commas', 'textdomain' ),
-		'add_or_remove_items'        => __( 'Add or remove themes', 'textdomain' ),
-		'choose_from_most_used'      => __( 'Choose from the most used themes', 'textdomain' ),
-		'not_found'                  => __( 'No themes found.', 'textdomain' ),
-		'menu_name'                  => __( 'Themes', 'textdomain' ),
-	);
-
-	$args = array(
-		'hierarchical'          => false,
-		'labels'                => $labels,
-		'show_ui'               => true,
-		'show_admin_column'     => true,
-		'update_count_callback' => '_update_post_term_count',
-		'query_var'             => true,
-		'rewrite'               => array( 'slug' => 'theme' ),
-	);
-
-	register_taxonomy( 'theme', 'book', $args );
 }
 ?>
