@@ -18,23 +18,19 @@ if ($projects->have_posts()) {
     $projects->the_post();
 
     $project_type = get_post_meta( get_the_ID(), '_igv_project_type', true );
-
 ?>
 
         <article <?php post_class('grid-item item-s-12'); ?> id="post-<?php the_ID(); ?>">
 
-          <a href="<?php the_permalink() ?>"><h1 href="<?php the_permalink() ?>"><?php the_title(); ?></h1></a>
-          <a href="<?php the_permalink() ?>"><?php echo $project_type; ?></a>
+          <h1><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>
+          <?php echo $project_type; ?>
 
         </article>
 
 <?php
   }
-} else {
+}
 ?>
-        <article class="u-alert grid-item item-s-12"><?php _e('Sorry, no posts matched your criteria :{'); ?></article>
-<?php
-} ?>
 
       </div>
     </div>
