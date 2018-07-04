@@ -91,8 +91,6 @@ function igv_cmb_metaboxes() {
       'flex-start' => esc_html__( 'flex-start', 'cmb2' ),
       'center' => esc_html__( 'center', 'cmb2' ),
       'flex-end' => esc_html__( 'flex-end', 'cmb2' ),
-      'baseline' => esc_html__( 'baseline', 'cmb2' ),
-      'stretch' => esc_html__( 'stretch', 'cmb2' ),
     ),
     'default' => 'flex-start',
   ) );
