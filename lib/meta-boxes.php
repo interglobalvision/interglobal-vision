@@ -66,9 +66,9 @@ function igv_cmb_metaboxes() {
 	) );
 
   $project_metabox->add_group_field( $documentation_group, array(
-		'name' => esc_html__( 'Images / Videos', 'cmb2' ),
-		'id'   => 'files',
-		'type' => 'file_list',
+    'name' => esc_html__( 'Images / Videos', 'cmb2' ),
+    'id'   => 'files',
+    'type' => 'file_list',
     'preview_size' => array( 150, 150 ),
 	) );
 
@@ -84,56 +84,56 @@ function igv_cmb_metaboxes() {
   ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
-		'name'             => esc_html__( 'align-items:', 'cmb2' ),
-		'id'               => 'align_items',
-		'type'             => 'radio_inline',
-		'options'          => array(
-			'flex-start' => esc_html__( 'flex-start', 'cmb2' ),
-			'center' => esc_html__( 'center', 'cmb2' ),
-			'flex-end' => esc_html__( 'flex-end', 'cmb2' ),
+    'name'             => esc_html__( 'align-items:', 'cmb2' ),
+    'id'               => 'align_items',
+    'type'             => 'radio_inline',
+    'options'          => array(
+      'flex-start' => esc_html__( 'flex-start', 'cmb2' ),
+      'center' => esc_html__( 'center', 'cmb2' ),
+      'flex-end' => esc_html__( 'flex-end', 'cmb2' ),
       'baseline' => esc_html__( 'baseline', 'cmb2' ),
-			'stretch' => esc_html__( 'stretch', 'cmb2' ),
-		),
+      'stretch' => esc_html__( 'stretch', 'cmb2' ),
+    ),
     'default' => 'flex-start',
 	) );
 
   $project_metabox->add_group_field( $documentation_group, array(
-		'name'             => esc_html__( 'justify-content:', 'cmb2' ),
-		'id'               => 'justify_content',
-		'type'             => 'radio_inline',
-		'options'          => array(
-			'flex-start' => esc_html__( 'flex-start', 'cmb2' ),
-			'center' => esc_html__( 'center', 'cmb2' ),
-			'flex-end' => esc_html__( 'flex-end', 'cmb2' ),
+    'name'             => esc_html__( 'justify-content:', 'cmb2' ),
+    'id'               => 'justify_content',
+    'type'             => 'radio_inline',
+    'options'          => array(
+      'flex-start' => esc_html__( 'flex-start', 'cmb2' ),
+      'center' => esc_html__( 'center', 'cmb2' ),
+      'flex-end' => esc_html__( 'flex-end', 'cmb2' ),
       'space-between' => esc_html__( 'space-between', 'cmb2' ),
-			'space-around' => esc_html__( 'space-around', 'cmb2' ),
-		),
+      'space-around' => esc_html__( 'space-around', 'cmb2' ),
+    ),
     'default' => 'center',
 	) );
 
   $project_metabox->add_group_field( $documentation_group, array(
-		'name' => esc_html__( 'Item widths', 'cmb2' ),
-		'id'   => 'item_widths',
+    'name' => esc_html__( 'Item widths', 'cmb2' ),
+    'id'   => 'item_widths',
     'desc' => esc_html__( 'ex: item-s-12 item-m-6 item-l-3', 'cmb2' ),
-		'type' => 'text',
+    'type' => 'text',
     'options'          => array(
       'add_row_text' => __( 'Add Item', 'cmb2' ),
-		),
-		'repeatable' => true,
+    ),
+    'repeatable' => true,
 	) );
 
   $project_metabox->add_group_field( $documentation_group, array(
-		'name' => esc_html__( 'Item frame', 'cmb2' ),
+    'name' => esc_html__( 'Item frame', 'cmb2' ),
     'id'               => 'item_frame',
-		'type'             => 'select',
-		'options'          => array(
-			'none' => esc_html__( 'None', 'cmb2' ),
-			'mobile' => esc_html__( 'Mobile', 'cmb2' ),
-			'desktop' => esc_html__( 'Desktop', 'cmb2' ),
+    'type'             => 'select',
+    'options'          => array(
+      'none' => esc_html__( 'None', 'cmb2' ),
+      'mobile' => esc_html__( 'Mobile', 'cmb2' ),
+      'desktop' => esc_html__( 'Desktop', 'cmb2' ),
       'add_row_text' => __( 'Add Item', 'cmb2' ),
-		),
+    ),
     'default' => 'none',
-		'repeatable' => true,
+    'repeatable' => true,
 	) );
 }
 ?>
