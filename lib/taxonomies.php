@@ -28,6 +28,6 @@ function create_project_taxonomies() {
 		'rewrite'           => array( 'slug' => 'type' ),
 	);
 
-	register_taxonomy( 'type', array( 'project' ), $args );
+	//register_taxonomy( 'type', array( 'project' ), $args );
 }
 ?>

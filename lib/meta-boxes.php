@@ -137,6 +137,13 @@ function igv_cmb_metaboxes() {
     // 'classes_cb' => 'yourprefix_add_some_classes', // Add classes through a callback.
   ) );
 
+
+  $project_metabox->add_field( array(
+    'name'       => esc_html__( 'Project Type', 'cmb2' ),
+    'id'         => $prefix . 'project_type',
+    'type'       => 'text',
+  ) );
+
   $documentation_group = $project_metabox->add_field( array(
     'id'          => $prefix . 'project_documentation',
     'type'        => 'group',
