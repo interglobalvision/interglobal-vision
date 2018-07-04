@@ -63,14 +63,14 @@ function igv_cmb_metaboxes() {
       'sortable'      => true, // beta
       // 'closed'     => true, // true to have the groups closed by default
     ),
-	) );
+  ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
     'name' => esc_html__( 'Images / Videos', 'cmb2' ),
     'id'   => 'files',
     'type' => 'file_list',
     'preview_size' => array( 150, 150 ),
-	) );
+  ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
     'name'    => esc_html__( 'Caption', 'cmb2' ),
@@ -95,7 +95,7 @@ function igv_cmb_metaboxes() {
       'stretch' => esc_html__( 'stretch', 'cmb2' ),
     ),
     'default' => 'flex-start',
-	) );
+  ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
     'name'             => esc_html__( 'justify-content:', 'cmb2' ),
@@ -109,7 +109,7 @@ function igv_cmb_metaboxes() {
       'space-around' => esc_html__( 'space-around', 'cmb2' ),
     ),
     'default' => 'center',
-	) );
+  ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
     'name' => esc_html__( 'Item widths', 'cmb2' ),
@@ -120,7 +120,7 @@ function igv_cmb_metaboxes() {
       'add_row_text' => __( 'Add Item', 'cmb2' ),
     ),
     'repeatable' => true,
-	) );
+  ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
     'name' => esc_html__( 'Item frame', 'cmb2' ),
@@ -134,6 +134,6 @@ function igv_cmb_metaboxes() {
     ),
     'default' => 'none',
     'repeatable' => true,
-	) );
+  ) );
 }
 ?>
