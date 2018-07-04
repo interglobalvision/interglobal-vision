@@ -29,5 +29,3 @@ This works thanks to the great work of:
 ## Notes
 
 - be here, now
-
-![](http://i.imgur.com/G56ITX7.png)
