@@ -29,9 +29,9 @@ get_template_part('partials/seo');
 <section id="main-container">
 
   <header id="header">
-    <h1 id="site-title"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
+    <h1 id="site-title" class="font-size-basic font-bold"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
     <div class="grid-row justify-end">
-      <div class="grid-item">
+      <div class="grid-item font-size-small font-bold">
         <?php
           // language switcher
           global $q_config;
