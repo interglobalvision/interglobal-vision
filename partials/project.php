@@ -22,10 +22,8 @@ if (have_posts()) {
   <div class="grid-row margin-bottom-mid <?php echo $row_classes; ?>">
 <?php
       if (!empty($row['caption'])) { // CAPTION
-        $item_classes = "{$row['item_widths'][0]} offset-l-1";
-
 ?>
-            <div class="<?php echo $item_classes; ?>">
+            <div class="item-s-12 item-m-10 item-l-6 offset-l-1">
               <?php echo apply_filters('the_content', $row['caption']); ?>
             </div>
 <?php
