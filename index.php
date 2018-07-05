@@ -36,6 +36,12 @@ if ($projects->have_posts()) {
     </div>
   </section>
 
+<?php
+  if (is_singular('project')) {
+    get_template_part('partials/project');
+  }
+?>
+
 </main>
 
 <?php

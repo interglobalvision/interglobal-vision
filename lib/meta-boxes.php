@@ -161,17 +161,7 @@ function igv_cmb_metaboxes() {
     'id'   => 'files',
     'type' => 'file_list',
     'preview_size' => array( 150, 150 ),
-  ) );
-
-  $project_metabox->add_group_field( $documentation_group, array(
-    'name'    => esc_html__( 'Caption', 'cmb2' ),
-    'id'      => 'caption',
-    'type'    => 'wysiwyg',
-    'options' => array(
-      'textarea_rows' => 5,
-      'media_buttons' => false,
-      'teeny' => true,
-    ),
+    'repeatable' => true,
   ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
@@ -179,9 +169,9 @@ function igv_cmb_metaboxes() {
     'id'               => 'align_items',
     'type'             => 'radio_inline',
     'options'          => array(
-      'flex-start' => esc_html__( 'flex-start', 'cmb2' ),
-      'center' => esc_html__( 'center', 'cmb2' ),
-      'flex-end' => esc_html__( 'flex-end', 'cmb2' ),
+      'align-items-start' => esc_html__( 'start', 'cmb2' ),
+      'align-items-center' => esc_html__( 'center', 'cmb2' ),
+      'align-items-end' => esc_html__( 'end', 'cmb2' ),
     ),
     'default' => 'flex-start',
   ) );
@@ -191,19 +181,19 @@ function igv_cmb_metaboxes() {
     'id'               => 'justify_content',
     'type'             => 'radio_inline',
     'options'          => array(
-      'flex-start' => esc_html__( 'flex-start', 'cmb2' ),
-      'center' => esc_html__( 'center', 'cmb2' ),
-      'flex-end' => esc_html__( 'flex-end', 'cmb2' ),
-      'space-between' => esc_html__( 'space-between', 'cmb2' ),
-      'space-around' => esc_html__( 'space-around', 'cmb2' ),
+      'justify-start' => esc_html__( 'start', 'cmb2' ),
+      'justify-center' => esc_html__( 'center', 'cmb2' ),
+      'justify-end' => esc_html__( 'end', 'cmb2' ),
+      'justify-between' => esc_html__( 'space between', 'cmb2' ),
+      'justify-around' => esc_html__( 'space around', 'cmb2' ),
     ),
-    'default' => 'center',
+    'default' => 'justify-center',
   ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
     'name' => esc_html__( 'Item widths', 'cmb2' ),
     'id'   => 'item_widths',
-    'desc' => esc_html__( 'ex: item-s-12 item-m-6 item-l-3', 'cmb2' ),
+    'desc' => esc_html__( 'Ex: item-s-12 item-m-6 item-l-3. Not applied to Captions', 'cmb2' ),
     'type' => 'text',
     'options'          => array(
       'add_row_text' => __( 'Add Item', 'cmb2' ),
@@ -216,13 +206,24 @@ function igv_cmb_metaboxes() {
     'id'               => 'item_frame',
     'type'             => 'select',
     'options'          => array(
-      'none' => esc_html__( 'None', 'cmb2' ),
+      '' => esc_html__( 'None', 'cmb2' ),
       'mobile' => esc_html__( 'Mobile', 'cmb2' ),
       'desktop' => esc_html__( 'Desktop', 'cmb2' ),
       'add_row_text' => __( 'Add Item', 'cmb2' ),
     ),
     'default' => 'none',
     'repeatable' => true,
+  ) );
+
+  $project_metabox->add_group_field( $documentation_group, array(
+    'name'    => esc_html__( 'Caption', 'cmb2' ),
+    'id'      => 'caption',
+    'type'    => 'wysiwyg',
+    'options' => array(
+      'textarea_rows' => 5,
+      'media_buttons' => false,
+      'teeny' => true,
+    ),
   ) );
 }
 ?>
