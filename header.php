@@ -29,5 +29,22 @@ get_template_part('partials/seo');
 <section id="main-container">
 
   <header id="header">
-    <h1><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
+    <h1 id="site-title"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
+    <div class="grid-row justify-end">
+      <div class="grid-item">
+        <?php
+          // language switcher
+          global $q_config;
+          $enabled_langs = $q_config['enabled_languages'];
+          $lang_names = $q_config['language_name'];
+
+          for ($i = 0; $i < count($enabled_langs); $i++) {
+            // echo language conversion link
+            echo '<a href="' . qtranxf_convertURL('', $enabled_langs[$i], false, true) . '" hreflang="' . $enabled_langs[$i] . '">' . $lang_names[$enabled_langs[$i]] . '</a>';
+            // echo backslash divider
+            echo $i < (count($enabled_langs) - 1) ? ' / ' : '';
+          };
+        ?>
+      </div>
+    </div>
   </header>
