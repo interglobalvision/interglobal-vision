@@ -161,6 +161,7 @@ function igv_cmb_metaboxes() {
     'id'   => 'files',
     'type' => 'file_list',
     'preview_size' => array( 150, 150 ),
+    'repeatable' => true,
   ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
@@ -179,9 +180,9 @@ function igv_cmb_metaboxes() {
     'id'               => 'align_items',
     'type'             => 'radio_inline',
     'options'          => array(
-      'flex-start' => esc_html__( 'flex-start', 'cmb2' ),
-      'center' => esc_html__( 'center', 'cmb2' ),
-      'flex-end' => esc_html__( 'flex-end', 'cmb2' ),
+      'align-items-start' => esc_html__( 'start', 'cmb2' ),
+      'align-items-center' => esc_html__( 'center', 'cmb2' ),
+      'align-items-end' => esc_html__( 'end', 'cmb2' ),
     ),
     'default' => 'flex-start',
   ) );
@@ -191,13 +192,13 @@ function igv_cmb_metaboxes() {
     'id'               => 'justify_content',
     'type'             => 'radio_inline',
     'options'          => array(
-      'flex-start' => esc_html__( 'flex-start', 'cmb2' ),
-      'center' => esc_html__( 'center', 'cmb2' ),
-      'flex-end' => esc_html__( 'flex-end', 'cmb2' ),
-      'space-between' => esc_html__( 'space-between', 'cmb2' ),
-      'space-around' => esc_html__( 'space-around', 'cmb2' ),
+      'justify-start' => esc_html__( 'start', 'cmb2' ),
+      'justify-center' => esc_html__( 'center', 'cmb2' ),
+      'justify-end' => esc_html__( 'end', 'cmb2' ),
+      'justify-between' => esc_html__( 'space between', 'cmb2' ),
+      'justify-around' => esc_html__( 'space around', 'cmb2' ),
     ),
-    'default' => 'center',
+    'default' => 'justify-center',
   ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
@@ -216,7 +217,7 @@ function igv_cmb_metaboxes() {
     'id'               => 'item_frame',
     'type'             => 'select',
     'options'          => array(
-      'none' => esc_html__( 'None', 'cmb2' ),
+      '' => esc_html__( 'None', 'cmb2' ),
       'mobile' => esc_html__( 'Mobile', 'cmb2' ),
       'desktop' => esc_html__( 'Desktop', 'cmb2' ),
       'add_row_text' => __( 'Add Item', 'cmb2' ),
