@@ -29,5 +29,13 @@ get_template_part('partials/seo');
 <section id="main-container">
 
   <header id="header">
-    <h1><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
+    <h1 id="site-title"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
+    <div class="grid-row justify-end">
+      <div class="grid-item">
+        <a href="<?php echo qtranxf_convertURL('', 'en', false, true); ?>" hreflang="en">EN</a> / <a href="<?php echo qtranxf_convertURL('', 'es', false, true); ?>" hreflang="es">ES</a>
+        <?php if (in_array('ko', qtranxf_getSortedLanguages())) { ?>
+        <span> / <a href="<?php echo qtranxf_convertURL('', 'ko', false, true); ?>" hreflang="ko">한국어</a></span>
+        <?php } ?>
+      </div>
+    </div>
   </header>
