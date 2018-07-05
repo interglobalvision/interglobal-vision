@@ -8,7 +8,7 @@ if (have_posts()) {
 
         <article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
           <div class="grid-row">
-            <div class="item-s-12 item-l-6 offset-l-1">
+            <div class="item-s-12 item-l-6 offset-l-1 font-size-mid">
               <?php the_content(); ?>
             </div>
           </div>
@@ -23,7 +23,7 @@ if (have_posts()) {
 <?php
       if (!empty($row['caption'])) { // CAPTION
 ?>
-            <div class="item-s-12 item-m-10 item-l-6 offset-l-1">
+            <div class="item-s-12 item-m-10 item-l-6 offset-l-1 font-size-mid">
               <?php echo apply_filters('the_content', $row['caption']); ?>
             </div>
 <?php
