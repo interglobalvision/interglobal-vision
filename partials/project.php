@@ -19,7 +19,7 @@ if (have_posts()) {
       // Make row classes (alignment and justify)
       $row_classes = "{$row['align_items']} {$row['justify_content']}";
 ?>
-  <div class="grid-row margin-bottom-mid <?php echo $row_classes; ?>">
+          <div class="grid-row margin-bottom-mid <?php echo $row_classes; ?>">
 <?php
       if (!empty($row['caption'])) { // CAPTION
 ?>
