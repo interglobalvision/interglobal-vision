@@ -165,17 +165,6 @@ function igv_cmb_metaboxes() {
   ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
-    'name'    => esc_html__( 'Caption', 'cmb2' ),
-    'id'      => 'caption',
-    'type'    => 'wysiwyg',
-    'options' => array(
-      'textarea_rows' => 5,
-      'media_buttons' => false,
-      'teeny' => true,
-    ),
-  ) );
-
-  $project_metabox->add_group_field( $documentation_group, array(
     'name'             => esc_html__( 'align-items:', 'cmb2' ),
     'id'               => 'align_items',
     'type'             => 'radio_inline',
@@ -204,7 +193,7 @@ function igv_cmb_metaboxes() {
   $project_metabox->add_group_field( $documentation_group, array(
     'name' => esc_html__( 'Item widths', 'cmb2' ),
     'id'   => 'item_widths',
-    'desc' => esc_html__( 'ex: item-s-12 item-m-6 item-l-3', 'cmb2' ),
+    'desc' => esc_html__( 'Ex: item-s-12 item-m-6 item-l-3. Not applied to Captions', 'cmb2' ),
     'type' => 'text',
     'options'          => array(
       'add_row_text' => __( 'Add Item', 'cmb2' ),
@@ -224,6 +213,17 @@ function igv_cmb_metaboxes() {
     ),
     'default' => 'none',
     'repeatable' => true,
+  ) );
+
+  $project_metabox->add_group_field( $documentation_group, array(
+    'name'    => esc_html__( 'Caption', 'cmb2' ),
+    'id'      => 'caption',
+    'type'    => 'wysiwyg',
+    'options' => array(
+      'textarea_rows' => 5,
+      'media_buttons' => false,
+      'teeny' => true,
+    ),
   ) );
 }
 ?>
