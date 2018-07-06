@@ -12,7 +12,7 @@ switch(qtranxf_getLanguage()) {
       <span>¡404 No se encontraron los <span id="globie-part">Pies</span>!</span>
 <?php
     break;
-  case 'kr':
+  case 'ko':
 ?>
       <span>404 <span id="globie-part">발</span>를 찾을 수 없음!</span>
 <?php
