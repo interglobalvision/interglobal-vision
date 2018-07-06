@@ -25,6 +25,13 @@ font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size
 
 // ******************************************************
 
+// BASIC
+
+p
+  max-width: 380px
+
+// ******************************************************
+
 // HEADER
 
 #header
@@ -76,11 +83,12 @@ $browser-mobile-speaker = 4px
   border: solid $color-browser
   border-width: $browser-desktop-width 2px 2px 2px
   border-radius: 6px
-  overflow: hidden
+  margin: 0 auto
   img, video
     width: 100%
 
 .frame-desktop
+  overflow: hidden
   &:before, &:after
     content: ''
     position: absolute
@@ -96,11 +104,13 @@ $browser-mobile-speaker = 4px
 
 .frame-mobile
   border-width: $browser-mobile-width 2px $browser-mobile-width 2px
+  max-width: 240px
+  position: relative
   &:before
     content: ''
     position: absolute
     width: 15%
-    top: (($browser-mobile-width / 2) - ($browser-mobile-speaker / 2))
+    top: -(($browser-mobile-width / 2) + ($browser-mobile-speaker / 2))
     left: 42.5%
     height: $browser-mobile-speaker
     border-radius: $browser-mobile-speaker

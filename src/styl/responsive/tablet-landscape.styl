@@ -60,7 +60,8 @@
 
   .frame-mobile
     border-width: $browser-mobile-width 2px $browser-mobile-width 2px
+    max-width: none
     &:before
-      top: (($browser-mobile-width / 2) - ($browser-mobile-speaker / 2))
+      top: -(($browser-mobile-width / 2) + ($browser-mobile-speaker / 2))
       height: $browser-mobile-speaker
       border-radius: $browser-mobile-speaker
