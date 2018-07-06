@@ -1,27 +1,41 @@
-$gutter = 20px
+@media screen and (min-width: 720px)
 
-$margin-micro = ($gutter / 2)
-$margin-tiny = $gutter
-$margin-small = ($gutter * 1.5)
-$margin-basic = ($gutter * 2)
-$margin-mid = ($gutter * 4)
-$margin-large = ($gutter * 6)
-$margin-extra = ($gutter * 8)
+  $gutter = 20px
 
-$font-size-tiny = 11px
-$font-size-small = 14px
-$font-size-basic = 18px
-$font-size-mid = 24px
-$font-size-large = 48px
+  $margin-micro = ($gutter / 2)
+  $margin-tiny = $gutter
+  $margin-small = ($gutter * 1.5)
+  $margin-basic = ($gutter * 2)
+  $margin-mid = ($gutter * 4)
+  $margin-large = ($gutter * 6)
+  $margin-extra = ($gutter * 8)
 
-space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
+  $font-size-tiny = 11px
+  $font-size-small = 14px
+  $font-size-basic = 18px
+  $font-size-mid = 24px
+  $font-size-large = 48px
 
-grid-maker(false, $gutter, m)
+  space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
 
-.container
-  width: calc('100vw - ' + $gutter)
+  grid-maker(false, $gutter, m)
 
-font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size-small, $font-size-tiny)
+  .container
+    width: calc('100vw - ' + $gutter)
 
-.mobile-only
-  display: none !important
+  font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size-small, $font-size-tiny)
+
+  .mobile-only
+    display: none !important
+
+  // ******************************************************
+
+  // PROJECT
+
+  $browser-desktop-width = 12px
+
+  .frame-desktop
+    &:before
+      left: ($browser-desktop-width / 4) + $margin-micro
+    &:after
+      left: ($browser-desktop-width + $margin-micro)

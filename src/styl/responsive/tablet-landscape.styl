@@ -1,34 +1,66 @@
-$gutter = 30px
+@media screen and (min-width: 1024px)
 
-$margin-micro = ($gutter / 2)
-$margin-tiny = $gutter
-$margin-small = ($gutter * 1.5)
-$margin-basic = ($gutter * 2)
-$margin-mid = ($gutter * 4)
-$margin-large = ($gutter * 6)
-$margin-extra = ($gutter * 8)
+  $gutter = 30px
 
-$font-size-tiny = 14px
-$font-size-small = 18px
-$font-size-basic = 24px
-$font-size-mid = 36px
-$font-size-large = 64px
+  $margin-micro = ($gutter / 2)
+  $margin-tiny = $gutter
+  $margin-small = ($gutter * 1.5)
+  $margin-basic = ($gutter * 2)
+  $margin-mid = ($gutter * 4)
+  $margin-large = ($gutter * 6)
+  $margin-extra = ($gutter * 8)
 
-grid-maker(false, $gutter, l)
+  $font-size-tiny = 14px
+  $font-size-small = 18px
+  $font-size-basic = 24px
+  $font-size-mid = 36px
+  $font-size-large = 64px
 
-.container
-  width: calc('100vw - ' + $gutter)
+  grid-maker(false, $gutter, l)
 
-space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
+  .container
+    width: calc('100vw - ' + $gutter)
 
-font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size-small, $font-size-tiny)
+  space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
 
-.desktop-only
-  display: initial !important
+  font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size-small, $font-size-tiny)
 
-// ******************************************************
+  .desktop-only
+    display: initial !important
 
-// PROJECT LIST
+  // ******************************************************
 
-#project-list
-  min-height: calc('100vh - ' + $margin-extra)
+  // PROJECT LIST
+
+  #project-list
+    min-height: calc('100vh - ' + $margin-extra)
+
+  // ******************************************************
+
+  // PROJECT
+
+  $browser-desktop-width = 20px
+  $browser-button-width = $browser-desktop-width / 2
+  $browser-mobile-width = 30px
+  $browser-mobile-speaker = 4px
+
+  .browser-frame
+    border-width: $browser-desktop-width 2px 2px 2px
+
+  .frame-desktop
+    &:before, &:after
+      top: ($browser-button-width / 2)
+      height: $browser-button-width
+      width: $browser-button-width
+      border-radius: $browser-button-width
+    &:before
+      left: (($browser-desktop-width / 4) + $margin-micro)
+    &:after
+      left: ($browser-desktop-width + $margin-micro)
+
+  .frame-mobile
+    border-width: $browser-mobile-width 2px $browser-mobile-width 2px
+    &:before
+      top: (($browser-mobile-width / 2) - ($browser-mobile-speaker / 2))
+      height: $browser-mobile-speaker
+      border-radius: $browser-mobile-speaker

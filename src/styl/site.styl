@@ -72,6 +72,7 @@ strong, .font-bold
 
 $color-black = rgb(5, 5, 5)
 $color-white = rgb(250, 250, 250)
+$color-browser = rgb(216, 216, 216)
 
 // ******************************************************
 
@@ -97,22 +98,12 @@ img
 
 @import 'responsive/mobile'
 
-@media screen and (min-width: 720px)
+@import 'responsive/tablet-portrait'
 
-  @import 'responsive/tablet-portrait'
+@import 'responsive/tablet-landscape'
 
-@media screen and (min-width: 1024px)
+/*@import 'responsive/laptop'*/
 
-  @import 'responsive/tablet-landscape'
+@import 'responsive/desktop'
 
-@media screen and (min-width: 1280px)
-
-  @import 'responsive/laptop'
-
-@media screen and (min-width: 1366px)
-
-  @import 'responsive/desktop'
-
-/*@media screen and (min-width: 1680px)
-
-  @import 'responsive/hd'*/
+/*@import 'responsive/hd'*/ 
