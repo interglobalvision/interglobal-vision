@@ -32,3 +32,28 @@ font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size
 
 #project-list
   min-height: calc('100vh - ' + $margin-extra)
+
+// ******************************************************
+
+// FOOTER
+
+body.contact-stuck
+  #contact
+    color: transparent
+    pointer-events: none
+  #footer
+    .contact-item
+      pointer-events: none
+      // color defined in <head>
+
+#contact
+  display: block
+  position: fixed
+  bottom: 0
+  left: 0
+  width: 100%
+
+#footer
+  .contact-item
+    color: transparent
+    pointer-events: none

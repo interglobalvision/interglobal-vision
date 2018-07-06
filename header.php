@@ -34,7 +34,7 @@ get_template_part('partials/seo');
   echo !empty($color_home) ? 'html { background-color: ' . $color_home . '}' : '';
   echo !empty($color_footer) ? 'footer#footer { background-color: ' . $color_footer . '}' : '';
   echo !empty($color_project) ? '#project { background-color: ' . $color_project . '}' : '';
-  echo !empty($color_font) ? 'html { color: ' . $color_font . '}' : '';
+  echo !empty($color_font) ? 'html, body.contact-stuck #footer .contact-item { color: ' . $color_font . '}' : '';
   echo '</style>';
 ?>
 

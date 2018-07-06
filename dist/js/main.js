@@ -102,11 +102,14 @@ var Site = function () {
 
   _createClass(Site, [{
     key: 'onResize',
-    value: function onResize() {}
+    value: function onResize() {
+      this.stickyContact();
+    }
   }, {
     key: 'onReady',
     value: function onReady() {
       _lazysizes2.default.init();
+      this.stickyContact();
     }
   }, {
     key: 'fixWidows',
@@ -116,6 +119,25 @@ var Site = function () {
         var string = $(this).html();
         string = string.replace(/ ([^ ]*)$/, '&nbsp;$1');
         $(this).html(string);
+      });
+    }
+  }, {
+    key: 'stickyContact',
+    value: function stickyContact() {
+      var $stickyContact = $('#contact');
+      var $footerContact = $('#footer .contact-item');
+      var $body = $('body');
+      var stickyTop = $(window).height() - $stickyContact.height();
+
+      $(window).on('scroll', function (e) {
+        var scrollPosition = $(document).scrollTop() + stickyTop;
+        var footerContactTop = $footerContact.offset().top;
+
+        if (scrollPosition >= footerContactTop && !$body.hasClass('contact-stuck')) {
+          $body.addClass('contact-stuck');
+        } else if (scrollPosition < footerContactTop && $body.hasClass('contact-stuck')) {
+          $body.removeClass('contact-stuck');
+        }
       });
     }
   }]);

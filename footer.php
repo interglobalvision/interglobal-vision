@@ -1,12 +1,10 @@
 <?php
 $home_page = get_page_by_path('home');
 $about = $home_page->post_content;
-$email = get_post_meta($home_page->ID, '_igv_email', true);
-$phone = get_post_meta($home_page->ID, '_igv_phone', true);
 $clients = get_post_meta($home_page->ID, '_igv_clients', true);
 $careers = get_post_meta($home_page->ID, '_igv_careers', true);
 ?>
-  <footer id="footer" class="shadow shadow-top">
+  <footer id="footer" class="shadow shadow-top padding-top-mid padding-bottom-large">
     <div class="container">
       <div class="grid-row">
         <div class="grid-item item-s-12 item-m-10 item-l-5">
@@ -14,32 +12,8 @@ $careers = get_post_meta($home_page->ID, '_igv_careers', true);
         </div>
         <div class="grid-item item-s-12 item-m-8 item-l-6 offset-l-1 no-gutter font-size-small">
         <?php
-          if (!empty($email)) {
-        ?>
-          <div class="grid-row margin-bottom-micro">
-            <div class="grid-item item-s-12 item-l-2 offset-l-2">
-              <h4 class="font-size-tiny font-bold">Email</h4>
-            </div>
-            <div class="grid-item item-s-12 item-l-8">
-              <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a>
-            </div>
-          </div>
-        <?php
-          }
-
-          if (!empty($phone)) {
-        ?>
-          <div class="grid-row margin-bottom-micro">
-            <div class="grid-item item-s-12 item-l-2 offset-l-2">
-              <h4 class="font-size-tiny font-bold">Telephone</h4>
-            </div>
-            <div class="grid-item item-s-12 item-l-8">
-              <a href="tel:<?php echo $phone; ?>"><?php echo $phone; ?></a>
-            </div>
-          </div>
-        <?php
-          }
-
+          get_template_part('partials/contact');
+        
           if (!empty($clients)) {
         ?>
           <div class="grid-row margin-bottom-micro">

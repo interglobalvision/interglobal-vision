@@ -18,12 +18,12 @@ class Site {
   }
 
   onResize() {
-
+    this.stickyContact();
   }
 
   onReady() {
     lazySizes.init();
-
+    this.stickyContact();
   }
 
   fixWidows() {
@@ -32,6 +32,24 @@ class Site {
       var string = $(this).html();
       string = string.replace(/ ([^ ]*)$/,'&nbsp;$1');
       $(this).html(string);
+    });
+  }
+
+  stickyContact() {
+    const $stickyContact = $('#contact');
+    const $footerContact = $('#footer .contact-item');
+    const $body = $('body');
+    const stickyTop = $(window).height() - $stickyContact.height();
+
+    $(window).on('scroll', function(e) {
+      const scrollPosition = $(document).scrollTop() + stickyTop;
+      const footerContactTop = $footerContact.offset().top
+
+      if (scrollPosition >= footerContactTop && !$body.hasClass('contact-stuck')) {
+        $body.addClass('contact-stuck')
+      } else if (scrollPosition < footerContactTop && $body.hasClass('contact-stuck')) {
+        $body.removeClass('contact-stuck')
+      }
     });
   }
 }
