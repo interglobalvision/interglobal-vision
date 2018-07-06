@@ -4,6 +4,8 @@
 // Import dependencies
 import lazySizes from 'lazysizes';
 
+import StickyContact from './StickyContact';
+
 // Import style
 import '../styl/site.styl';
 
@@ -15,15 +17,15 @@ class Site {
 
     $(document).ready(this.onReady.bind(this));
 
+
+
   }
 
   onResize() {
-    this.stickyContact();
   }
 
   onReady() {
     lazySizes.init();
-    this.stickyContact();
   }
 
   fixWidows() {
@@ -34,24 +36,7 @@ class Site {
       $(this).html(string);
     });
   }
-
-  stickyContact() {
-    const $stickyContact = $('#contact');
-    const $footerContact = $('#footer .contact-item');
-    const $body = $('body');
-    const stickyTop = $(window).height() - $stickyContact.height();
-
-    $(window).on('scroll', function(e) {
-      const scrollPosition = $(document).scrollTop() + stickyTop;
-      const footerContactTop = $footerContact.offset().top
-
-      if (scrollPosition >= footerContactTop && !$body.hasClass('contact-stuck')) {
-        $body.addClass('contact-stuck')
-      } else if (scrollPosition < footerContactTop && $body.hasClass('contact-stuck')) {
-        $body.removeClass('contact-stuck')
-      }
-    });
-  }
 }
 
-new Site();
+const IGV = new Site();
+const IGVStickyContact = new StickyContact();

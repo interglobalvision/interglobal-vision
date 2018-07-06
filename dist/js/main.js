@@ -83,6 +83,10 @@ var _lazysizes = __webpack_require__(1);
 
 var _lazysizes2 = _interopRequireDefault(_lazysizes);
 
+var _StickyContact = __webpack_require__(8);
+
+var _StickyContact2 = _interopRequireDefault(_StickyContact);
+
 __webpack_require__(3);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -102,14 +106,11 @@ var Site = function () {
 
   _createClass(Site, [{
     key: 'onResize',
-    value: function onResize() {
-      this.stickyContact();
-    }
+    value: function onResize() {}
   }, {
     key: 'onReady',
     value: function onReady() {
       _lazysizes2.default.init();
-      this.stickyContact();
     }
   }, {
     key: 'fixWidows',
@@ -121,31 +122,13 @@ var Site = function () {
         $(this).html(string);
       });
     }
-  }, {
-    key: 'stickyContact',
-    value: function stickyContact() {
-      var $stickyContact = $('#contact');
-      var $footerContact = $('#footer .contact-item');
-      var $body = $('body');
-      var stickyTop = $(window).height() - $stickyContact.height();
-
-      $(window).on('scroll', function (e) {
-        var scrollPosition = $(document).scrollTop() + stickyTop;
-        var footerContactTop = $footerContact.offset().top;
-
-        if (scrollPosition >= footerContactTop && !$body.hasClass('contact-stuck')) {
-          $body.addClass('contact-stuck');
-        } else if (scrollPosition < footerContactTop && $body.hasClass('contact-stuck')) {
-          $body.removeClass('contact-stuck');
-        }
-      });
-    }
   }]);
 
   return Site;
 }();
 
-new Site();
+var IGV = new Site();
+var IGVStickyContact = new _StickyContact2.default();
 
 /***/ }),
 /* 1 */
@@ -321,14 +304,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var throttle = function throttle(fn) {
 		var running;
 		var lastTime = 0;
-		var gDelay = lazySizesConfig.throttleDelay;
+		var gDelay = 125;
 		var rICTimeout = lazySizesConfig.ricTimeout;
 		var run = function run() {
 			running = false;
 			lastTime = Date.now();
 			fn();
 		};
-		var idleCallback = requestIdleCallback && rICTimeout > 49 ? function () {
+		var idleCallback = requestIdleCallback && lazySizesConfig.ricTimeout ? function () {
 			requestIdleCallback(run, { timeout: rICTimeout });
 
 			if (rICTimeout !== lazySizesConfig.ricTimeout) {
@@ -357,7 +340,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				delay = 0;
 			}
 
-			if (isPriority || delay < 9) {
+			if (isPriority || delay < 9 && requestIdleCallback) {
 				idleCallback();
 			} else {
 				setTimeout(idleCallback, delay);
@@ -414,8 +397,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			hFac: 0.8,
 			loadMode: 2,
 			loadHidden: true,
-			ricTimeout: 0,
-			throttleDelay: 125
+			ricTimeout: 300
 		};
 
 		lazySizesConfig = window.lazySizesConfig || window.lazysizesConfig || {};
@@ -883,6 +865,79 @@ module.exports = function (module) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* jshint esversion: 6, browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
+/* global $, document */
+
+var StickyContact = function () {
+  function StickyContact() {
+    _classCallCheck(this, StickyContact);
+
+    $(window).resize(this.onResize.bind(this));
+
+    $(document).ready(this.onReady.bind(this));
+
+    this.handleScroll = this.handleScroll.bind(this);
+
+    this.$stickyContact = $('#contact');
+    this.$footerContact = $('#footer .contact-item');
+  }
+
+  _createClass(StickyContact, [{
+    key: 'onResize',
+    value: function onResize() {
+      this.handleScroll();
+    }
+  }, {
+    key: 'onReady',
+    value: function onReady() {
+      this.stickyContact();
+    }
+  }, {
+    key: 'stickyContact',
+    value: function stickyContact() {
+      $(window).on('scroll', this.handleScroll);
+      this.handleScroll();
+    }
+  }, {
+    key: 'handleScroll',
+    value: function handleScroll() {
+      var $body = $('body');
+      var stickyTop = $(window).height() - this.$stickyContact.height();
+      var scrollPosition = $(document).scrollTop() + stickyTop;
+      var footerContactTop = this.$footerContact.offset().top;
+
+      if (scrollPosition >= footerContactTop && !$body.hasClass('contact-stuck')) {
+        $body.addClass('contact-stuck');
+      } else if (scrollPosition < footerContactTop && $body.hasClass('contact-stuck')) {
+        $body.removeClass('contact-stuck');
+      }
+    }
+  }]);
+
+  return StickyContact;
+}();
+
+exports.default = StickyContact;
 
 /***/ })
 /******/ ]);
