@@ -4,6 +4,8 @@
 // Import dependencies
 import lazySizes from 'lazysizes';
 
+import StickyContact from './StickyContact';
+
 // Import style
 import '../styl/site.styl';
 
@@ -15,15 +17,15 @@ class Site {
 
     $(document).ready(this.onReady.bind(this));
 
+
+
   }
 
   onResize() {
-
   }
 
   onReady() {
     lazySizes.init();
-
   }
 
   fixWidows() {
@@ -36,4 +38,5 @@ class Site {
   }
 }
 
-new Site();
+const IGV = new Site();
+const IGVStickyContact = new StickyContact();

@@ -44,6 +44,16 @@ if ($projects->have_posts()) {
 
 </main>
 
+<div id="contact">
+  <div class="container">
+    <div class="grid-row">
+      <div class="grid-item item-l-6 offset-l-6 no-gutter font-size-small">
+        <?php get_template_part('partials/contact'); ?>
+      </div>
+    </div>
+  </div>
+</div>
+
 <?php
   get_footer();
 ?>
