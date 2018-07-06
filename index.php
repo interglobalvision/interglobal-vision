@@ -3,7 +3,7 @@ get_header();
 ?>
 
 <main id="main-content">
-  <section id="posts">
+  <section id="project-list" class="margin-top-extra margin-bottom-large">
     <div class="container">
       <div class="grid-row">
 
@@ -20,7 +20,7 @@ if ($projects->have_posts()) {
     $project_type = get_post_meta( get_the_ID(), '_igv_project_type', true );
 ?>
 
-        <article <?php post_class('grid-item item-s-12'); ?> id="post-<?php the_ID(); ?>">
+        <article <?php post_class('grid-item item-s-12 margin-bottom-tiny'); ?> id="post-<?php the_ID(); ?>">
 
           <h1 class="project-list-title font-size-large font-bold"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>
           <span class="project-list-type font-size-tiny"><?php echo $project_type; ?></span>

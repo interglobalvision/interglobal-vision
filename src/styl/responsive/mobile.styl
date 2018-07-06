@@ -1,11 +1,12 @@
-$gutter = 14px
+$gutter = 10px
 
-$margin-micro = ($gutter / 3)
-$margin-tiny = ($gutter / 2)
-$margin-small = ($gutter)
+$margin-micro = ($gutter / 2)
+$margin-tiny = $gutter
+$margin-small = ($gutter * 1.5)
 $margin-basic = ($gutter * 2)
-$margin-mid = ($gutter * 3.5)
-$margin-large = ($gutter * 5)
+$margin-mid = ($gutter * 4)
+$margin-large = ($gutter * 6)
+$margin-extra = ($gutter * 8)
 
 $font-size-tiny = 10px
 $font-size-small = 12px
@@ -13,11 +14,28 @@ $font-size-basic = 14px
 $font-size-mid = 14px
 $font-size-large = 36px
 
-grid-maker(96%, $gutter, s)
+grid-maker(false, $gutter, s)
 
-space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large)
+.container
+  width: calc('100vw - ' + $gutter)
+
+space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
 
 font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size-small, $font-size-tiny)
+
+// ******************************************************
+
+// HEADER
+
+#header
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+
+// ******************************************************
+
+// PROJECT LIST
 
 .project-list-title
   line-height: .8

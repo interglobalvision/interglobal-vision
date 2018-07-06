@@ -1,11 +1,12 @@
-$gutter = 21px
+$gutter = 20px
 
-$margin-micro = ($gutter / 3)
-$margin-tiny = ($gutter / 2)
-$margin-small = ($gutter)
+$margin-micro = ($gutter / 2)
+$margin-tiny = $gutter
+$margin-small = ($gutter * 1.5)
 $margin-basic = ($gutter * 2)
-$margin-mid = ($gutter * 3.5)
-$margin-large = ($gutter * 5)
+$margin-mid = ($gutter * 4)
+$margin-large = ($gutter * 6)
+$margin-extra = ($gutter * 8)
 
 $font-size-tiny = 11px
 $font-size-small = 14px
@@ -13,9 +14,12 @@ $font-size-basic = 18px
 $font-size-mid = 24px
 $font-size-large = 48px
 
-space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large)
+space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
 
-grid-maker(680px, $gutter, m)
+grid-maker(false, $gutter, m)
+
+.container
+  width: calc('100vw - ' + $gutter)
 
 font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size-small, $font-size-tiny)
 
