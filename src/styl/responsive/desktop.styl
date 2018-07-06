@@ -1,3 +1,23 @@
-$gutter = 26px
+$gutter = 40px
 
-grid-maker(1300px, $gutter, xl)
+$margin-micro = ($gutter / 2)
+$margin-tiny = $gutter
+$margin-small = ($gutter * 1.5)
+$margin-basic = ($gutter * 2)
+$margin-mid = ($gutter * 4)
+$margin-large = ($gutter * 6)
+$margin-extra = ($gutter * 8)
+
+grid-maker(false, $gutter, xl)
+
+space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
+
+.container
+  width: calc('100vw - ' + $gutter)
+
+// ******************************************************
+
+// PROJECT LIST
+
+#project-list
+  min-height: calc('100vh - ' + $margin-extra)

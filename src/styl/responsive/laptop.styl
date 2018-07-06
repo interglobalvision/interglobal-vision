@@ -1,3 +1,6 @@
 $gutter = 24px
 
-grid-maker(1200px, $gutter, l)
+grid-maker(false, $gutter, l)
+
+.container
+  width: calc('100vw - ' + $gutter)
