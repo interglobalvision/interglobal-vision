@@ -10,7 +10,7 @@ if (have_posts()) {
 
         <article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
           <div class="grid-row margin-top-extra margin-bottom-basic">
-            <div class="grid-item item-s-12 item-l-6 offset-l-1 font-size-mid">
+            <div class="grid-item item-s-12 item-m-8 offset-l-1 item-xl-6 font-size-mid">
               <?php the_content(); ?>
             </div>
           </div>
@@ -25,7 +25,7 @@ if (have_posts()) {
 <?php
       if (!empty($row['caption'])) { // CAPTION
 ?>
-            <div class="item-s-12 item-m-10 item-l-6 offset-l-1 font-size-mid margin-top-basic margin-bottom-basic">
+            <div class="grid-item item-s-12 item-m-8 offset-l-1 item-xl-6 font-size-mid margin-top-basic margin-bottom-basic">
               <?php echo apply_filters('the_content', $row['caption']); ?>
             </div>
 <?php
@@ -39,7 +39,7 @@ if (have_posts()) {
         foreach($files as $item_key => $items) {
           $item_classes = !empty($row['item_widths'][$item_key]) ? $row['item_widths'][$item_key] : '';
 ?>
-              <div class="grid-item margin-top-basic margin-bottom-basic <?php echo $item_classes; ?>">
+              <div class="grid-item margin-top-basic margin-bottom-basic text-align-center <?php echo $item_classes; ?>">
 <?php
           if (!empty($row['item_frame'][$item_key])) {
 ?>
