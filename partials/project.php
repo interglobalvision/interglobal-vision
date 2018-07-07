@@ -1,6 +1,3 @@
-<section id="project">
-  <div id="project-wrapper">
-    <div class="container padding-bottom-mid">
 <?php
 if (have_posts()) {
   while (have_posts()) {
@@ -8,7 +5,7 @@ if (have_posts()) {
     $project_doc = get_post_meta( get_the_ID(), '_igv_project_documentation', true );
 ?>
 
-        <article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
+        <article <?php post_class(); ?> id="project-<?php the_ID(); ?>">
           <div class="grid-row margin-top-extra margin-bottom-basic">
             <div class="grid-item item-s-12 item-m-8 offset-l-1 item-xl-6 font-size-mid">
               <?php the_content(); ?>
@@ -80,7 +77,3 @@ if (have_posts()) {
   }
 }
 ?>
-    </div>
-  </div>
-</section>
-<?php
