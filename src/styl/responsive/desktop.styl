@@ -28,10 +28,4 @@
 
   // PROJECT
 
-  $browser-desktop-width = 20px
-
-  .frame-desktop
-    &:before
-      left: ($browser-desktop-width / 4) + $margin-micro
-    &:after
-      left: ($browser-desktop-width + $margin-micro)
+  make-browser-frames(20px, 30px, $margin-micro)

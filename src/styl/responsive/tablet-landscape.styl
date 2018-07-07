@@ -39,29 +39,4 @@
 
   // PROJECT
 
-  $browser-desktop-width = 20px
-  $browser-button-width = $browser-desktop-width / 2
-  $browser-mobile-width = 30px
-  $browser-mobile-speaker = 4px
-
-  .browser-frame
-    border-width: $browser-desktop-width 2px 2px 2px
-
-  .frame-desktop
-    &:before, &:after
-      top: ($browser-button-width / 2)
-      height: $browser-button-width
-      width: $browser-button-width
-      border-radius: $browser-button-width
-    &:before
-      left: (($browser-desktop-width / 4) + $margin-micro)
-    &:after
-      left: ($browser-desktop-width + $margin-micro)
-
-  .frame-mobile
-    border-width: $browser-mobile-width 2px $browser-mobile-width 2px
-    max-width: none
-    &:before
-      top: -(($browser-mobile-width / 2) + ($browser-mobile-speaker / 2))
-      height: $browser-mobile-speaker
-      border-radius: $browser-mobile-speaker
+  make-browser-frames(18px, 28px, $margin-micro)
