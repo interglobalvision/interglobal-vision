@@ -1,23 +1,31 @@
-$gutter = 40px
+@media screen and (min-width: 1366px)
 
-$margin-micro = ($gutter / 2)
-$margin-tiny = $gutter
-$margin-small = ($gutter * 1.5)
-$margin-basic = ($gutter * 2)
-$margin-mid = ($gutter * 4)
-$margin-large = ($gutter * 6)
-$margin-extra = ($gutter * 8)
+  $gutter = 40px
 
-grid-maker(false, $gutter, xl)
+  $margin-micro = ($gutter / 2)
+  $margin-tiny = $gutter
+  $margin-small = ($gutter * 1.5)
+  $margin-basic = ($gutter * 2)
+  $margin-mid = ($gutter * 4)
+  $margin-large = ($gutter * 6)
+  $margin-extra = ($gutter * 8)
 
-space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
+  grid-maker(false, $gutter, xl)
 
-.container
-  width: calc('100vw - ' + $gutter)
+  space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
 
-// ******************************************************
+  .container
+    width: calc('100vw - ' + $gutter)
 
-// PROJECT LIST
+  // ******************************************************
 
-#project-list
-  min-height: calc('100vh - ' + $margin-extra)
+  // PROJECT LIST
+
+  #project-list
+    min-height: calc('100vh - ' + $margin-extra)
+
+  // ******************************************************
+
+  // PROJECT
+
+  make-browser-frames(20px, 30px, $margin-micro)

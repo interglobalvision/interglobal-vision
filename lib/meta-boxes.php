@@ -173,7 +173,7 @@ function igv_cmb_metaboxes() {
       'align-items-center' => esc_html__( 'center', 'cmb2' ),
       'align-items-end' => esc_html__( 'end', 'cmb2' ),
     ),
-    'default' => 'flex-start',
+    'default' => 'align-items-start',
   ) );
 
   $project_metabox->add_group_field( $documentation_group, array(
@@ -207,11 +207,10 @@ function igv_cmb_metaboxes() {
     'type'             => 'select',
     'options'          => array(
       '' => esc_html__( 'None', 'cmb2' ),
-      'mobile' => esc_html__( 'Mobile', 'cmb2' ),
-      'desktop' => esc_html__( 'Desktop', 'cmb2' ),
-      'add_row_text' => __( 'Add Item', 'cmb2' ),
+      'frame-mobile' => esc_html__( 'Mobile', 'cmb2' ),
+      'frame-desktop' => esc_html__( 'Desktop', 'cmb2' ),
     ),
-    'default' => 'none',
+    'default' => '',
     'repeatable' => true,
   ) );
 

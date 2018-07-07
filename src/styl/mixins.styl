@@ -1,0 +1,42 @@
+make-browser-frames($browser-desktop-width = 12px, $browser-mobile-width = 25px, $spacing = 5px)
+  $browser-button-width = $browser-desktop-width / 2
+  $browser-mobile-speaker = $browser-mobile-width / 5
+
+  .browser-frame
+    border: solid $color-browser
+    border-width: $browser-desktop-width 2px 2px 2px
+    border-radius: 6px
+    margin: 0 auto
+    img
+      width: 100%
+    video
+      margin-left: -1px
+      width: calc('100% + 2px')
+
+  .frame-desktop
+    overflow: hidden
+    &:before, &:after
+      content: ''
+      position: absolute
+      top: ($browser-button-width / 2)
+      height: $browser-button-width
+      width: $browser-button-width
+      border-radius: $browser-button-width
+      background-color: $color-white
+    &:before
+      left: ($browser-desktop-width / 4) + $spacing
+    &:after
+      left: ($browser-desktop-width + $spacing)
+
+  .frame-mobile
+    border-width: $browser-mobile-width 2px $browser-mobile-width 2px
+    position: relative
+    &:before
+      content: ''
+      position: absolute
+      width: 15%
+      top: -(($browser-mobile-width / 2) + ($browser-mobile-speaker / 2))
+      left: 42.5%
+      height: $browser-mobile-speaker
+      border-radius: $browser-mobile-speaker
+      background-color: $color-white
