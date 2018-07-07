@@ -39,7 +39,7 @@ p
   top: 0
   left: 0
   width: 100%
-  z-index: 200
+  z-index: 300
 
 // ******************************************************
 
@@ -61,7 +61,25 @@ p
   height: 100vh
   top: 0
   left: 0
+  transform: translateX(100vw)
+  z-index: 200
+  transition: transform 200ms ease-out
+
+#project-close-overlay
+  position: fixed
+  width: 100vw
+  height: 100vh
+  top: 0
+  left: 0
   z-index: 100
+  pointer-events: none
+
+body.project-open
+  #project
+    transform: translateX(0)
+  #project-close-overlay
+    pointer-events: auto
+    cursor: pointer
 
 #project-wrapper
   position: absolute
