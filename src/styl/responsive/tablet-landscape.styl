@@ -28,6 +28,9 @@
   .desktop-only
     display: initial !important
 
+  $project-transform-duration = 450ms
+  $project-opacity-duration = 750ms
+
   // ******************************************************
 
   // PROJECT LIST
@@ -38,6 +41,17 @@
   // ******************************************************
 
   // PROJECT
+
+  #project
+    transition: transform $project-transform-duration ease-out
+
+  #project-wrapper,
+  #project-close-overlay
+    transition: opacity $project-opacity-duration ease-out
+
+  body.project-open
+    #project
+      transform: translateX(9vw)
 
   make-browser-frames(18px, 28px, $margin-micro)
 
@@ -54,7 +68,7 @@
       pointer-events: none
     #footer
       .contact-item
-        pointer-events: none
+        pointer-events: auto
         // color defined in <head>
 
   #contact

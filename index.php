@@ -20,9 +20,10 @@ if ($projects->have_posts()) {
     $project_type = get_post_meta( get_the_ID(), '_igv_project_type', true );
 ?>
 
-        <article <?php post_class('grid-item item-s-12 margin-bottom-tiny'); ?> id="post-<?php the_ID(); ?>">
+        <article <?php post_class('grid-item item-s-12 margin-bottom-tiny'); ?>>
 
-          <h1 class="project-list-title font-size-large font-bold"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h1>
+          <h1 class="project-list-title font-size-large font-bold"><a href="<?php the_permalink() ?>" data-id="<?php the_ID(); ?>"><?php the_title(); ?></a></h1>
+          
           <span class="project-list-type font-size-tiny"><?php echo $project_type; ?></span>
 
         </article>
@@ -36,11 +37,19 @@ if ($projects->have_posts()) {
     </div>
   </section>
 
-<?php
-  if (is_singular('project')) {
-    get_template_part('partials/project');
-  }
-?>
+  <div id="project-close-overlay"></div>
+
+  <section id="project">
+    <div id="project-wrapper">
+      <div id="project-container" class="container padding-bottom-mid">
+        <?php
+          if (is_singular('project')) {
+            get_template_part('partials/project');
+          }
+        ?>
+      </div>
+    </div>
+  </section>
 
 </main>
 

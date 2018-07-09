@@ -5,6 +5,7 @@
 import lazySizes from 'lazysizes';
 
 import StickyContact from './StickyContact';
+import Projects from './Projects';
 
 // Import style
 import '../styl/site.styl';
@@ -16,8 +17,6 @@ class Site {
     $(window).resize(this.onResize.bind(this));
 
     $(document).ready(this.onReady.bind(this));
-
-
 
   }
 
@@ -40,3 +39,4 @@ class Site {
 
 const IGV = new Site();
 const IGVStickyContact = new StickyContact();
+const IGVProjects = new Projects();

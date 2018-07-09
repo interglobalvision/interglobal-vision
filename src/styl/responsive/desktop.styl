@@ -17,6 +17,9 @@
   .container
     width: calc('100vw - ' + $gutter)
 
+  $project-transform-duration = 600ms
+  $project-opacity-duration = 1000ms
+
   // ******************************************************
 
   // PROJECT LIST
@@ -27,5 +30,12 @@
   // ******************************************************
 
   // PROJECT
+
+  #project
+    transition: transform $project-transform-duration ease-out
+
+  #project-wrapper,
+  #project-close-overlay
+    transition: opacity $project-opacity-duration ease-out
 
   make-browser-frames(20px, 30px, $margin-micro)

@@ -87,7 +87,11 @@ var _StickyContact = __webpack_require__(3);
 
 var _StickyContact2 = _interopRequireDefault(_StickyContact);
 
-__webpack_require__(4);
+var _Projects = __webpack_require__(4);
+
+var _Projects2 = _interopRequireDefault(_Projects);
+
+__webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -129,6 +133,7 @@ var Site = function () {
 
 var IGV = new Site();
 var IGVStickyContact = new _StickyContact2.default();
+var IGVProjects = new _Projects2.default();
 
 /***/ }),
 /* 1 */
@@ -304,14 +309,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 	var throttle = function throttle(fn) {
 		var running;
 		var lastTime = 0;
-		var gDelay = 125;
+		var gDelay = lazySizesConfig.throttleDelay;
 		var rICTimeout = lazySizesConfig.ricTimeout;
 		var run = function run() {
 			running = false;
 			lastTime = Date.now();
 			fn();
 		};
-		var idleCallback = requestIdleCallback && lazySizesConfig.ricTimeout ? function () {
+		var idleCallback = requestIdleCallback && rICTimeout > 49 ? function () {
 			requestIdleCallback(run, { timeout: rICTimeout });
 
 			if (rICTimeout !== lazySizesConfig.ricTimeout) {
@@ -340,7 +345,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 				delay = 0;
 			}
 
-			if (isPriority || delay < 9 && requestIdleCallback) {
+			if (isPriority || delay < 9) {
 				idleCallback();
 			} else {
 				setTimeout(idleCallback, delay);
@@ -397,7 +402,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 			hFac: 0.8,
 			loadMode: 2,
 			loadHidden: true,
-			ricTimeout: 300
+			ricTimeout: 0,
+			throttleDelay: 125
 		};
 
 		lazySizesConfig = window.lazySizesConfig || window.lazysizesConfig || {};
@@ -931,6 +937,127 @@ exports.default = StickyContact;
 
 /***/ }),
 /* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* jshint esversion: 6, browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
+/* global $, document */
+
+var Projects = function () {
+  function Projects() {
+    _classCallCheck(this, Projects);
+
+    $(window).resize(this.onResize.bind(this));
+
+    $(document).ready(this.onReady.bind(this));
+  }
+
+  _createClass(Projects, [{
+    key: 'onResize',
+    value: function onResize() {}
+  }, {
+    key: 'onReady',
+    value: function onReady() {
+      this.bindProjectList();
+      this.bindHomeClick();
+    }
+  }, {
+    key: 'bindProjectList',
+    value: function bindProjectList() {
+      var _this = this;
+
+      $('.project-list-title a').on('click', function (e) {
+        e.preventDefault();
+
+        _this.getProject(e.target);
+      });
+    }
+  }, {
+    key: 'getProject',
+    value: function getProject(target) {
+      var _this = this;
+      var projectUrl = target.href;
+      var projectId = target.dataset.id;
+
+      if (!$('body').hasClass('project-open')) {
+        _this.openProjectPanel();
+      }
+
+      $.ajax({
+        type: 'GET',
+        url: projectUrl,
+        dataType: 'html',
+        success: function success(data) {
+          var project = $(data).find('#project-' + projectId);
+          var title = $(data).filter('title').text();
+
+          if ($('body').hasClass('project-loaded')) {
+            $('#project-container').append(project);
+          } else {
+            $('#project-container').html(project);
+            $('body').addClass('project-loaded');
+          }
+
+          _this.updateHistory(title, projectUrl);
+        }
+      });
+    }
+  }, {
+    key: 'updateHistory',
+    value: function updateHistory(title, url) {
+      history.pushState(null, title, url);
+      document.title = title;
+    }
+  }, {
+    key: 'bindHomeClick',
+    value: function bindHomeClick() {
+      var _this = this;
+
+      $('#project-close-overlay').on('click', function () {
+        _this.closeProjectPanel();
+        _this.updateHistory(WP.siteTitle, WP.siteUrl);
+      });
+
+      $('#site-title a').on('click', function (e) {
+        if ($('body').hasClass('project-open')) {
+          e.preventDefault();
+          _this.closeProjectPanel();
+          _this.updateHistory(WP.siteTitle, WP.siteUrl);
+        }
+      });
+    }
+  }, {
+    key: 'openProjectPanel',
+    value: function openProjectPanel() {
+      $('#project-wrapper').scrollTop(0);
+      $('html').css('overflow', 'hidden');
+      $('body').addClass('project-open');
+    }
+  }, {
+    key: 'closeProjectPanel',
+    value: function closeProjectPanel() {
+      $('html').css('overflow', 'initial');
+      $('body').removeClass('project-open project-loaded');
+    }
+  }]);
+
+  return Projects;
+}();
+
+exports.default = Projects;
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -11,6 +11,7 @@ function scripts_and_styles_method() {
 
   $javascriptVars = array(
     'siteUrl' => home_url(),
+    'siteTitle' => get_bloginfo('name'),
     'themeUrl' => get_template_directory_uri(),
     'isAdmin' => $is_admin,
   );
