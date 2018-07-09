@@ -31,7 +31,7 @@ get_template_part('partials/seo');
   $color_font = get_post_meta($home_page->ID, '_igv_font_color', true);
 
   echo '<style type="text/css">';
-  echo !empty($color_home) ? 'html { background-color: ' . $color_home . '}' : '';
+  echo !empty($color_home) ? 'html, #project-close-overlay { background-color: ' . $color_home . '}' : '';
   echo !empty($color_footer) ? 'footer#footer { background-color: ' . $color_footer . '}' : '';
   echo !empty($color_project) ? '#project { background-color: ' . $color_project . '}' : '';
   echo !empty($color_font) ? 'html, body.contact-stuck #footer .contact-item { color: ' . $color_font . '}' : '';

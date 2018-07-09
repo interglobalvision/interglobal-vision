@@ -28,6 +28,9 @@
   .desktop-only
     display: initial !important
 
+  $project-transform-duration = 450ms
+  $project-opacity-duration = 750ms
+
   // ******************************************************
 
   // PROJECT LIST
@@ -40,7 +43,11 @@
   // PROJECT
 
   #project
-    transition-duration: 600ms
+    transition: transform $project-transform-duration ease-out
+
+  #project-wrapper,
+  #project-close-overlay
+    transition: opacity $project-opacity-duration ease-out
 
   body.project-open
     #project
@@ -61,7 +68,7 @@
       pointer-events: none
     #footer
       .contact-item
-        pointer-events: none
+        pointer-events: auto
         // color defined in <head>
 
   #contact

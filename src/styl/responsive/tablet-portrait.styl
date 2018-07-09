@@ -28,6 +28,8 @@
   .mobile-only
     display: none !important
 
+  $project-transform-duration = 350ms
+  $project-opacity-duration = 600ms
 
   // ******************************************************
 
@@ -41,6 +43,10 @@
   // PROJECT
 
   #project
-    transition-duration: 400ms
+    transition: transform $project-transform-duration ease-out
+
+  #project-wrapper,
+  #project-close-overlay
+    transition: opacity $project-opacity-duration ease-out
 
   make-browser-frames(14px, 26px, $margin-micro)

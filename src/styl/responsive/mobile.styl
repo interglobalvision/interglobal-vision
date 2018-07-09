@@ -23,6 +23,9 @@ space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-m
 
 font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size-small, $font-size-tiny)
 
+$project-transform-duration = 200ms
+$project-opacity-duration = 600ms
+
 // ******************************************************
 
 // BASIC
@@ -63,7 +66,11 @@ p
   left: 0
   transform: translateX(100vw)
   z-index: 200
-  transition: transform 200ms ease-out
+  transition: transform $project-transform-duration ease-out
+
+#project-wrapper
+  opacity: 0
+  transition: opacity $project-opacity-duration ease-out
 
 #project-close-overlay
   position: fixed
@@ -73,6 +80,8 @@ p
   left: 0
   z-index: 100
   pointer-events: none
+  opacity: 0
+  transition: opacity $project-opacity-duration ease-out
 
 body.project-open
   #project
@@ -80,6 +89,11 @@ body.project-open
   #project-close-overlay
     pointer-events: auto
     cursor: pointer
+    opacity: .8
+
+body.project-loaded
+  #project-wrapper
+    opacity: 1
 
 #project-wrapper
   position: absolute

@@ -83,15 +83,15 @@ var _lazysizes = __webpack_require__(1);
 
 var _lazysizes2 = _interopRequireDefault(_lazysizes);
 
-var _StickyContact = __webpack_require__(8);
+var _StickyContact = __webpack_require__(3);
 
 var _StickyContact2 = _interopRequireDefault(_StickyContact);
 
-var _Projects = __webpack_require__(9);
+var _Projects = __webpack_require__(4);
 
 var _Projects2 = _interopRequireDefault(_Projects);
 
-__webpack_require__(3);
+__webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -868,16 +868,6 @@ module.exports = function (module) {
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 4 */,
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -946,7 +936,7 @@ var StickyContact = function () {
 exports.default = StickyContact;
 
 /***/ }),
-/* 9 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -999,6 +989,10 @@ var Projects = function () {
       var projectUrl = target.href;
       var projectId = target.dataset.id;
 
+      if (!$('body').hasClass('project-open')) {
+        _this.openProjectPanel();
+      }
+
       $.ajax({
         type: 'GET',
         url: projectUrl,
@@ -1007,13 +1001,13 @@ var Projects = function () {
           var project = $(data).find('#project-' + projectId);
           var title = $(data).filter('title').text();
 
-          if ($('body').hasClass('project-open')) {
+          if ($('body').hasClass('project-loaded')) {
             $('#project-container').append(project);
           } else {
             $('#project-container').html(project);
+            $('body').addClass('project-loaded');
           }
 
-          _this.openProjectPanel();
           _this.updateHistory(title, projectUrl);
         }
       });
@@ -1053,7 +1047,7 @@ var Projects = function () {
     key: 'closeProjectPanel',
     value: function closeProjectPanel() {
       $('html').css('overflow', 'initial');
-      $('body').removeClass('project-open');
+      $('body').removeClass('project-open project-loaded');
     }
   }]);
 
@@ -1061,6 +1055,12 @@ var Projects = function () {
 }();
 
 exports.default = Projects;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

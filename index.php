@@ -21,7 +21,9 @@ if ($projects->have_posts()) {
 ?>
 
         <article <?php post_class('grid-item item-s-12 margin-bottom-tiny'); ?>>
+
           <h1 class="project-list-title font-size-large font-bold"><a href="<?php the_permalink() ?>" data-id="<?php the_ID(); ?>"><?php the_title(); ?></a></h1>
+          
           <span class="project-list-type font-size-tiny"><?php echo $project_type; ?></span>
 
         </article>

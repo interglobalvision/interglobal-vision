@@ -31,6 +31,10 @@ class Projects {
     const projectUrl = target.href;
     const projectId = target.dataset.id;
 
+    if (!$('body').hasClass('project-open')) {
+      _this.openProjectPanel();
+    }
+
     $.ajax({
       type: 'GET',
       url: projectUrl,
@@ -39,13 +43,13 @@ class Projects {
         const project = $(data).find('#project-' + projectId);
         const title = $(data).filter('title').text();
 
-        if ($('body').hasClass('project-open')) {
+        if ($('body').hasClass('project-loaded')) {
           $('#project-container').append(project);
         } else {
           $('#project-container').html(project);
+          $('body').addClass('project-loaded');
         }
 
-        _this.openProjectPanel();
         _this.updateHistory(title, projectUrl);
       }
     });
@@ -81,7 +85,7 @@ class Projects {
 
   closeProjectPanel() {
     $('html').css('overflow', 'initial');
-    $('body').removeClass('project-open');
+    $('body').removeClass('project-open project-loaded');
   }
 }
 
