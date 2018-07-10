@@ -46,8 +46,9 @@ class Projects {
         if ($('body').hasClass('project-loaded')) {
           $('#project-container').append(project);
         } else {
-          $('#project-container').html(project);
+          $('#project-container').html(project)
           $('body').addClass('project-loaded');
+          $(project).addClass('active');
         }
 
         _this.updateHistory(title, projectUrl);

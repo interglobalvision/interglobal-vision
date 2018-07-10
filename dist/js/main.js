@@ -1006,6 +1006,7 @@ var Projects = function () {
           } else {
             $('#project-container').html(project);
             $('body').addClass('project-loaded');
+            $(project).addClass('active');
           }
 
           _this.updateHistory(title, projectUrl);
