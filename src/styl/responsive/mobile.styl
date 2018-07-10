@@ -37,12 +37,21 @@ p
 
 // HEADER
 
-#header
+#site-title
+  position: fixed
+  top: 0
+  left: 0
+  transform: translateX($gutter)
+  z-index: 300
+  will-change: transform
+
+#language-switch
   position: fixed
   top: 0
   left: 0
   width: 100%
-  z-index: 300
+  z-index: 100
+  line-height: 1.6
 
 // ******************************************************
 
@@ -67,10 +76,12 @@ p
   transform: translateX(100vw)
   z-index: 200
   transition: transform $project-transform-duration ease-out
+  will-change: transform
 
 #project-wrapper
   opacity: 0
   transition: opacity $project-opacity-duration ease-out
+  will-change: opacity
 
 #project-close-overlay
   position: fixed
@@ -82,6 +93,7 @@ p
   pointer-events: none
   opacity: 0
   transition: opacity $project-opacity-duration ease-out
+  will-change: opacity
 
 body.project-open
   #project

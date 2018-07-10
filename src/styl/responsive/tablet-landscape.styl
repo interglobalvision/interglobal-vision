@@ -31,6 +31,20 @@
   $project-transform-duration = 450ms
   $project-opacity-duration = 750ms
 
+  $site-title-width = 185px
+
+  // ******************************************************
+
+  // HEADER
+
+  #site-title
+    transform: translateX(50vw) translateX(-($site-title-width / 2))
+    transition: transform $project-transform-duration ease-in
+
+  body.project-open
+    #site-title
+      transform: translateX(9vw) translateX($gutter)
+
   // ******************************************************
 
   // PROJECT LIST

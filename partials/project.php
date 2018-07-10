@@ -7,7 +7,7 @@ if (have_posts()) {
 
         <article <?php post_class(); ?> id="project-<?php the_ID(); ?>">
           <div class="grid-row margin-top-extra margin-bottom-basic">
-            <div class="grid-item item-s-12 item-m-8 offset-l-1 item-xl-6 font-size-mid">
+            <div class="grid-item item-s-12 item-m-8 item-xl-6 font-size-mid">
               <?php the_content(); ?>
             </div>
           </div>

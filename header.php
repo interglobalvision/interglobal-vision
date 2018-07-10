@@ -40,30 +40,37 @@ get_template_part('partials/seo');
 
 </head>
 
-<body <?php body_class(); ?>>
+<?php
+  $body_classes = is_singular('project') ? 'project-open project-loaded' : '';
+?>
+
+<body <?php body_class($body_classes); ?>>
 <!--[if lt IE 9]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
 <section id="main-container">
 
   <header id="header">
-    <div class="container">
-      <h1 id="site-title" class="font-size-basic font-bold"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
-      <div class="grid-row justify-end">
-        <div class="grid-item font-size-small font-bold">
-          <?php
-            // language switcher
-            global $q_config;
-            $enabled_langs = $q_config['enabled_languages'];
-            $lang_names = $q_config['language_name'];
+    <div id="language-switch" class="margin-top-basic">
+      <div class="container">
+        <div class="grid-row justify-end">
+          <div class="grid-item font-size-small font-bold">
+            <?php
+              // language switcher
+              global $q_config;
+              $enabled_langs = $q_config['enabled_languages'];
+              $lang_names = $q_config['language_name'];
 
-            for ($i = 0; $i < count($enabled_langs); $i++) {
-              // echo language conversion link
-              echo '<a href="' . qtranxf_convertURL('', $enabled_langs[$i], false, true) . '" hreflang="' . $enabled_langs[$i] . '">' . $lang_names[$enabled_langs[$i]] . '</a>';
-              // echo backslash divider
-              echo $i < (count($enabled_langs) - 1) ? ' / ' : '';
-            };
-          ?>
+              for ($i = 0; $i < count($enabled_langs); $i++) {
+                // echo language conversion link
+                echo '<a href="' . qtranxf_convertURL('', $enabled_langs[$i], false, true) . '" hreflang="' . $enabled_langs[$i] . '">' . $lang_names[$enabled_langs[$i]] . '</a>';
+                // echo backslash divider
+                echo $i < (count($enabled_langs) - 1) ? ' / ' : '';
+              };
+            ?>
+          </div>
         </div>
       </div>
     </div>
+
+    <h1 id="site-title" class="font-size-basic font-bold padding-top-basic"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
   </header>
