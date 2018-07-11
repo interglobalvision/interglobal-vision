@@ -6,6 +6,16 @@ class Projects {
     $(window).resize(this.onResize.bind(this));
 
     $(document).ready(this.onReady.bind(this));
+
+    window.requestAnimationFrame = window.requestAnimationFrame
+      || window.mozRequestAnimationFrame
+      || window.webkitRequestAnimationFrame
+      || window.msRequestAnimationFrame
+      || function(f){return setTimeout(f, 1000/60)} // simulate calling code 60
+ 
+    window.cancelAnimationFrame = window.cancelAnimationFrame
+      || window.mozCancelAnimationFrame
+      || function(requestID){clearTimeout(requestID)} //fall back
   }
 
   onResize() {
@@ -14,46 +24,57 @@ class Projects {
   onReady() {
     this.bindProjectList();
     this.bindHomeClick();
+
+    if ($('body').hasClass('single-project')) {
+      // If single project template:
+      // Set first project active &
+      // disable scrolling on home content
+      $('.project-content').addClass('active');
+      $('html').css('overflow', 'hidden');
+    }
   }
 
   bindProjectList() {
     const _this = this;
 
-    $('.project-list-title a').on('click', (e) => {
-      e.preventDefault();
+    $('.project-list-title a').on('click', this.handleProjectListTitleClick.bind(this));
+  }
 
-      _this.getProject(e.target);
-    });
+  handleProjectListTitleClick(e) {
+    e.preventDefault();
+
+    this.getProject(e.target);
   }
 
   getProject(target) {
-    const _this = this;
     const projectUrl = target.href;
     const projectId = target.dataset.id;
 
     if (!$('body').hasClass('project-open')) {
-      _this.openProjectPanel();
+      this.openProjectPanel();
     }
 
     $.ajax({
       type: 'GET',
       url: projectUrl,
       dataType: 'html',
-      success: function(data){
-        const project = $(data).find('#project-' + projectId);
-        const title = $(data).filter('title').text();
-
-        if ($('body').hasClass('project-loaded')) {
-          $('#project-container').append(project);
-        } else {
-          $('#project-container').html(project)
-          $('body').addClass('project-loaded');
-          $(project).addClass('active');
-        }
-
-        _this.updateHistory(title, projectUrl);
-      }
+      success: (data) => this.handleAjaxSuccess(data, projectUrl, projectId),
     });
+  }
+
+  handleAjaxSuccess(data, projectUrl, projectId) {
+    const project = $(data).find('#project-' + projectId);
+    const title = $(data).filter('title').text();
+
+    if ($('body').hasClass('project-loaded')) {
+      $('#project-container').append(project);
+    } else {
+      $('#project-container').html(project)
+      $('body').addClass('project-loaded');
+      $(project).addClass('active');
+    }
+
+    this.updateHistory(title, projectUrl);
   }
 
   updateHistory(title, url) {
@@ -62,31 +83,59 @@ class Projects {
   }
 
   bindHomeClick() {
-    const _this = this;
+    $('#project-close-overlay').on('click', this.handleProjectCloseOverlayClick.bind(this));
 
-    $('#project-close-overlay').on('click', () => {
-      _this.closeProjectPanel();
-      _this.updateHistory(WP.siteTitle, WP.siteUrl)
-    });
+    $('#site-title a').on('click', this.handleSiteTitleClick.bind(this));
+  }
 
-    $('#site-title a').on('click', (e) => {
-      if ($('body').hasClass('project-open')) {
-        e.preventDefault();
-        _this.closeProjectPanel();
-        _this.updateHistory(WP.siteTitle, WP.siteUrl);
-      }
-    });
+  handleProjectCloseOverlayClick() {
+    this.closeProjectPanel();
+    this.updateHistory(WP.siteTitle, WP.siteUrl)
+  }
+
+  handleSiteTitleClick(e) {
+    if ($('body').hasClass('project-open')) {
+      e.preventDefault();
+      this.closeProjectPanel();
+      this.updateHistory(WP.siteTitle, WP.siteUrl);
+    }
   }
 
   openProjectPanel() {
     $('#project-wrapper').scrollTop(0);
     $('html').css('overflow', 'hidden');
     $('body').addClass('project-open');
+    this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle.bind(this));
   }
 
   closeProjectPanel() {
     $('html').css('overflow', 'initial');
     $('body').removeClass('project-open project-loaded');
+    this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle.bind(this));
+  }
+
+  stickTitle() {
+    const siteTitleLeft = $('#site-title').offset().left
+    const panelTitleLeft = $('#project-site-title').offset().left;
+
+    if (panelTitleLeft <= siteTitleLeft) {
+      window.cancelAnimationFrame(this.titleSwapRequest);
+      $('body').addClass('title-stuck');
+    } else {
+      this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle.bind(this));
+    }
+  }
+
+  unstickTitle() {
+    const siteTitleLeft = $('#site-title').offset().left
+    const panelTitleLeft = $('#project-site-title').offset().left;
+
+    if (panelTitleLeft >= siteTitleLeft) {
+      window.cancelAnimationFrame(this.titleSwapRequest);
+      $('body').removeClass('title-stuck');
+    } else {
+      this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle.bind(this));
+    }
   }
 }
 

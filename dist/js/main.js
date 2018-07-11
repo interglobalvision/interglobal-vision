@@ -960,6 +960,14 @@ var Projects = function () {
     $(window).resize(this.onResize.bind(this));
 
     $(document).ready(this.onReady.bind(this));
+
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (f) {
+      return setTimeout(f, 1000 / 60);
+    }; // simulate calling code 60
+
+    window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function (requestID) {
+      clearTimeout(requestID);
+    }; //fall back
   }
 
   _createClass(Projects, [{
@@ -970,27 +978,39 @@ var Projects = function () {
     value: function onReady() {
       this.bindProjectList();
       this.bindHomeClick();
+
+      if ($('body').hasClass('single-project')) {
+        // If single project template:
+        // Set first project active &
+        // disable scrolling on home content
+        $('.project-content').addClass('active');
+        $('html').css('overflow', 'hidden');
+      }
     }
   }, {
     key: 'bindProjectList',
     value: function bindProjectList() {
       var _this = this;
 
-      $('.project-list-title a').on('click', function (e) {
-        e.preventDefault();
+      $('.project-list-title a').on('click', this.handleProjectListTitleClick.bind(this));
+    }
+  }, {
+    key: 'handleProjectListTitleClick',
+    value: function handleProjectListTitleClick(e) {
+      e.preventDefault();
 
-        _this.getProject(e.target);
-      });
+      this.getProject(e.target);
     }
   }, {
     key: 'getProject',
     value: function getProject(target) {
-      var _this = this;
+      var _this2 = this;
+
       var projectUrl = target.href;
       var projectId = target.dataset.id;
 
       if (!$('body').hasClass('project-open')) {
-        _this.openProjectPanel();
+        this.openProjectPanel();
       }
 
       $.ajax({
@@ -998,20 +1018,25 @@ var Projects = function () {
         url: projectUrl,
         dataType: 'html',
         success: function success(data) {
-          var project = $(data).find('#project-' + projectId);
-          var title = $(data).filter('title').text();
-
-          if ($('body').hasClass('project-loaded')) {
-            $('#project-container').append(project);
-          } else {
-            $('#project-container').html(project);
-            $('body').addClass('project-loaded');
-            $(project).addClass('active');
-          }
-
-          _this.updateHistory(title, projectUrl);
+          return _this2.handleAjaxSuccess(data, projectUrl, projectId);
         }
       });
+    }
+  }, {
+    key: 'handleAjaxSuccess',
+    value: function handleAjaxSuccess(data, projectUrl, projectId) {
+      var project = $(data).find('#project-' + projectId);
+      var title = $(data).filter('title').text();
+
+      if ($('body').hasClass('project-loaded')) {
+        $('#project-container').append(project);
+      } else {
+        $('#project-container').html(project);
+        $('body').addClass('project-loaded');
+        $(project).addClass('active');
+      }
+
+      this.updateHistory(title, projectUrl);
     }
   }, {
     key: 'updateHistory',
@@ -1022,20 +1047,24 @@ var Projects = function () {
   }, {
     key: 'bindHomeClick',
     value: function bindHomeClick() {
-      var _this = this;
+      $('#project-close-overlay').on('click', this.handleProjectCloseOverlayClick.bind(this));
 
-      $('#project-close-overlay').on('click', function () {
-        _this.closeProjectPanel();
-        _this.updateHistory(WP.siteTitle, WP.siteUrl);
-      });
-
-      $('#site-title a').on('click', function (e) {
-        if ($('body').hasClass('project-open')) {
-          e.preventDefault();
-          _this.closeProjectPanel();
-          _this.updateHistory(WP.siteTitle, WP.siteUrl);
-        }
-      });
+      $('#site-title a').on('click', this.handleSiteTitleClick.bind(this));
+    }
+  }, {
+    key: 'handleProjectCloseOverlayClick',
+    value: function handleProjectCloseOverlayClick() {
+      this.closeProjectPanel();
+      this.updateHistory(WP.siteTitle, WP.siteUrl);
+    }
+  }, {
+    key: 'handleSiteTitleClick',
+    value: function handleSiteTitleClick(e) {
+      if ($('body').hasClass('project-open')) {
+        e.preventDefault();
+        this.closeProjectPanel();
+        this.updateHistory(WP.siteTitle, WP.siteUrl);
+      }
     }
   }, {
     key: 'openProjectPanel',
@@ -1043,12 +1072,40 @@ var Projects = function () {
       $('#project-wrapper').scrollTop(0);
       $('html').css('overflow', 'hidden');
       $('body').addClass('project-open');
+      this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle.bind(this));
     }
   }, {
     key: 'closeProjectPanel',
     value: function closeProjectPanel() {
       $('html').css('overflow', 'initial');
       $('body').removeClass('project-open project-loaded');
+      this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle.bind(this));
+    }
+  }, {
+    key: 'stickTitle',
+    value: function stickTitle() {
+      var siteTitleLeft = $('#site-title').offset().left;
+      var panelTitleLeft = $('#project-site-title').offset().left;
+
+      if (panelTitleLeft <= siteTitleLeft) {
+        window.cancelAnimationFrame(this.titleSwapRequest);
+        $('body').addClass('title-stuck');
+      } else {
+        this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle.bind(this));
+      }
+    }
+  }, {
+    key: 'unstickTitle',
+    value: function unstickTitle() {
+      var siteTitleLeft = $('#site-title').offset().left;
+      var panelTitleLeft = $('#project-site-title').offset().left;
+
+      if (panelTitleLeft >= siteTitleLeft) {
+        window.cancelAnimationFrame(this.titleSwapRequest);
+        $('body').removeClass('title-stuck');
+      } else {
+        this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle.bind(this));
+      }
     }
   }]);
 
