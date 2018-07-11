@@ -46,14 +46,23 @@
 
   #site-title
     transform: translateX(50vw) translateX(-($site-title-width / 2))
-    transition: transform $project-transform-duration ease-in
 
-  body.project-open
-    #site-title
-      transform: translateX($gutter)
+  #project-site-title
+    left: $gutter
+
+  body
+    &.title-stuck
+      #site-title
+        opacity: 0
+        pointer-events: none
+      #project-site-title
+        opacity: 1
+        pointer-events: auto
 
   #language-switch
+    right: ($gutter / 2)
     z-index: 300
+    line-height: 1.6
 
   // ******************************************************
 
@@ -62,8 +71,21 @@
   #project
     transition: transform $project-transform-duration ease-out
 
-  #project-wrapper,
+  #project-container,
   #project-close-overlay
     transition: opacity $project-opacity-duration ease-out
+
+  .project-header
+    left: ($site-title-width + $margin-basic + $gutter)
+
+  .arrow
+    margin-right: $margin-basic
+
+  .project-content
+    &.active
+      .project-header
+        position: fixed
+        left: 0
+        transform: translateX($site-title-width + $margin-basic + $gutter)
 
   make-browser-frames(14px, 26px, $margin-micro)
