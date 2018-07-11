@@ -80,7 +80,7 @@ get_template_part('partials/seo');
 <section id="main-container">
 
   <header id="header">
-    <div id="language-switch" class="margin-top-basic">
+    <div id="language-switch" class="margin-top-micro">
       <div class="grid-row justify-end">
         <div class="grid-item font-size-small font-bold">
           <?php
