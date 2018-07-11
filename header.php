@@ -41,7 +41,7 @@ get_template_part('partials/seo');
 </head>
 
 <?php
-  $body_classes = is_singular('project') ? 'project-open project-loaded' : '';
+  $body_classes = is_singular('project') ? 'project-open project-loaded title-stuck' : '';
 ?>
 
 <body <?php body_class($body_classes); ?>>
@@ -70,5 +70,5 @@ get_template_part('partials/seo');
       </div>
     </div>
 
-    <h1 id="site-title" class="font-size-basic font-bold padding-top-basic"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
+    <h1 id="site-title" class="site-title font-size-basic font-bold padding-top-basic"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
   </header>
