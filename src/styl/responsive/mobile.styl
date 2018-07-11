@@ -23,8 +23,10 @@ space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-m
 
 font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size-small, $font-size-tiny)
 
-$project-transform-duration = 200ms
-$project-opacity-duration = 600ms
+$project-transform-duration = 500ms
+$project-opacity-duration = 700ms
+
+$site-title-width = 109px
 
 // ******************************************************
 
@@ -37,12 +39,27 @@ p
 
 // HEADER
 
-#header
+#header-site-title
   position: fixed
   top: 0
   left: 0
-  width: 100%
+  transform: translateX($gutter)
   z-index: 300
+  will-change: opacity
+
+#language-switch
+  position: fixed
+  top: 0
+  right: ($gutter / 2)
+  z-index: 100
+  line-height: 1.45
+
+#project-site-title
+  position: fixed
+  top: 0
+  left: $gutter
+  opacity: 0
+  pointer-events: none
 
 // ******************************************************
 
@@ -66,11 +83,13 @@ p
   left: 0
   transform: translateX(100vw)
   z-index: 200
-  transition: transform $project-transform-duration ease-out
+  transition: transform $project-transform-duration ease-in-out
+  will-change: transform
 
-#project-wrapper
+#project-container
   opacity: 0
   transition: opacity $project-opacity-duration ease-out
+  will-change: opacity
 
 #project-close-overlay
   position: fixed
@@ -82,18 +101,59 @@ p
   pointer-events: none
   opacity: 0
   transition: opacity $project-opacity-duration ease-out
+  will-change: opacity
 
-body.project-open
-  #project
-    transform: translateX(0)
-  #project-close-overlay
-    pointer-events: auto
-    cursor: pointer
-    opacity: .8
+.project-header
+  position: absolute
+  top: 0
+  left: ($site-title-width + ($gutter * 2))
+  z-index: 300
+  width: 100%
 
-body.project-loaded
-  #project-wrapper
-    opacity: 1
+.arrow
+  position: relative
+  width: 10vw
+  height: 1px
+  background: black
+  margin-right: $margin-tiny
+  &:before
+    content: ''
+    position: absolute
+    right: -5px
+    top: -3px
+    width: 0
+    height: 0
+    border-left: 7px solid transparent
+    border-right: 7px solid transparent
+    border-top: 7px solid $color-black
+    transform: rotate(-90deg) scaleX(.3)
+    border-radius: 7px
+
+.project-content
+  &.active
+    .project-header
+      position: fixed
+      left: 0
+      transform: translateX($site-title-width + ($gutter * 2))
+
+body
+  &.project-open
+    #project
+      transform: translateX(0)
+    #project-close-overlay
+      pointer-events: auto
+      cursor: pointer
+      opacity: .85
+
+  &.project-loaded
+    #project-container
+      opacity: 1
+
+@keyframes arrow-stretch
+  from
+    width: 30vw
+  to
+    width: 10vw
 
 #project-wrapper
   position: absolute

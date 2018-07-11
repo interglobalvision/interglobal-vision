@@ -91,6 +91,8 @@ var _Projects = __webpack_require__(4);
 
 var _Projects2 = _interopRequireDefault(_Projects);
 
+__webpack_require__(10);
+
 __webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -951,15 +953,22 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /* jshint esversion: 6, browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
-/* global $, document */
+/* global $, document, WP */
 
 var Projects = function () {
   function Projects() {
     _classCallCheck(this, Projects);
 
-    $(window).resize(this.onResize.bind(this));
+    this.handleProjectListTitleClick = this.handleProjectListTitleClick.bind(this);
+    this.handleProjectCloseOverlayClick = this.handleProjectCloseOverlayClick.bind(this);
+    this.handleSiteTitleClick = this.handleSiteTitleClick.bind(this);
+    this.stickTitle = this.stickTitle.bind(this);
+    this.unstickTitle = this.unstickTitle.bind(this);
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
 
-    $(document).ready(this.onReady.bind(this));
+    $(window).resize(this.onResize);
+    $(document).ready(this.onReady);
   }
 
   _createClass(Projects, [{
@@ -970,27 +979,37 @@ var Projects = function () {
     value: function onReady() {
       this.bindProjectList();
       this.bindHomeClick();
+
+      if ($('body').hasClass('single-project')) {
+        // If single project template:
+        // Set first project active &
+        // disable scrolling on home content
+        $('.project-content').addClass('active');
+        $('html').css('overflow', 'hidden');
+      }
     }
   }, {
     key: 'bindProjectList',
     value: function bindProjectList() {
-      var _this = this;
+      $('.project-list-title a').on('click', this.handleProjectListTitleClick);
+    }
+  }, {
+    key: 'handleProjectListTitleClick',
+    value: function handleProjectListTitleClick(e) {
+      e.preventDefault();
 
-      $('.project-list-title a').on('click', function (e) {
-        e.preventDefault();
-
-        _this.getProject(e.target);
-      });
+      this.getProject(e.target);
     }
   }, {
     key: 'getProject',
     value: function getProject(target) {
       var _this = this;
+
       var projectUrl = target.href;
       var projectId = target.dataset.id;
 
       if (!$('body').hasClass('project-open')) {
-        _this.openProjectPanel();
+        this.openProjectPanel();
       }
 
       $.ajax({
@@ -998,19 +1017,26 @@ var Projects = function () {
         url: projectUrl,
         dataType: 'html',
         success: function success(data) {
-          var project = $(data).find('#project-' + projectId);
-          var title = $(data).filter('title').text();
-
-          if ($('body').hasClass('project-loaded')) {
-            $('#project-container').append(project);
-          } else {
-            $('#project-container').html(project);
-            $('body').addClass('project-loaded');
-          }
-
-          _this.updateHistory(title, projectUrl);
+          return _this.handleAjaxSuccess(data, projectUrl, projectId);
         }
       });
+    }
+  }, {
+    key: 'handleAjaxSuccess',
+    value: function handleAjaxSuccess(data, projectUrl, projectId) {
+      var $parsed = $('<div>').append($.parseHTML(data));
+      var project = $parsed.find('#project-' + projectId);
+      var title = $parsed.find('title').text();
+
+      if ($('body').hasClass('project-loaded')) {
+        $('#project-container').append(project);
+      } else {
+        $('#project-container').html(project);
+        $('body').addClass('project-loaded');
+        $(project).addClass('active');
+      }
+
+      this.updateHistory(title, projectUrl);
     }
   }, {
     key: 'updateHistory',
@@ -1021,20 +1047,24 @@ var Projects = function () {
   }, {
     key: 'bindHomeClick',
     value: function bindHomeClick() {
-      var _this = this;
+      $('#project-close-overlay').on('click', this.handleProjectCloseOverlayClick);
 
-      $('#project-close-overlay').on('click', function () {
-        _this.closeProjectPanel();
-        _this.updateHistory(WP.siteTitle, WP.siteUrl);
-      });
-
-      $('#site-title a').on('click', function (e) {
-        if ($('body').hasClass('project-open')) {
-          e.preventDefault();
-          _this.closeProjectPanel();
-          _this.updateHistory(WP.siteTitle, WP.siteUrl);
-        }
-      });
+      $('.site-title a').on('click', this.handleSiteTitleClick);
+    }
+  }, {
+    key: 'handleProjectCloseOverlayClick',
+    value: function handleProjectCloseOverlayClick() {
+      this.closeProjectPanel();
+      this.updateHistory(WP.siteTitle, WP.siteUrl);
+    }
+  }, {
+    key: 'handleSiteTitleClick',
+    value: function handleSiteTitleClick(e) {
+      if ($('body').hasClass('project-open')) {
+        e.preventDefault();
+        this.closeProjectPanel();
+        this.updateHistory(WP.siteTitle, WP.siteUrl);
+      }
     }
   }, {
     key: 'openProjectPanel',
@@ -1042,12 +1072,40 @@ var Projects = function () {
       $('#project-wrapper').scrollTop(0);
       $('html').css('overflow', 'hidden');
       $('body').addClass('project-open');
+      this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
     }
   }, {
     key: 'closeProjectPanel',
     value: function closeProjectPanel() {
       $('html').css('overflow', 'initial');
       $('body').removeClass('project-open project-loaded');
+      this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
+    }
+  }, {
+    key: 'stickTitle',
+    value: function stickTitle() {
+      var siteTitleLeft = $('#header-site-title').offset().left;
+      var panelTitleLeft = $('#project-site-title').offset().left;
+
+      if (panelTitleLeft <= siteTitleLeft) {
+        window.cancelAnimationFrame(this.titleSwapRequest);
+        $('body').addClass('title-stuck');
+      } else {
+        this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
+      }
+    }
+  }, {
+    key: 'unstickTitle',
+    value: function unstickTitle() {
+      var siteTitleLeft = $('#header-site-title').offset().left;
+      var panelTitleLeft = $('#project-site-title').offset().left;
+
+      if (panelTitleLeft >= siteTitleLeft) {
+        window.cancelAnimationFrame(this.titleSwapRequest);
+        $('body').removeClass('title-stuck');
+      } else {
+        this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
+      }
     }
   }]);
 
@@ -1061,6 +1119,28 @@ exports.default = Projects;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Pollyfill for requestAnimationFrame and cancelAnimationFrame
+ */
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (f) {
+  return setTimeout(f, 1000 / 60);
+};
+
+window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function (requestID) {
+  clearTimeout(requestID);
+};
 
 /***/ })
 /******/ ]);

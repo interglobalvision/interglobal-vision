@@ -6,6 +6,7 @@ import lazySizes from 'lazysizes';
 
 import StickyContact from './StickyContact';
 import Projects from './Projects';
+import './animationFrame';
 
 // Import style
 import '../styl/site.styl';

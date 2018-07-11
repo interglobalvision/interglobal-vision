@@ -31,23 +31,56 @@ get_template_part('partials/seo');
   $color_font = get_post_meta($home_page->ID, '_igv_font_color', true);
 
   echo '<style type="text/css">';
-  echo !empty($color_home) ? 'html, #project-close-overlay { background-color: ' . $color_home . '}' : '';
-  echo !empty($color_footer) ? 'footer#footer { background-color: ' . $color_footer . '}' : '';
-  echo !empty($color_project) ? '#project { background-color: ' . $color_project . '}' : '';
-  echo !empty($color_font) ? 'html, body.contact-stuck #footer .contact-item { color: ' . $color_font . '}' : '';
+  if (!empty($color_home)) {
+    echo "
+      html,
+      #project-close-overlay {
+        background-color: $color_home;
+      }
+    ";
+  }
+  if (!empty($color_footer)) {
+    echo "
+      footer#footer {
+        background-color: $color_footer;
+      }
+    ";
+  }
+  if (!empty($color_project)) {
+    echo "
+      #project {
+        background-color: $color_project;
+      }
+    ";
+  }
+  if (!empty($color_font)) {
+    echo "
+      html,
+      body.contact-stuck #footer .contact-item {
+        color: $color_font;
+      }
+
+      .arrow:before {
+        border-top-color: $color_font;
+      }
+    ";
+  }
   echo '</style>';
 ?>
 
 </head>
 
-<body <?php body_class(); ?>>
+<?php
+  $body_classes = is_singular('project') ? 'project-open project-loaded title-stuck' : '';
+?>
+
+<body <?php body_class($body_classes); ?>>
 <!--[if lt IE 9]><p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p><![endif]-->
 
 <section id="main-container">
 
   <header id="header">
-    <div class="container">
-      <h1 id="site-title" class="font-size-basic font-bold"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
+    <div id="language-switch" class="margin-top-micro">
       <div class="grid-row justify-end">
         <div class="grid-item font-size-small font-bold">
           <?php
@@ -58,7 +91,7 @@ get_template_part('partials/seo');
 
             for ($i = 0; $i < count($enabled_langs); $i++) {
               // echo language conversion link
-              echo '<a href="' . qtranxf_convertURL('', $enabled_langs[$i], false, true) . '" hreflang="' . $enabled_langs[$i] . '">' . $lang_names[$enabled_langs[$i]] . '</a>';
+              echo '<a href="?lang='. $enabled_langs[$i] . '" hreflang="' . $enabled_langs[$i] . '">' . $lang_names[$enabled_langs[$i]] . '</a>';
               // echo backslash divider
               echo $i < (count($enabled_langs) - 1) ? ' / ' : '';
             };
@@ -66,4 +99,6 @@ get_template_part('partials/seo');
         </div>
       </div>
     </div>
+
+    <h1 id="header-site-title" class="site-title font-size-basic font-bold padding-top-basic"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
   </header>
