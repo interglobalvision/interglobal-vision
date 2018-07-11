@@ -63,8 +63,9 @@ class Projects {
   }
 
   handleAjaxSuccess(data, projectUrl, projectId) {
-    const project = $(data).find('#project-' + projectId);
-    const title = $(data).filter('title').text();
+    const $parsed = $('<div>').append($.parseHTML(data));
+    const project = $parsed.find('#project-' + projectId);
+    const title = $parsed.find('title').text();
 
     if ($('body').hasClass('project-loaded')) {
       $('#project-container').append(project);

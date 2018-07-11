@@ -1025,8 +1025,9 @@ var Projects = function () {
   }, {
     key: 'handleAjaxSuccess',
     value: function handleAjaxSuccess(data, projectUrl, projectId) {
-      var project = $(data).find('#project-' + projectId);
-      var title = $(data).filter('title').text();
+      var $parsed = $('<div>').append($.parseHTML(data));
+      var project = $parsed.find('#project-' + projectId);
+      var title = $parsed.find('title').text();
 
       if ($('body').hasClass('project-loaded')) {
         $('#project-container').append(project);
