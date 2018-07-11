@@ -85,7 +85,7 @@ class Projects {
   bindHomeClick() {
     $('#project-close-overlay').on('click', this.handleProjectCloseOverlayClick.bind(this));
 
-    $('#site-title a').on('click', this.handleSiteTitleClick.bind(this));
+    $('.site-title a').on('click', this.handleSiteTitleClick.bind(this));
   }
 
   handleProjectCloseOverlayClick() {
@@ -115,7 +115,7 @@ class Projects {
   }
 
   stickTitle() {
-    const siteTitleLeft = $('#site-title').offset().left
+    const siteTitleLeft = $('#header-site-title').offset().left
     const panelTitleLeft = $('#project-site-title').offset().left;
 
     if (panelTitleLeft <= siteTitleLeft) {
@@ -127,7 +127,7 @@ class Projects {
   }
 
   unstickTitle() {
-    const siteTitleLeft = $('#site-title').offset().left
+    const siteTitleLeft = $('#header-site-title').offset().left
     const panelTitleLeft = $('#project-site-title').offset().left;
 
     if (panelTitleLeft >= siteTitleLeft) {

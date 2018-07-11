@@ -70,5 +70,5 @@ get_template_part('partials/seo');
       </div>
     </div>
 
-    <h1 id="site-title" class="site-title font-size-basic font-bold padding-top-basic"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
+    <h1 id="header-site-title" class="site-title font-size-basic font-bold padding-top-basic"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
   </header>

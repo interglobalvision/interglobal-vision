@@ -1049,7 +1049,7 @@ var Projects = function () {
     value: function bindHomeClick() {
       $('#project-close-overlay').on('click', this.handleProjectCloseOverlayClick.bind(this));
 
-      $('#site-title a').on('click', this.handleSiteTitleClick.bind(this));
+      $('.site-title a').on('click', this.handleSiteTitleClick.bind(this));
     }
   }, {
     key: 'handleProjectCloseOverlayClick',
@@ -1084,7 +1084,7 @@ var Projects = function () {
   }, {
     key: 'stickTitle',
     value: function stickTitle() {
-      var siteTitleLeft = $('#site-title').offset().left;
+      var siteTitleLeft = $('#header-site-title').offset().left;
       var panelTitleLeft = $('#project-site-title').offset().left;
 
       if (panelTitleLeft <= siteTitleLeft) {
@@ -1097,7 +1097,7 @@ var Projects = function () {
   }, {
     key: 'unstickTitle',
     value: function unstickTitle() {
-      var siteTitleLeft = $('#site-title').offset().left;
+      var siteTitleLeft = $('#header-site-title').offset().left;
       var panelTitleLeft = $('#project-site-title').offset().left;
 
       if (panelTitleLeft >= siteTitleLeft) {
