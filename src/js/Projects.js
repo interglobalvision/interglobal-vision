@@ -1,5 +1,5 @@
 /* jshint esversion: 6, browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
-/* global $, document */
+/* global $, document, WP */
 
 class Projects {
   constructor() {
@@ -7,15 +7,13 @@ class Projects {
 
     $(document).ready(this.onReady.bind(this));
 
-    window.requestAnimationFrame = window.requestAnimationFrame
-      || window.mozRequestAnimationFrame
-      || window.webkitRequestAnimationFrame
-      || window.msRequestAnimationFrame
-      || function(f){return setTimeout(f, 1000/60)} // simulate calling code 60
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(f) {
+      return setTimeout(f, 1000/60);
+    };
  
-    window.cancelAnimationFrame = window.cancelAnimationFrame
-      || window.mozCancelAnimationFrame
-      || function(requestID){clearTimeout(requestID)} //fall back
+    window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function(requestID) {
+      clearTimeout(requestID);
+    };
   }
 
   onResize() {
@@ -35,8 +33,6 @@ class Projects {
   }
 
   bindProjectList() {
-    const _this = this;
-
     $('.project-list-title a').on('click', this.handleProjectListTitleClick.bind(this));
   }
 
@@ -70,7 +66,7 @@ class Projects {
     if ($('body').hasClass('project-loaded')) {
       $('#project-container').append(project);
     } else {
-      $('#project-container').html(project)
+      $('#project-container').html(project);
       $('body').addClass('project-loaded');
       $(project).addClass('active');
     }
@@ -91,7 +87,7 @@ class Projects {
 
   handleProjectCloseOverlayClick() {
     this.closeProjectPanel();
-    this.updateHistory(WP.siteTitle, WP.siteUrl)
+    this.updateHistory(WP.siteTitle, WP.siteUrl);
   }
 
   handleSiteTitleClick(e) {
@@ -116,7 +112,7 @@ class Projects {
   }
 
   stickTitle() {
-    const siteTitleLeft = $('#header-site-title').offset().left
+    const siteTitleLeft = $('#header-site-title').offset().left;
     const panelTitleLeft = $('#project-site-title').offset().left;
 
     if (panelTitleLeft <= siteTitleLeft) {
@@ -128,7 +124,7 @@ class Projects {
   }
 
   unstickTitle() {
-    const siteTitleLeft = $('#header-site-title').offset().left
+    const siteTitleLeft = $('#header-site-title').offset().left;
     const panelTitleLeft = $('#project-site-title').offset().left;
 
     if (panelTitleLeft >= siteTitleLeft) {

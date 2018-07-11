@@ -951,7 +951,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /* jshint esversion: 6, browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
-/* global $, document */
+/* global $, document, WP */
 
 var Projects = function () {
   function Projects() {
@@ -963,11 +963,11 @@ var Projects = function () {
 
     window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (f) {
       return setTimeout(f, 1000 / 60);
-    }; // simulate calling code 60
+    };
 
     window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function (requestID) {
       clearTimeout(requestID);
-    }; //fall back
+    };
   }
 
   _createClass(Projects, [{
@@ -990,8 +990,6 @@ var Projects = function () {
   }, {
     key: 'bindProjectList',
     value: function bindProjectList() {
-      var _this = this;
-
       $('.project-list-title a').on('click', this.handleProjectListTitleClick.bind(this));
     }
   }, {
@@ -1004,7 +1002,7 @@ var Projects = function () {
   }, {
     key: 'getProject',
     value: function getProject(target) {
-      var _this2 = this;
+      var _this = this;
 
       var projectUrl = target.href;
       var projectId = target.dataset.id;
@@ -1018,7 +1016,7 @@ var Projects = function () {
         url: projectUrl,
         dataType: 'html',
         success: function success(data) {
-          return _this2.handleAjaxSuccess(data, projectUrl, projectId);
+          return _this.handleAjaxSuccess(data, projectUrl, projectId);
         }
       });
     }
