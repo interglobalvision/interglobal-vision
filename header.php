@@ -91,7 +91,7 @@ get_template_part('partials/seo');
 
             for ($i = 0; $i < count($enabled_langs); $i++) {
               // echo language conversion link
-              echo '<a href="' . qtranxf_convertURL('', $enabled_langs[$i], false, true) . '" hreflang="' . $enabled_langs[$i] . '">' . $lang_names[$enabled_langs[$i]] . '</a>';
+              echo '<a href="?lang='. $enabled_langs[$i] . '" hreflang="' . $enabled_langs[$i] . '">' . $lang_names[$enabled_langs[$i]] . '</a>';
               // echo backslash divider
               echo $i < (count($enabled_langs) - 1) ? ' / ' : '';
             };
