@@ -91,6 +91,8 @@ var _Projects = __webpack_require__(4);
 
 var _Projects2 = _interopRequireDefault(_Projects);
 
+__webpack_require__(10);
+
 __webpack_require__(5);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -957,17 +959,16 @@ var Projects = function () {
   function Projects() {
     _classCallCheck(this, Projects);
 
-    $(window).resize(this.onResize.bind(this));
+    this.handleProjectListTitleClick = this.handleProjectListTitleClick.bind(this);
+    this.handleProjectCloseOverlayClick = this.handleProjectCloseOverlayClick.bind(this);
+    this.handleSiteTitleClick = this.handleSiteTitleClick.bind(this);
+    this.stickTitle = this.stickTitle.bind(this);
+    this.unstickTitle = this.unstickTitle.bind(this);
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
 
-    $(document).ready(this.onReady.bind(this));
-
-    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (f) {
-      return setTimeout(f, 1000 / 60);
-    };
-
-    window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function (requestID) {
-      clearTimeout(requestID);
-    };
+    $(window).resize(this.onResize);
+    $(document).ready(this.onReady);
   }
 
   _createClass(Projects, [{
@@ -990,7 +991,7 @@ var Projects = function () {
   }, {
     key: 'bindProjectList',
     value: function bindProjectList() {
-      $('.project-list-title a').on('click', this.handleProjectListTitleClick.bind(this));
+      $('.project-list-title a').on('click', this.handleProjectListTitleClick);
     }
   }, {
     key: 'handleProjectListTitleClick',
@@ -1046,9 +1047,9 @@ var Projects = function () {
   }, {
     key: 'bindHomeClick',
     value: function bindHomeClick() {
-      $('#project-close-overlay').on('click', this.handleProjectCloseOverlayClick.bind(this));
+      $('#project-close-overlay').on('click', this.handleProjectCloseOverlayClick);
 
-      $('.site-title a').on('click', this.handleSiteTitleClick.bind(this));
+      $('.site-title a').on('click', this.handleSiteTitleClick);
     }
   }, {
     key: 'handleProjectCloseOverlayClick',
@@ -1071,14 +1072,14 @@ var Projects = function () {
       $('#project-wrapper').scrollTop(0);
       $('html').css('overflow', 'hidden');
       $('body').addClass('project-open');
-      this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle.bind(this));
+      this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
     }
   }, {
     key: 'closeProjectPanel',
     value: function closeProjectPanel() {
       $('html').css('overflow', 'initial');
       $('body').removeClass('project-open project-loaded');
-      this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle.bind(this));
+      this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
     }
   }, {
     key: 'stickTitle',
@@ -1090,7 +1091,7 @@ var Projects = function () {
         window.cancelAnimationFrame(this.titleSwapRequest);
         $('body').addClass('title-stuck');
       } else {
-        this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle.bind(this));
+        this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
       }
     }
   }, {
@@ -1103,7 +1104,7 @@ var Projects = function () {
         window.cancelAnimationFrame(this.titleSwapRequest);
         $('body').removeClass('title-stuck');
       } else {
-        this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle.bind(this));
+        this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
       }
     }
   }]);
@@ -1118,6 +1119,28 @@ exports.default = Projects;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Pollyfill for requestAnimationFrame and cancelAnimationFrame
+ */
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (f) {
+  return setTimeout(f, 1000 / 60);
+};
+
+window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function (requestID) {
+  clearTimeout(requestID);
+};
 
 /***/ })
 /******/ ]);

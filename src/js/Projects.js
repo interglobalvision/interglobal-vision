@@ -3,17 +3,18 @@
 
 class Projects {
   constructor() {
-    $(window).resize(this.onResize.bind(this));
 
-    $(document).ready(this.onReady.bind(this));
+    this.handleProjectListTitleClick = this.handleProjectListTitleClick.bind(this);
+    this.handleProjectCloseOverlayClick = this.handleProjectCloseOverlayClick.bind(this);
+    this.handleSiteTitleClick = this.handleSiteTitleClick.bind(this);
+    this.stickTitle = this.stickTitle.bind(this);
+    this.unstickTitle = this.unstickTitle.bind(this);
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
 
-    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function(f) {
-      return setTimeout(f, 1000/60);
-    };
- 
-    window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function(requestID) {
-      clearTimeout(requestID);
-    };
+    $(window).resize(this.onResize);
+    $(document).ready(this.onReady);
+
   }
 
   onResize() {
@@ -33,7 +34,7 @@ class Projects {
   }
 
   bindProjectList() {
-    $('.project-list-title a').on('click', this.handleProjectListTitleClick.bind(this));
+    $('.project-list-title a').on('click', this.handleProjectListTitleClick);
   }
 
   handleProjectListTitleClick(e) {
@@ -80,9 +81,9 @@ class Projects {
   }
 
   bindHomeClick() {
-    $('#project-close-overlay').on('click', this.handleProjectCloseOverlayClick.bind(this));
+    $('#project-close-overlay').on('click', this.handleProjectCloseOverlayClick);
 
-    $('.site-title a').on('click', this.handleSiteTitleClick.bind(this));
+    $('.site-title a').on('click', this.handleSiteTitleClick);
   }
 
   handleProjectCloseOverlayClick() {
@@ -102,13 +103,13 @@ class Projects {
     $('#project-wrapper').scrollTop(0);
     $('html').css('overflow', 'hidden');
     $('body').addClass('project-open');
-    this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle.bind(this));
+    this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
   }
 
   closeProjectPanel() {
     $('html').css('overflow', 'initial');
     $('body').removeClass('project-open project-loaded');
-    this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle.bind(this));
+    this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
   }
 
   stickTitle() {
@@ -119,7 +120,7 @@ class Projects {
       window.cancelAnimationFrame(this.titleSwapRequest);
       $('body').addClass('title-stuck');
     } else {
-      this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle.bind(this));
+      this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
     }
   }
 
@@ -131,7 +132,7 @@ class Projects {
       window.cancelAnimationFrame(this.titleSwapRequest);
       $('body').removeClass('title-stuck');
     } else {
-      this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle.bind(this));
+      this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
     }
   }
 }
