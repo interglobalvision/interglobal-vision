@@ -6,6 +6,7 @@ import lazySizes from 'lazysizes';
 
 import StickyContact from './StickyContact';
 import Projects from './Projects';
+import DropShadow from './DropShadow';
 import './animationFrame';
 
 // Import style
@@ -15,9 +16,11 @@ class Site {
   constructor() {
     this.mobileThreshold = 601;
 
-    $(window).resize(this.onResize.bind(this));
+    this.onResize = this.onResize.bind(this)
+    this.onReady = this.onReady.bind(this)
 
-    $(document).ready(this.onReady.bind(this));
+    $(window).resize(this.onResize);
+    $(document).ready(this.onReady);
 
   }
 
@@ -41,3 +44,4 @@ class Site {
 const IGV = new Site();
 const IGVStickyContact = new StickyContact();
 const IGVProjects = new Projects();
+const IGVDropShadow = new DropShadow();
