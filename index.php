@@ -58,7 +58,7 @@ if ($projects->have_posts()) {
 <div id="contact">
   <div class="container">
     <div class="grid-row">
-      <div class="grid-item item-l-6 offset-l-6 no-gutter font-size-small">
+      <div class="grid-item item-l-6 offset-l-6 item-xl-5 offset-xl-7 no-gutter font-size-small">
         <?php get_template_part('partials/contact'); ?>
       </div>
     </div>
