@@ -48,7 +48,7 @@ get_template_part('partials/seo');
   }
   if (!empty($color_project)) {
     echo "
-      #project {
+      #project-wrapper {
         background-color: $color_project;
       }
     ";

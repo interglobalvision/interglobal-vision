@@ -91,9 +91,13 @@ var _Projects = __webpack_require__(4);
 
 var _Projects2 = _interopRequireDefault(_Projects);
 
-__webpack_require__(10);
+var _DropShadow = __webpack_require__(5);
 
-__webpack_require__(5);
+var _DropShadow2 = _interopRequireDefault(_DropShadow);
+
+__webpack_require__(6);
+
+__webpack_require__(7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -105,9 +109,11 @@ var Site = function () {
 
     this.mobileThreshold = 601;
 
-    $(window).resize(this.onResize.bind(this));
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
 
-    $(document).ready(this.onReady.bind(this));
+    $(window).resize(this.onResize);
+    $(document).ready(this.onReady);
   }
 
   _createClass(Site, [{
@@ -136,6 +142,7 @@ var Site = function () {
 var IGV = new Site();
 var IGVStickyContact = new _StickyContact2.default();
 var IGVProjects = new _Projects2.default();
+var IGVDropShadow = new _DropShadow2.default();
 
 /***/ }),
 /* 1 */
@@ -967,6 +974,10 @@ var Projects = function () {
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
 
+    // Project Events
+    this.openEvent = new Event('projectOpen');
+    this.closeEvent = new Event('projectClose');
+
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
   }
@@ -1069,6 +1080,9 @@ var Projects = function () {
   }, {
     key: 'openProjectPanel',
     value: function openProjectPanel() {
+      // Trigger event on window
+      window.dispatchEvent(this.openEvent);
+
       $('#project-wrapper').scrollTop(0);
       $('html').css('overflow', 'hidden');
       $('body').addClass('project-open');
@@ -1077,6 +1091,9 @@ var Projects = function () {
   }, {
     key: 'closeProjectPanel',
     value: function closeProjectPanel() {
+      // Trigger event on window
+      window.dispatchEvent(this.closeEvent);
+
       $('html').css('overflow', 'initial');
       $('body').removeClass('project-open project-loaded');
       this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
@@ -1116,16 +1133,134 @@ exports.default = Projects;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-// removed by extract-text-webpack-plugin
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* jshint esversion: 6, browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
+/* global $, document */
+
+var DropShadow = function () {
+  function DropShadow() {
+    _classCallCheck(this, DropShadow);
+
+    this.mobileThreshold = 601;
+    // Get the canvas
+    this.canvas = document.getElementById("dropshadow");
+    this.context = this.canvas.getContext("2d");
+
+    // Define the image dimensions
+    this.width = this.canvas.width = this.canvas.scrollWidth;
+    this.height = this.canvas.height = this.canvas.scrollHeight;
+
+    // Create "image"
+    this.imagedata = this.context.createImageData(this.width, this.height);
+
+    // Bind ready and resize
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
+    $(window).resize(this.onResize);
+    $(document).ready(this.onReady);
+
+    // Bind other function
+    this.animation = this.animation.bind(this);
+    this.handleFrame = this.handleFrame.bind(this);
+    this.startAnimation = this.startAnimation.bind(this);
+    this.stopAnimation = this.stopAnimation.bind(this);
+
+    // Bind animation to open/close project events
+    $(window).on('projectOpen', this.startAnimation).on('projectClose', this.stopAnimation);
+
+    if ($('body').hasClass('project-open')) {
+      this.startAnimation();
+    }
+  }
+
+  _createClass(DropShadow, [{
+    key: "startAnimation",
+    value: function startAnimation() {
+      this.animating = true;;
+      this.handleFrame(0);
+    }
+  }, {
+    key: "stopAnimation",
+    value: function stopAnimation() {
+      var _this = this;
+
+      // Timeout to wait till the pane is closed to stop the animation
+      setTimeout(function () {
+        return _this.animating = false;
+      }, 700);
+    }
+  }, {
+    key: "handleFrame",
+    value: function handleFrame(frame) {
+      if (this.animating) {
+        // Request animation frames
+        window.requestAnimationFrame(this.handleFrame);
+
+        // Create the image
+        this.animation(Math.floor(frame / 10));
+
+        // Draw the image data to the canvas
+        this.context.putImageData(this.imagedata, 0, 0);
+      }
+    }
+  }, {
+    key: "animation",
+    value: function animation(offset) {
+      // if( offset % 3 == 0) {
+      // Loop over all of the pixels
+      for (var x = 0; x < this.width; x++) {
+        for (var y = 0; y < this.height; y++) {
+          // Get the pixel index
+          var pixelindex = (y * this.width + x) * 4;
+
+          // Generate a xor pattern with some random noise
+          var prob = 1.03 / this.width * x;
+
+          prob = prob * prob; //* (offset * 0.001);
+
+          var value = Math.random() >= prob;
+
+          // Set the pixel data
+          this.imagedata.data[pixelindex] = value ? 255 : 0; // Red
+          this.imagedata.data[pixelindex + 1] = value ? 255 : 0; // Green
+          this.imagedata.data[pixelindex + 2] = value ? 255 : 0; // Blue
+          this.imagedata.data[pixelindex + 3] = value ? 0 : 255; // Alpha
+        }
+      }
+      //}
+    }
+  }, {
+    key: "onResize",
+    value: function onResize() {
+      // Define the image dimensions
+      this.width = this.canvas.width = this.canvas.scrollWidth;
+      this.height = this.canvas.height = this.canvas.scrollHeight;
+      this.imagedata = this.context.createImageData(this.width, this.height);
+    }
+  }, {
+    key: "onReady",
+    value: function onReady() {}
+  }]);
+
+  return DropShadow;
+}();
+
+exports.default = DropShadow;
 
 /***/ }),
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1141,6 +1276,12 @@ window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequest
 window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function (requestID) {
   clearTimeout(requestID);
 };
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

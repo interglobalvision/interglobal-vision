@@ -171,6 +171,20 @@ body
 
 make-browser-frames(12px, 25px, $margin-micro)
 
+// DROPSHADOW
+#dropshadow
+  pointer-events: none
+  position: absolute
+  top: 0
+  left: 0
+  width: 7vw
+  height: 100vh
+  transition: transform $project-opacity-duration ease-out
+
+.project-open
+  #dropshadow
+    transform: translateX(-100%)
+
 // FOOTER
 
 #contact

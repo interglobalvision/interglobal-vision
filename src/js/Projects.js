@@ -12,6 +12,10 @@ class Projects {
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
 
+    // Project Events
+    this.openEvent = new Event('projectOpen');
+    this.closeEvent = new Event('projectClose');
+
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
 
@@ -100,6 +104,9 @@ class Projects {
   }
 
   openProjectPanel() {
+    // Trigger event on window
+    window.dispatchEvent(this.openEvent);
+
     $('#project-wrapper').scrollTop(0);
     $('html').css('overflow', 'hidden');
     $('body').addClass('project-open');
@@ -107,6 +114,9 @@ class Projects {
   }
 
   closeProjectPanel() {
+    // Trigger event on window
+    window.dispatchEvent(this.closeEvent);
+
     $('html').css('overflow', 'initial');
     $('body').removeClass('project-open project-loaded');
     this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
