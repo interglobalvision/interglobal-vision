@@ -17,14 +17,14 @@ if ($projects->have_posts()) {
   while ($projects->have_posts()) {
     $projects->the_post();
 
-    $project_type = get_post_meta( get_the_ID(), '_igv_project_type', true );
+    $services = get_the_terms(get_the_ID(), 'service');
 ?>
 
         <article <?php post_class('grid-item item-s-12 margin-bottom-tiny'); ?>>
 
           <h1 class="project-list-title font-size-large font-bold"><a href="<?php the_permalink() ?>" data-id="<?php the_ID(); ?>"><?php the_title(); ?></a></h1>
 
-          <span class="project-list-type font-size-tiny"><?php echo $project_type; ?></span>
+          <span class="project-list-service font-size-tiny"><?php echo !empty($services) ? $services[0]->name : ''; ?></span>
 
         </article>
 
