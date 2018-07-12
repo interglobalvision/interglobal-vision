@@ -59,7 +59,9 @@ get_template_part('partials/seo');
       body.contact-stuck #footer .contact-item {
         color: $color_font;
       }
-
+      .arrow {
+        background-color: $color_font;
+      }
       .arrow:before {
         border-top-color: $color_font;
       }
