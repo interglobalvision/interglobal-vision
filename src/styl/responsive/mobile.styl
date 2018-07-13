@@ -32,9 +32,6 @@ $site-title-width = 109px
 
 // BASIC
 
-p
-  max-width: 380px
-
 // ******************************************************
 
 // HEADER
@@ -114,7 +111,6 @@ p
   position: relative
   width: 10vw
   height: 1px
-  background: black
   margin-right: $margin-tiny
   &:before
     content: ''
@@ -185,7 +181,13 @@ make-browser-frames(12px, 25px, $margin-micro)
   #dropshadow
     transform: translateX(-100%)
 
+// ******************************************************
+
 // FOOTER
+
+#footer
+  p
+    max-width: 380px
 
 #contact
   display: none
