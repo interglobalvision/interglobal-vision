@@ -42,7 +42,7 @@ if ($projects->have_posts()) {
   <section id="project">
     <canvas id="dropshadow" width="100"></canvas>
     <div id="project-wrapper">
-      <div id="project-site-title" class="site-title font-size-basic font-bold padding-top-basic"><a href="<?php echo home_url(); ?>">interglobal.vision</a></div>
+      <div id="project-site-title" class="site-title font-size-basic font-bold padding-top-small"><a href="<?php echo home_url(); ?>">interglobal.vision</a></div>
       <div id="project-container" class="container padding-bottom-mid">
         <?php
           if (is_singular('project')) {

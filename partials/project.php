@@ -6,7 +6,7 @@ if (have_posts()) {
 ?>
 
         <article <?php post_class('project-content'); ?> id="project-<?php the_ID(); ?>">
-          <header class="project-header grid-row align-items-center padding-top-basic">
+          <header class="project-header grid-row align-items-center padding-top-small">
             <div class="arrow"></div>
             <h1 class="project-title font-size-basic font-bold flex-grow"><?php the_title(); ?></h1>
           </header>
