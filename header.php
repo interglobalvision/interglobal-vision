@@ -82,7 +82,7 @@ get_template_part('partials/seo');
 <section id="main-container">
 
   <header id="header">
-    <div id="language-switch" class="margin-top-micro">
+    <div id="language-switch" class="margin-top-small">
       <div class="grid-row justify-end">
         <div class="grid-item font-size-small font-bold">
           <?php
@@ -102,5 +102,5 @@ get_template_part('partials/seo');
       </div>
     </div>
 
-    <h1 id="header-site-title" class="site-title font-size-basic font-bold padding-top-basic"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
+    <h1 id="header-site-title" class="site-title font-size-basic font-bold padding-top-small"><a href="<?php echo home_url(); ?>">interglobal.vision</a></h1>
   </header>
