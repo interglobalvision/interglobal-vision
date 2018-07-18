@@ -73,19 +73,19 @@ class DropShadow {
         // convert scale from 0 to 0.5
         const param = (x * Math.sin(1)) / this.width;
 
-        if (Math.random() > Math.asin(param) || x === this.width) {
+        if (Math.random() > Math.asin(param) || x === this.width - 1) {
           // Get the pixel index
           var pixelindex = (y * this.width + x) * 4;
 
           // Generate a xor pattern with some random noise
-          var prob = 1.06 / this.width * x;
+          var prob = 1.03 / this.width * x;
 
-          prob = prob * prob;//* (offset * 0.001);
+          prob = prob * prob * prob;//* (offset * 0.001);
 
           var value = Math.random() >= prob;
 
-          if( x === this.width ) {
-            value = true;
+          if (x >= this.width - 1) {
+            value = false;
           }
 
           // Set the pixel data
