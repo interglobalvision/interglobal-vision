@@ -95,9 +95,13 @@ var _DropShadow = __webpack_require__(5);
 
 var _DropShadow2 = _interopRequireDefault(_DropShadow);
 
-__webpack_require__(6);
+var _Globie = __webpack_require__(6);
+
+var _Globie2 = _interopRequireDefault(_Globie);
 
 __webpack_require__(7);
+
+__webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -143,6 +147,7 @@ var IGV = new Site();
 var IGVStickyContact = new _StickyContact2.default();
 var IGVProjects = new _Projects2.default();
 var IGVDropShadow = new _DropShadow2.default();
+var IGVGlobie = new _Globie2.default();
 
 /***/ }),
 /* 1 */
@@ -1266,6 +1271,101 @@ exports.default = DropShadow;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/* jshint esversion: 6, browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
+/* global $, document */
+
+var Globie = function () {
+  function Globie() {
+    _classCallCheck(this, Globie);
+
+    // BINDINGS
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.triggerFootTap = this.triggerFootTap.bind(this);
+    this.runFootTap = this.runFootTap.bind(this);
+
+    $(window).resize(this.onResize);
+
+    $(document).ready(this.onReady);
+
+    this.$globie = $('svg#globie');
+    this.footFrame = 1;
+    this.footTapRate = 80;
+    this.bodyRotateRate = 30;
+  }
+
+  _createClass(Globie, [{
+    key: 'onResize',
+    value: function onResize() {}
+  }, {
+    key: 'onReady',
+    value: function onReady() {
+      this.triggerFootTap();
+
+      this.bindScroll();
+    }
+  }, {
+    key: 'bindScroll',
+    value: function bindScroll() {
+      $(window).on('scroll', this.handleScroll);
+      $('#project-wrapper').on('scroll', this.handleScroll);
+    }
+  }, {
+    key: 'handleScroll',
+    value: function handleScroll(event) {
+      this.scrollTop = $(event.target).scrollTop();
+      this.rotateBody();
+    }
+  }, {
+    key: 'rotateBody',
+    value: function rotateBody() {
+      var scrollTop = this.scrollTop / this.bodyRotateRate;
+      var frame = Math.floor(scrollTop % 24) + 1;
+
+      this.$globie.find('g.show').removeClass('show');
+      this.$globie.find('g#_Body_' + frame + '_').addClass('show');
+    }
+  }, {
+    key: 'triggerFootTap',
+    value: function triggerFootTap() {
+      setTimeout(this.runFootTap, this.footTapRate);
+    }
+  }, {
+    key: 'runFootTap',
+    value: function runFootTap() {
+      window.requestAnimationFrame(this.triggerFootTap);
+      this.tapFoot();
+    }
+  }, {
+    key: 'tapFoot',
+    value: function tapFoot() {
+      this.$globie.find('path#Right-' + this.footFrame).removeClass('show');
+      this.footFrame = this.footFrame === 7 ? 1 : this.footFrame + 1;
+      this.$globie.find('path#Right-' + this.footFrame).addClass('show');
+    }
+  }]);
+
+  return Globie;
+}();
+
+exports.default = Globie;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 /**
  * Pollyfill for requestAnimationFrame and cancelAnimationFrame
  */
@@ -1278,7 +1378,7 @@ window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAni
 };
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

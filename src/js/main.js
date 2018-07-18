@@ -7,6 +7,7 @@ import lazySizes from 'lazysizes';
 import StickyContact from './StickyContact';
 import Projects from './Projects';
 import DropShadow from './DropShadow';
+import Globie from './Globie';
 import './animationFrame';
 
 // Import style
@@ -45,3 +46,4 @@ const IGV = new Site();
 const IGVStickyContact = new StickyContact();
 const IGVProjects = new Projects();
 const IGVDropShadow = new DropShadow();
+const IGVGlobie = new Globie();

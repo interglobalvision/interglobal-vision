@@ -22,7 +22,7 @@ if ($projects->have_posts()) {
 
         <article <?php post_class('grid-item item-s-12 margin-bottom-tiny'); ?>>
 
-          <h1 class="project-list-title font-size-large font-bold"><a href="<?php the_permalink() ?>" data-id="<?php the_ID(); ?>"><?php the_title(); ?></a></h1>
+          <h1 class="project-list-title font-size-large"><a href="<?php the_permalink() ?>" data-id="<?php the_ID(); ?>"><?php the_title(); ?></a></h1>
 
           <span class="project-list-service font-size-tiny"><?php echo !empty($services) ? $services[0]->name : ''; ?></span>
 
@@ -54,6 +54,8 @@ if ($projects->have_posts()) {
   </section>
 
 </main>
+
+<?php get_template_part('partials/globie.svg'); ?>
 
 <div id="contact">
   <div class="container">
