@@ -95,13 +95,13 @@ var _DropShadow = __webpack_require__(5);
 
 var _DropShadow2 = _interopRequireDefault(_DropShadow);
 
-var _Globie = __webpack_require__(12);
+var _Globie = __webpack_require__(6);
 
 var _Globie2 = _interopRequireDefault(_Globie);
 
-__webpack_require__(6);
-
 __webpack_require__(7);
+
+__webpack_require__(8);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1271,34 +1271,6 @@ exports.default = DropShadow;
 "use strict";
 
 
-/**
- * Pollyfill for requestAnimationFrame and cancelAnimationFrame
- */
-window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (f) {
-  return setTimeout(f, 1000 / 60);
-};
-
-window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function (requestID) {
-  clearTimeout(requestID);
-};
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 8 */,
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -1314,9 +1286,16 @@ var Globie = function () {
   function Globie() {
     _classCallCheck(this, Globie);
 
-    $(window).resize(this.onResize.bind(this));
+    // BINDINGS
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.triggerFootTap = this.triggerFootTap.bind(this);
+    this.runFootTap = this.runFootTap.bind(this);
 
-    $(document).ready(this.onReady.bind(this));
+    $(window).resize(this.onResize);
+
+    $(document).ready(this.onReady);
 
     this.$globie = $('svg#globie');
     this.footFrame = 1;
@@ -1337,13 +1316,13 @@ var Globie = function () {
   }, {
     key: 'bindScroll',
     value: function bindScroll() {
-      $(window).on('scroll', this.handleScroll.bind(this));
+      $(window).on('scroll', this.handleScroll);
+      $('#project-wrapper').on('scroll', this.handleScroll);
     }
   }, {
     key: 'handleScroll',
-    value: function handleScroll() {
-      this.scrollTop = $(document).scrollTop();
-
+    value: function handleScroll(event) {
+      this.scrollTop = $(event.target).scrollTop();
       this.rotateBody();
     }
   }, {
@@ -1358,12 +1337,12 @@ var Globie = function () {
   }, {
     key: 'triggerFootTap',
     value: function triggerFootTap() {
-      setTimeout(this.runFootTap.bind(this), this.footTapRate);
+      setTimeout(this.runFootTap, this.footTapRate);
     }
   }, {
     key: 'runFootTap',
     value: function runFootTap() {
-      window.requestAnimationFrame(this.triggerFootTap.bind(this));
+      window.requestAnimationFrame(this.triggerFootTap);
       this.tapFoot();
     }
   }, {
@@ -1379,6 +1358,30 @@ var Globie = function () {
 }();
 
 exports.default = Globie;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Pollyfill for requestAnimationFrame and cancelAnimationFrame
+ */
+window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || function (f) {
+  return setTimeout(f, 1000 / 60);
+};
+
+window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame || function (requestID) {
+  clearTimeout(requestID);
+};
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

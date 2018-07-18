@@ -3,9 +3,16 @@
 
 class Globie {
   constructor() {
-    $(window).resize(this.onResize.bind(this));
+    // BINDINGS
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+    this.triggerFootTap = this.triggerFootTap.bind(this);
+    this.runFootTap = this.runFootTap.bind(this);
 
-    $(document).ready(this.onReady.bind(this));
+    $(window).resize(this.onResize);
+
+    $(document).ready(this.onReady);
 
     this.$globie = $('svg#globie');
     this.footFrame = 1;
@@ -24,12 +31,12 @@ class Globie {
   }
 
   bindScroll() {
-    $(window).on('scroll', this.handleScroll.bind(this));
+    $(window).on('scroll', this.handleScroll);
+    $('#project-wrapper').on('scroll', this.handleScroll);
   }
 
-  handleScroll() {
-    this.scrollTop = $(document).scrollTop();
-
+  handleScroll(event) {
+    this.scrollTop = $(event.target).scrollTop()
     this.rotateBody();
   }
 
@@ -42,11 +49,11 @@ class Globie {
   }
 
   triggerFootTap() {
-    setTimeout(this.runFootTap.bind(this), this.footTapRate);
+    setTimeout(this.runFootTap, this.footTapRate);
   }
 
   runFootTap() {
-    window.requestAnimationFrame(this.triggerFootTap.bind(this));
+    window.requestAnimationFrame(this.triggerFootTap);
     this.tapFoot();
   }
 
