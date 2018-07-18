@@ -41,6 +41,7 @@ $site-title-width = 109px
 
 #header-site-title
   position: fixed
+  backface-visibility: hidden
   top: 0
   left: 0
   transform: translateX($gutter)
@@ -49,6 +50,7 @@ $site-title-width = 109px
 
 #language-switch
   position: fixed
+  backface-visibility: hidden
   top: 0
   right: ($gutter / 2)
   z-index: 100
@@ -56,6 +58,7 @@ $site-title-width = 109px
 
 #project-site-title
   position: fixed
+  backface-visibility: hidden
   top: 0
   left: $gutter
   opacity: 0
@@ -77,6 +80,7 @@ $site-title-width = 109px
 
 #project
   position: fixed
+  backface-visibility: hidden
   width: 100vw
   height: 100vh
   top: 0
@@ -93,6 +97,7 @@ $site-title-width = 109px
 
 #project-close-overlay
   position: fixed
+  backface-visibility: hidden
   width: 100vw
   height: 100vh
   top: 0
@@ -132,6 +137,7 @@ $site-title-width = 109px
   &.active
     .project-header
       position: fixed
+      backface-visibility: hidden
       left: 0
       transform: translateX($site-title-width + ($gutter * 2))
 
@@ -201,6 +207,7 @@ svg#globie
   z-index: 300
   width: 50px
   position: fixed
+  backface-visibility: hidden
   top: calc('100vh - 50px - 60px')
   left: 50%
   margin-left: -25px
