@@ -1167,6 +1167,9 @@ var DropShadow = function () {
     this.width = this.canvas.width = this.canvas.scrollWidth;
     this.height = this.canvas.height = this.canvas.scrollHeight;
 
+    // Math constants
+    this.radians = 6.28319;
+
     // Create "image"
     this.imagedata = this.context.createImageData(this.width, this.height);
 
@@ -1223,28 +1226,36 @@ var DropShadow = function () {
   }, {
     key: "animation",
     value: function animation(offset) {
-      // if( offset % 3 == 0) {
       // Loop over all of the pixels
       for (var x = 0; x < this.width; x++) {
         for (var y = 0; y < this.height; y++) {
-          // Get the pixel index
-          var pixelindex = (y * this.width + x) * 4;
 
-          // Generate a xor pattern with some random noise
-          var prob = 1.03 / this.width * x;
+          // convert scale from 0 to 0.5
+          var param = x * Math.sin(1) / this.width;
 
-          prob = prob * prob; //* (offset * 0.001);
+          if (Math.random() > Math.asin(param) || x === this.width) {
+            // Get the pixel index
+            var pixelindex = (y * this.width + x) * 4;
 
-          var value = Math.random() >= prob;
+            // Generate a xor pattern with some random noise
+            var prob = 1.06 / this.width * x;
 
-          // Set the pixel data
-          this.imagedata.data[pixelindex] = value ? 255 : 0; // Red
-          this.imagedata.data[pixelindex + 1] = value ? 255 : 0; // Green
-          this.imagedata.data[pixelindex + 2] = value ? 255 : 0; // Blue
-          this.imagedata.data[pixelindex + 3] = value ? 0 : 255; // Alpha
+            prob = prob * prob; //* (offset * 0.001);
+
+            var value = Math.random() >= prob;
+
+            if (x === this.width) {
+              value = true;
+            }
+
+            // Set the pixel data
+            this.imagedata.data[pixelindex] = value ? 255 : 0; // Red
+            this.imagedata.data[pixelindex + 1] = value ? 255 : 0; // Green
+            this.imagedata.data[pixelindex + 2] = value ? 255 : 0; // Blue
+            this.imagedata.data[pixelindex + 3] = value ? 0 : 255; // Alpha
+          }
         }
       }
-      //}
     }
   }, {
     key: "onResize",
