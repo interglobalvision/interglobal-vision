@@ -87,3 +87,17 @@
         transform: translateX($site-title-width + $margin-basic + $gutter)
 
   make-browser-frames(14px, 26px, $margin-micro)
+
+  // ******************************************************
+
+  // GLOBIE
+
+  body
+    &.globie-stuck
+      svg.globie
+        opacity: 0
+        pointer-events: none
+      #project
+        svg.globie
+          opacity: 1
+          pointer-events: auto

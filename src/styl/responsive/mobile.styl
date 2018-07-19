@@ -200,26 +200,36 @@ make-browser-frames(12px, 25px, $margin-micro)
 
 #contact
   display: none
+  pointer-events: none
+  .contact-item p
+    pointer-events: auto
+
+// ******************************************************
 
 // GLOBIE
 
-svg#globie
+svg.globie
   z-index: 300
   width: 50px
   position: fixed
   backface-visibility: hidden
   top: calc('100vh - 50px - 60px')
-  left: 50%
-  margin-left: -25px
-  g#Globie_Body
+  left: calc('50vw - 25px')
+  g.Globie_Body
     g
       opacity: 0
       &.show
         opacity: 1
-  g#Feet
+  g.Feet
     path
       opacity: 0
       &.show
         opacity: 1
-    path#Left
+    path.Left
       opacity: 1
+
+#project
+  svg.globie
+    left: ($gutter * 2)
+    opacity: 0
+    pointer-events: none
