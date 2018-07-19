@@ -50,8 +50,11 @@ $careers = get_post_meta($home_page->ID, '_igv_careers', true);
         <?php
           }
         ?>
+        </div>
       </div>
     </div>
+
+    <?php get_template_part('partials/globie.svg'); ?>
   </footer>
 
 </section>
