@@ -983,6 +983,11 @@ var Projects = function () {
     this.openEvent = new Event('projectOpen');
     this.closeEvent = new Event('projectClose');
 
+    // Elements
+    this.$body = $('body');
+    this.$headerSiteTitle = $('#header-site-title');
+    this.$projectSiteTitle = $('#project-site-title');
+
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
   }
@@ -996,7 +1001,7 @@ var Projects = function () {
       this.bindProjectList();
       this.bindHomeClick();
 
-      if ($('body').hasClass('single-project')) {
+      if (this.$body.hasClass('single-project')) {
         // If single project template:
         // Set first project active &
         // disable scrolling on home content
@@ -1024,7 +1029,7 @@ var Projects = function () {
       var projectUrl = target.href;
       var projectId = target.dataset.id;
 
-      if (!$('body').hasClass('project-open')) {
+      if (!this.$body.hasClass('project-open')) {
         this.openProjectPanel();
       }
 
@@ -1044,11 +1049,11 @@ var Projects = function () {
       var project = $parsed.find('#project-' + projectId);
       var title = $parsed.find('title').text();
 
-      if ($('body').hasClass('project-loaded')) {
+      if (this.$body.hasClass('project-loaded')) {
         $('#project-container').append(project);
       } else {
         $('#project-container').html(project);
-        $('body').addClass('project-loaded');
+        this.$body.addClass('project-loaded');
         $(project).addClass('active');
       }
 
@@ -1090,7 +1095,7 @@ var Projects = function () {
 
       $('#project-wrapper').scrollTop(0);
       $('html').css('overflow', 'hidden');
-      $('body').addClass('project-open');
+      this.$body.addClass('project-open');
       this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
     }
   }, {
@@ -1100,18 +1105,18 @@ var Projects = function () {
       window.dispatchEvent(this.closeEvent);
 
       $('html').css('overflow', 'initial');
-      $('body').removeClass('project-open project-loaded');
+      this.$body.removeClass('project-open project-loaded');
       this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
     }
   }, {
     key: 'stickTitle',
     value: function stickTitle() {
-      var siteTitleLeft = $('#header-site-title').offset().left;
-      var panelTitleLeft = $('#project-site-title').offset().left;
+      var siteTitleLeft = this.$headerSiteTitle.offset().left;
+      var panelTitleLeft = this.$projectSiteTitle.offset().left;
 
       if (panelTitleLeft <= siteTitleLeft) {
         window.cancelAnimationFrame(this.titleSwapRequest);
-        $('body').addClass('title-stuck');
+        this.$body.addClass('title-stuck');
       } else {
         this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
       }
@@ -1119,12 +1124,12 @@ var Projects = function () {
   }, {
     key: 'unstickTitle',
     value: function unstickTitle() {
-      var siteTitleLeft = $('#header-site-title').offset().left;
-      var panelTitleLeft = $('#project-site-title').offset().left;
+      var siteTitleLeft = this.$headerSiteTitle.offset().left;
+      var panelTitleLeft = this.$projectSiteTitle.offset().left;
 
       if (panelTitleLeft >= siteTitleLeft) {
         window.cancelAnimationFrame(this.titleSwapRequest);
-        $('body').removeClass('title-stuck');
+        this.$body.removeClass('title-stuck');
       } else {
         this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
       }
