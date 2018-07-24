@@ -23,9 +23,3 @@ This works thanks to the great work of:
 - check composer.json if you want moment or other things
 - `composer install`
 - `webpack`
-
----
-
-## Notes
-
-- be here, now
