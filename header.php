@@ -73,7 +73,7 @@ get_template_part('partials/seo');
 </head>
 
 <?php
-  $body_classes = is_singular('project') ? 'project-open project-loaded title-stuck' : '';
+  $body_classes = is_singular('project') ? 'project-open project-loaded title-stuck globie-stuck' : '';
 ?>
 
 <body <?php body_class($body_classes); ?>>

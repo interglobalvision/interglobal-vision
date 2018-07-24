@@ -51,11 +51,10 @@ if ($projects->have_posts()) {
         ?>
       </div>
     </div>
+    <?php get_template_part('partials/globie.svg'); ?>
   </section>
 
 </main>
-
-<?php get_template_part('partials/globie.svg'); ?>
 
 <div id="contact">
   <div class="container">

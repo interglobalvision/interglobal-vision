@@ -9,12 +9,21 @@ class Projects {
     this.handleSiteTitleClick = this.handleSiteTitleClick.bind(this);
     this.stickTitle = this.stickTitle.bind(this);
     this.unstickTitle = this.unstickTitle.bind(this);
+    this.stickGlobie = this.stickGlobie.bind(this);
+    this.unstickGlobie = this.unstickGlobie.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
 
     // Project Events
     this.openEvent = new Event('projectOpen');
     this.closeEvent = new Event('projectClose');
+
+    // Elements
+    this.$body = $('body');
+    this.$headerSiteTitle = $('#header-site-title');
+    this.$projectSiteTitle = $('#project-site-title');
+    this.$footerGlobie = $('#footer svg.globie');
+    this.$projectGlobie = $('#project svg.globie');
 
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
@@ -28,7 +37,7 @@ class Projects {
     this.bindProjectList();
     this.bindHomeClick();
 
-    if ($('body').hasClass('single-project')) {
+    if (this.$body.hasClass('single-project')) {
       // If single project template:
       // Set first project active &
       // disable scrolling on home content
@@ -51,7 +60,7 @@ class Projects {
     const projectUrl = target.href;
     const projectId = target.dataset.id;
 
-    if (!$('body').hasClass('project-open')) {
+    if (!this.$body.hasClass('project-open')) {
       this.openProjectPanel();
     }
 
@@ -68,11 +77,11 @@ class Projects {
     const project = $parsed.find('#project-' + projectId);
     const title = $parsed.find('title').text();
 
-    if ($('body').hasClass('project-loaded')) {
+    if (this.$body.hasClass('project-loaded')) {
       $('#project-container').append(project);
     } else {
       $('#project-container').html(project);
-      $('body').addClass('project-loaded');
+      this.$body.addClass('project-loaded');
       $(project).addClass('active');
     }
 
@@ -109,8 +118,9 @@ class Projects {
 
     $('#project-wrapper').scrollTop(0);
     $('html').css('overflow', 'hidden');
-    $('body').addClass('project-open');
+    this.$body.addClass('project-open');
     this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
+    this.globieSwapRequest = window.requestAnimationFrame(this.stickGlobie);
   }
 
   closeProjectPanel() {
@@ -118,31 +128,56 @@ class Projects {
     window.dispatchEvent(this.closeEvent);
 
     $('html').css('overflow', 'initial');
-    $('body').removeClass('project-open project-loaded');
+    this.$body.removeClass('project-open project-loaded');
     this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
+    this.globieSwapRequest = window.requestAnimationFrame(this.unstickGlobie);
   }
 
   stickTitle() {
-    const siteTitleLeft = $('#header-site-title').offset().left;
-    const panelTitleLeft = $('#project-site-title').offset().left;
+    const siteTitleLeft = this.$headerSiteTitle.offset().left;
+    const panelTitleLeft = this.$projectSiteTitle.offset().left;
 
     if (panelTitleLeft <= siteTitleLeft) {
       window.cancelAnimationFrame(this.titleSwapRequest);
-      $('body').addClass('title-stuck');
+      this.$body.addClass('title-stuck');
     } else {
       this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
     }
   }
 
   unstickTitle() {
-    const siteTitleLeft = $('#header-site-title').offset().left;
-    const panelTitleLeft = $('#project-site-title').offset().left;
+    const siteTitleLeft = this.$headerSiteTitle.offset().left;
+    const panelTitleLeft = this.$projectSiteTitle.offset().left;
 
     if (panelTitleLeft >= siteTitleLeft) {
       window.cancelAnimationFrame(this.titleSwapRequest);
-      $('body').removeClass('title-stuck');
+      this.$body.removeClass('title-stuck');
     } else {
       this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
+    }
+  }
+
+  stickGlobie() {
+    const footerGlobieLeft = this.$footerGlobie.offset().left;
+    const projectGlobieLeft = this.$projectGlobie.offset().left;
+
+    if (projectGlobieLeft <= footerGlobieLeft) {
+      window.cancelAnimationFrame(this.globieSwapRequest);
+      this.$body.addClass('globie-stuck');
+    } else {
+      this.globieSwapRequest = window.requestAnimationFrame(this.stickGlobie);
+    }
+  }
+
+  unstickGlobie() {
+    const footerGlobieLeft = this.$footerGlobie.offset().left;
+    const projectGlobieLeft = this.$projectGlobie.offset().left;
+
+    if (projectGlobieLeft >= footerGlobieLeft) {
+      window.cancelAnimationFrame(this.globieSwapRequest);
+      this.$body.removeClass('globie-stuck');
+    } else {
+      this.globieSwapRequest = window.requestAnimationFrame(this.unstickGlobie);
     }
   }
 }

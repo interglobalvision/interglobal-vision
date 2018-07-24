@@ -976,12 +976,21 @@ var Projects = function () {
     this.handleSiteTitleClick = this.handleSiteTitleClick.bind(this);
     this.stickTitle = this.stickTitle.bind(this);
     this.unstickTitle = this.unstickTitle.bind(this);
+    this.stickGlobie = this.stickGlobie.bind(this);
+    this.unstickGlobie = this.unstickGlobie.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
 
     // Project Events
     this.openEvent = new Event('projectOpen');
     this.closeEvent = new Event('projectClose');
+
+    // Elements
+    this.$body = $('body');
+    this.$headerSiteTitle = $('#header-site-title');
+    this.$projectSiteTitle = $('#project-site-title');
+    this.$footerGlobie = $('#footer svg.globie');
+    this.$projectGlobie = $('#project svg.globie');
 
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
@@ -996,7 +1005,7 @@ var Projects = function () {
       this.bindProjectList();
       this.bindHomeClick();
 
-      if ($('body').hasClass('single-project')) {
+      if (this.$body.hasClass('single-project')) {
         // If single project template:
         // Set first project active &
         // disable scrolling on home content
@@ -1024,7 +1033,7 @@ var Projects = function () {
       var projectUrl = target.href;
       var projectId = target.dataset.id;
 
-      if (!$('body').hasClass('project-open')) {
+      if (!this.$body.hasClass('project-open')) {
         this.openProjectPanel();
       }
 
@@ -1044,11 +1053,11 @@ var Projects = function () {
       var project = $parsed.find('#project-' + projectId);
       var title = $parsed.find('title').text();
 
-      if ($('body').hasClass('project-loaded')) {
+      if (this.$body.hasClass('project-loaded')) {
         $('#project-container').append(project);
       } else {
         $('#project-container').html(project);
-        $('body').addClass('project-loaded');
+        this.$body.addClass('project-loaded');
         $(project).addClass('active');
       }
 
@@ -1090,8 +1099,9 @@ var Projects = function () {
 
       $('#project-wrapper').scrollTop(0);
       $('html').css('overflow', 'hidden');
-      $('body').addClass('project-open');
+      this.$body.addClass('project-open');
       this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
+      this.globieSwapRequest = window.requestAnimationFrame(this.stickGlobie);
     }
   }, {
     key: 'closeProjectPanel',
@@ -1100,18 +1110,19 @@ var Projects = function () {
       window.dispatchEvent(this.closeEvent);
 
       $('html').css('overflow', 'initial');
-      $('body').removeClass('project-open project-loaded');
+      this.$body.removeClass('project-open project-loaded');
       this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
+      this.globieSwapRequest = window.requestAnimationFrame(this.unstickGlobie);
     }
   }, {
     key: 'stickTitle',
     value: function stickTitle() {
-      var siteTitleLeft = $('#header-site-title').offset().left;
-      var panelTitleLeft = $('#project-site-title').offset().left;
+      var siteTitleLeft = this.$headerSiteTitle.offset().left;
+      var panelTitleLeft = this.$projectSiteTitle.offset().left;
 
       if (panelTitleLeft <= siteTitleLeft) {
         window.cancelAnimationFrame(this.titleSwapRequest);
-        $('body').addClass('title-stuck');
+        this.$body.addClass('title-stuck');
       } else {
         this.titleSwapRequest = window.requestAnimationFrame(this.stickTitle);
       }
@@ -1119,14 +1130,40 @@ var Projects = function () {
   }, {
     key: 'unstickTitle',
     value: function unstickTitle() {
-      var siteTitleLeft = $('#header-site-title').offset().left;
-      var panelTitleLeft = $('#project-site-title').offset().left;
+      var siteTitleLeft = this.$headerSiteTitle.offset().left;
+      var panelTitleLeft = this.$projectSiteTitle.offset().left;
 
       if (panelTitleLeft >= siteTitleLeft) {
         window.cancelAnimationFrame(this.titleSwapRequest);
-        $('body').removeClass('title-stuck');
+        this.$body.removeClass('title-stuck');
       } else {
         this.titleSwapRequest = window.requestAnimationFrame(this.unstickTitle);
+      }
+    }
+  }, {
+    key: 'stickGlobie',
+    value: function stickGlobie() {
+      var footerGlobieLeft = this.$footerGlobie.offset().left;
+      var projectGlobieLeft = this.$projectGlobie.offset().left;
+
+      if (projectGlobieLeft <= footerGlobieLeft) {
+        window.cancelAnimationFrame(this.globieSwapRequest);
+        this.$body.addClass('globie-stuck');
+      } else {
+        this.globieSwapRequest = window.requestAnimationFrame(this.stickGlobie);
+      }
+    }
+  }, {
+    key: 'unstickGlobie',
+    value: function unstickGlobie() {
+      var footerGlobieLeft = this.$footerGlobie.offset().left;
+      var projectGlobieLeft = this.$projectGlobie.offset().left;
+
+      if (projectGlobieLeft >= footerGlobieLeft) {
+        window.cancelAnimationFrame(this.globieSwapRequest);
+        this.$body.removeClass('globie-stuck');
+      } else {
+        this.globieSwapRequest = window.requestAnimationFrame(this.unstickGlobie);
       }
     }
   }]);
@@ -1297,9 +1334,9 @@ var Globie = function () {
 
     $(document).ready(this.onReady);
 
-    this.$globie = $('svg#globie');
+    this.$globie = $('svg.globie');
     this.footFrame = 1;
-    this.footTapRate = 80;
+    this.footTapRate = 60;
     this.bodyRotateRate = 30;
   }
 
@@ -1332,7 +1369,7 @@ var Globie = function () {
       var frame = Math.floor(scrollTop % 24) + 1;
 
       this.$globie.find('g.show').removeClass('show');
-      this.$globie.find('g#_Body_' + frame + '_').addClass('show');
+      this.$globie.find('g._Body_' + frame + '_').addClass('show');
     }
   }, {
     key: 'triggerFootTap',
@@ -1348,9 +1385,9 @@ var Globie = function () {
   }, {
     key: 'tapFoot',
     value: function tapFoot() {
-      this.$globie.find('path#Right-' + this.footFrame).removeClass('show');
-      this.footFrame = this.footFrame === 7 ? 1 : this.footFrame + 1;
-      this.$globie.find('path#Right-' + this.footFrame).addClass('show');
+      this.$globie.find('path.Right-' + this.footFrame).removeClass('show');
+      this.footFrame = this.footFrame === 8 ? 1 : this.footFrame + 1;
+      this.$globie.find('path.Right-' + this.footFrame).addClass('show');
     }
   }]);
 
