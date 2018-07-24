@@ -99,9 +99,13 @@ var _Globie = __webpack_require__(6);
 
 var _Globie2 = _interopRequireDefault(_Globie);
 
-__webpack_require__(7);
+var _Eyes = __webpack_require__(7);
 
-__webpack_require__(8);
+var _Eyes2 = _interopRequireDefault(_Eyes);
+
+__webpack_require__(9);
+
+__webpack_require__(10);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -148,6 +152,7 @@ var IGVStickyContact = new _StickyContact2.default();
 var IGVProjects = new _Projects2.default();
 var IGVDropShadow = new _DropShadow2.default();
 var IGVGlobie = new _Globie2.default();
+var IGVEyes = new _Eyes2.default();
 
 /***/ }),
 /* 1 */
@@ -1403,6 +1408,160 @@ exports.default = Globie;
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* jshint esversion: 6, browser: true, devel: true, indent: 2, curly: true, eqeqeq: true, futurehostile: true, latedef: true, undef: true, unused: true */
+/* global $, document */
+
+var _snapsvgCjs = __webpack_require__(15);
+
+var _snapsvgCjs2 = _interopRequireDefault(_snapsvgCjs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+console.log(_snapsvgCjs2.default);
+
+var Eyes = function () {
+  function Eyes() {
+    _classCallCheck(this, Eyes);
+
+    // BINDINGS
+
+    $(window).resize(this.onResize);
+
+    $(document).ready(this.onReady);
+  }
+
+  _createClass(Eyes, [{
+    key: 'onResize',
+    value: function onResize() {}
+  }, {
+    key: 'onReady',
+    value: function onReady() {
+      // assign svg .globie as Snap object
+      var globie = (0, _snapsvgCjs2.default)('.globie');
+      // select #leftEye from globie object
+      this.lefteye = globie.select('.EyeLeftFill');
+      // draw left eyeball in globie object
+      this.leftball = globie.ellipse(220, 150, 27, 40).attr({});
+      // select #rightEye from globie object
+      this.righteye = globie.select('.EyeRightFill');
+      // draw right eyeball in globie object
+      this.rightball = globie.ellipse(280, 150, 27, 40).attr({});
+
+      // get length of left eye path
+      this.lenl = _snapsvgCjs2.default.path.getTotalLength(this.lefteye);
+      // get length of right eye path
+      this.lenr = _snapsvgCjs2.default.path.getTotalLength(this.lefteye);
+      // get bounding box of left eye path
+      this.bbl = _snapsvgCjs2.default.path.getBBox(this.lefteye);
+      // get bounding box of right eye path
+      this.bbr = _snapsvgCjs2.default.path.getBBox(this.righteye);
+
+      // find center point of left eye
+      this.midl = {
+        x: this.bbl.x + this.bbl.width / 2,
+        y: this.bbl.y + this.bbl.height / 2
+      };
+
+      // find center point of right eye
+      this.midr = {
+        x: this.bbr.x + this.bbr.width / 2,
+        y: this.bbr.y + this.bbr.height / 2
+      };
+
+      // Returns the (x,y) coordinate in user space which is distance units along the path
+      this.lpal = _snapsvgCjs2.default.path.getPointAtLength(this.lefteye);
+      // Returns the (x,y) coordinate in user space which is distance units along the path
+      this.rpal = _snapsvgCjs2.default.path.getPointAtLength(this.righteye);
+
+      this.bind();
+    }
+  }, {
+    key: 'bind',
+    value: function bind() {
+      // mobile width check to be made does hover exist check
+      if (window.innerWidth > 720) {
+        // Eyeballs follow cursor
+        $(document).mousemove(function (e) {
+          this.moveEyes(e.pageX, e.pageY);
+        }.bind(this));
+      } else {
+        if (window.DeviceOrientationEvent) {
+          window.addEventListener('deviceorientation', function (e) {
+            return this.onDeviceOrientationChange(e);
+          }.bind(this), false);
+        }
+      }
+    }
+  }, {
+    key: 'onDeviceOrientationChange',
+    value: function onDeviceOrientationChange(event) {
+      var x = (event.gamma + 90) / 180 * window.innerWidth;
+      var y = (event.beta - 45 + 90) / 180 * window.innerHeight;
+
+      this.moveEyes(x, y);
+    }
+  }, {
+    key: 'moveEyes',
+    value: function moveEyes(posX, posY) {
+      var mX = posX - $('.globie:first-of-type').offset().left;
+      var mY = posY - $('.globie:first-of-type').offset().top;
+
+      var tl = _snapsvgCjs2.default.angle(this.midl.x, this.midl.y, mX, mY) / 360;
+      var tr = _snapsvgCjs2.default.angle(this.midr.x, this.midr.y, mX, mY) / 360;
+
+      var lpal = this.lefteye.getPointAtLength(tl * this.lenl % this.lenl);
+      var lpalx = lpal.x;
+      var lpaly = lpal.y;
+
+      var rpal = this.righteye.getPointAtLength(tr * this.lenr % this.lenr);
+      var rpalx = rpal.x;
+      var rpaly = rpal.y;
+
+      if (_snapsvgCjs2.default.path.isPointInside(this.lefteye, mX, mY)) {
+        this.leftball.attr({
+          cx: mX,
+          cy: mY
+        });
+      } else {
+        this.leftball.attr({
+          cx: lpalx,
+          cy: lpaly
+        });
+      }
+
+      if (_snapsvgCjs2.default.path.isPointInside(this.righteye, mX, mY)) {
+        this.rightball.attr({
+          cx: mX,
+          cy: mY
+        });
+      } else {
+        this.rightball.attr({
+          cx: rpalx,
+          cy: rpaly
+        });
+      }
+    }
+  }]);
+
+  return Eyes;
+}();
+
+exports.default = Eyes;
+
+/***/ }),
+/* 8 */,
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 /**
  * Pollyfill for requestAnimationFrame and cancelAnimationFrame
  */
@@ -1415,10 +1574,23 @@ window.cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAni
 };
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 11 */,
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = __webpack_require__.p + "ead8daa303a24f922b76b6639107fa29.js";
 
 /***/ })
 /******/ ]);

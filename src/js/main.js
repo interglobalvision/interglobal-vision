@@ -8,6 +8,7 @@ import StickyContact from './StickyContact';
 import Projects from './Projects';
 import DropShadow from './DropShadow';
 import Globie from './Globie';
+import Eyes from './Eyes';
 import './animationFrame';
 
 // Import style
@@ -17,8 +18,8 @@ class Site {
   constructor() {
     this.mobileThreshold = 601;
 
-    this.onResize = this.onResize.bind(this)
-    this.onReady = this.onReady.bind(this)
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
 
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
@@ -47,3 +48,4 @@ const IGVStickyContact = new StickyContact();
 const IGVProjects = new Projects();
 const IGVDropShadow = new DropShadow();
 const IGVGlobie = new Globie();
+const IGVEyes = new Eyes();
