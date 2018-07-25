@@ -1506,8 +1506,19 @@ var Eyes = function () {
   }, {
     key: 'moveEyes',
     value: function moveEyes(posX, posY) {
-      var mouseRelativeX = posX - $('#footer .globie .left-eye').offset().left - $('footer .globie .left-eye').width();
-      var mouseRelativeY = posY - $('#footer .globie .left-eye').offset().top - $('#footer .globie .left-eye').height();
+
+      var mouseRelativeX = posX - ($('#footer .globie .left-eye').offset().left - $('footer .globie .left-eye').width());
+      var mouseRelativeY = posY - ($('#footer .globie .left-eye').offset().top - $('#footer .globie .left-eye').height() / 2);
+
+      $('#red-box').css({
+        top: posY,
+        left: posX
+      });
+
+      $('#blue-box').css({
+        top: mouseRelativeY,
+        left: mouseRelativeX
+      });
 
       var leftAngle = _snapSvg2.default.angle(this.leftCenter.x, this.leftCenter.y, mouseRelativeX, mouseRelativeY) / 360;
       var rightAngle = _snapSvg2.default.angle(this.rightCenter.x, this.rightCenter.y, mouseRelativeX, mouseRelativeY) / 360;
