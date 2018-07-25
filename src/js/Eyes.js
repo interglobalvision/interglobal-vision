@@ -25,13 +25,12 @@ class Eyes {
     const globie = Snap('#footer .globie');
 
     // select eyes
-    this.leftEye = globie.select('.left-eye');
-    this.rightEye = globie.select('.right-eye');
+    this.leftEye = globie.select('.left-pupil-container');
+    this.rightEye = globie.select('.right-pupil-container');
 
     // select pupils
     this.leftPupil = globie.select('.left-pupil');
     this.rightPupil = globie.select('.right-pupil');
-    console.log(this.leftPupil);
 
     // get lengths of eye paths
     this.leftLength = Snap.path.getTotalLength(this.leftEye);
@@ -91,29 +90,15 @@ class Eyes {
 
     const rightPointAtLength = this.rightEye.getPointAtLength((rightAngle * this.rightLength) % this.rightLength);
 
-    if (Snap.path.isPointInside(this.leftEye, targetX, targetY)) {
-      this.leftPupil.attr({
-        cx: targetX,
-        cy: targetY,
-      });
-    } else {
-      this.leftPupil.attr({
-        cx: leftPointAtLength.x,
-        cy: leftPointAtLength.y,
-      });
-    }
+    this.leftPupil.attr({
+      cx: leftPointAtLength.x,
+      cy: leftPointAtLength.y,
+    });
 
-    if (Snap.path.isPointInside(this.rightEye, targetX, targetY)) {
-      this.rightPupil.attr({
-        cx: targetX,
-        cy: targetY,
-      });
-    } else {
-      this.rightPupil.attr({
-        cx: rightPointAtLength.x,
-        cy: rightPointAtLength.y,
-      });
-    }
+    this.rightPupil.attr({
+      cx: rightPointAtLength.x,
+      cy: rightPointAtLength.y,
+    });
 
   }
 }
