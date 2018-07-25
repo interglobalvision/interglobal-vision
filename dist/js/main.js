@@ -1451,20 +1451,26 @@ var Eyes = function () {
       var globie = (0, _snapSvg2.default)('#footer .globie');
 
       // select eyes
-      this.leftEye = globie.select('.left-pupil-container');
-      this.rightEye = globie.select('.right-pupil-container');
+      this.leftEye = globie.select('.left-eye');
+      this.rightEye = globie.select('.right-eye');
 
       // select pupils
       this.leftPupil = globie.select('.left-pupil');
       this.rightPupil = globie.select('.right-pupil');
 
+      // select containers
+      this.leftContainer = globie.select('.left-pupil-container');
+      this.rightContainer = globie.select('.right-pupil-container');
+      this.leftContainer.attr('fill', 'red');
+      this.rightContainer.attr('fill', 'blue');
+
       // get lengths of eye paths
-      this.leftLength = _snapSvg2.default.path.getTotalLength(this.leftEye);
-      this.rightLength = _snapSvg2.default.path.getTotalLength(this.rightEye);
+      this.leftLength = _snapSvg2.default.path.getTotalLength(this.leftContainer);
+      this.rightLength = _snapSvg2.default.path.getTotalLength(this.rightContainer);
 
       // get eye bounding boxes
-      this.leftBBox = _snapSvg2.default.path.getBBox(this.leftEye);
-      this.rightBBox = _snapSvg2.default.path.getBBox(this.rightEye);
+      this.leftBBox = _snapSvg2.default.path.getBBox(this.leftContainer);
+      this.rightBBox = _snapSvg2.default.path.getBBox(this.rightContainer);
 
       // find center point of left eye
       this.leftCenter = {
@@ -1510,22 +1516,45 @@ var Eyes = function () {
   }, {
     key: 'moveEyes',
     value: function moveEyes(targetX, targetY) {
+      // get angles of cursor from eye centerpoints
       var leftAngle = (_snapSvg2.default.angle(this.leftCenter.x, this.leftCenter.y, targetX, targetY) + 90) / 360;
       var rightAngle = (_snapSvg2.default.angle(this.rightCenter.x, this.rightCenter.y, targetX, targetY) + 90) / 360;
 
-      var leftPointAtLength = this.leftEye.getPointAtLength(leftAngle * this.leftLength % this.leftLength);
+      // get point of cursor angle from left eye centerpoint
+      var leftPointAtLength = this.leftContainer.getPointAtLength(leftAngle * this.leftLength % this.leftLength);
 
-      var rightPointAtLength = this.rightEye.getPointAtLength(rightAngle * this.rightLength % this.rightLength);
+      // get point of cursor angle from left eye centerpoint
+      var rightPointAtLength = this.rightContainer.getPointAtLength(rightAngle * this.rightLength % this.rightLength);
 
-      this.leftPupil.attr({
-        cx: leftPointAtLength.x,
-        cy: leftPointAtLength.y
-      });
+      if (_snapSvg2.default.path.isPointInsideBBox(this.leftBBox, targetX, targetY)) {
+        // cursor is inside left pupil container bounding box
+        // position left pupil center at cursor
+        this.leftPupil.attr({
+          cx: targetX,
+          cy: targetY
+        });
+      } else {
+        // position left pupil at cursor angle from left eye centerpoint
+        this.leftPupil.attr({
+          cx: leftPointAtLength.x,
+          cy: leftPointAtLength.y
+        });
+      }
 
-      this.rightPupil.attr({
-        cx: rightPointAtLength.x,
-        cy: rightPointAtLength.y
-      });
+      if (_snapSvg2.default.path.isPointInsideBBox(this.rightBBox, targetX, targetY)) {
+        // cursor is inside right pupil container bounding box
+        // position right pupil center at cursor
+        this.rightPupil.attr({
+          cx: targetX,
+          cy: targetY
+        });
+      } else {
+        // position right pupil at cursor angle from right eye centerpoint
+        this.rightPupil.attr({
+          cx: rightPointAtLength.x,
+          cy: rightPointAtLength.y
+        });
+      }
     }
   }]);
 
