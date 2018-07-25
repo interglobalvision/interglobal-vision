@@ -35,8 +35,6 @@ class Eyes {
     // select containers
     this.leftContainer = globie.select('.left-pupil-container');
     this.rightContainer = globie.select('.right-pupil-container');
-    this.leftContainer.attr('fill', 'red')
-    this.rightContainer.attr('fill', 'blue')
 
     // get lengths of eye paths
     this.leftLength = Snap.path.getTotalLength(this.leftContainer);
