@@ -31,6 +31,7 @@ class Eyes {
     // select pupils
     this.leftPupil = globie.select('.left-pupil');
     this.rightPupil = globie.select('.right-pupil');
+    console.log(this.leftPupil);
 
     // get lengths of eye paths
     this.leftLength = Snap.path.getTotalLength(this.leftEye);
@@ -58,7 +59,11 @@ class Eyes {
     if ( window.innerWidth > 720 ) {
       // Eyeballs follow cursor
       $(document).mousemove(function (e) {
-        this.moveEyes(e.clientX, e.clientY);
+        // get cursor position relative to Globie position
+        const targetX = e.clientX - $('#footer .globie').offset().left;
+        const targetY = e.clientY - ($('#footer .globie').offset().top - $(document).scrollTop());
+
+        this.moveEyes(targetX, targetY);
       }.bind(this));
     } else {
       if(window.DeviceOrientationEvent){
@@ -78,32 +83,18 @@ class Eyes {
 
   }
 
-  moveEyes(posX, posY) {
-
-    const mouseRelativeX = posX - ($('#footer .globie .left-eye').offset().left - $('footer .globie .left-eye').width());
-    const mouseRelativeY = posY - ($('#footer .globie .left-eye').offset().top - ($('#footer .globie .left-eye').height() / 2));
-
-    $('#red-box').css({
-      top: posY,
-      left: posX,
-    })
-
-    $('#blue-box').css({
-      top: mouseRelativeY,
-      left: mouseRelativeX,
-    })
-
-    const leftAngle = Snap.angle(this.leftCenter.x, this.leftCenter.y, mouseRelativeX, mouseRelativeY) / 360;
-    const rightAngle = Snap.angle(this.rightCenter.x, this.rightCenter.y, mouseRelativeX, mouseRelativeY) / 360;
+  moveEyes(targetX, targetY) {
+    const leftAngle = (Snap.angle(this.leftCenter.x, this.leftCenter.y, targetX, targetY) + 90) / 360;
+    const rightAngle = (Snap.angle(this.rightCenter.x, this.rightCenter.y, targetX, targetY) + 90) / 360;
 
     const leftPointAtLength = this.leftEye.getPointAtLength((leftAngle * this.leftLength) % this.leftLength);
 
     const rightPointAtLength = this.rightEye.getPointAtLength((rightAngle * this.rightLength) % this.rightLength);
 
-    if (Snap.path.isPointInside(this.leftEye, mouseRelativeX, mouseRelativeY)) {
+    if (Snap.path.isPointInside(this.leftEye, targetX, targetY)) {
       this.leftPupil.attr({
-        cx: mouseRelativeX,
-        cy: mouseRelativeY,
+        cx: targetX,
+        cy: targetY,
       });
     } else {
       this.leftPupil.attr({
@@ -112,10 +103,10 @@ class Eyes {
       });
     }
 
-    if (Snap.path.isPointInside(this.rightEye, mouseRelativeX, mouseRelativeY)) {
+    if (Snap.path.isPointInside(this.rightEye, targetX, targetY)) {
       this.rightPupil.attr({
-        cx: mouseRelativeX,
-        cy: mouseRelativeY,
+        cx: targetX,
+        cy: targetY,
       });
     } else {
       this.rightPupil.attr({

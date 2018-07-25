@@ -1457,6 +1457,7 @@ var Eyes = function () {
       // select pupils
       this.leftPupil = globie.select('.left-pupil');
       this.rightPupil = globie.select('.right-pupil');
+      console.log(this.leftPupil);
 
       // get lengths of eye paths
       this.leftLength = _snapSvg2.default.path.getTotalLength(this.leftEye);
@@ -1485,7 +1486,11 @@ var Eyes = function () {
       if (window.innerWidth > 720) {
         // Eyeballs follow cursor
         $(document).mousemove(function (e) {
-          this.moveEyes(e.clientX, e.clientY);
+          // get cursor position relative to Globie position
+          var targetX = e.clientX - $('#footer .globie').offset().left;
+          var targetY = e.clientY - ($('#footer .globie').offset().top - $(document).scrollTop());
+
+          this.moveEyes(targetX, targetY);
         }.bind(this));
       } else {
         if (window.DeviceOrientationEvent) {
@@ -1505,32 +1510,18 @@ var Eyes = function () {
     }
   }, {
     key: 'moveEyes',
-    value: function moveEyes(posX, posY) {
-
-      var mouseRelativeX = posX - ($('#footer .globie .left-eye').offset().left - $('footer .globie .left-eye').width());
-      var mouseRelativeY = posY - ($('#footer .globie .left-eye').offset().top - $('#footer .globie .left-eye').height() / 2);
-
-      $('#red-box').css({
-        top: posY,
-        left: posX
-      });
-
-      $('#blue-box').css({
-        top: mouseRelativeY,
-        left: mouseRelativeX
-      });
-
-      var leftAngle = _snapSvg2.default.angle(this.leftCenter.x, this.leftCenter.y, mouseRelativeX, mouseRelativeY) / 360;
-      var rightAngle = _snapSvg2.default.angle(this.rightCenter.x, this.rightCenter.y, mouseRelativeX, mouseRelativeY) / 360;
+    value: function moveEyes(targetX, targetY) {
+      var leftAngle = (_snapSvg2.default.angle(this.leftCenter.x, this.leftCenter.y, targetX, targetY) + 90) / 360;
+      var rightAngle = (_snapSvg2.default.angle(this.rightCenter.x, this.rightCenter.y, targetX, targetY) + 90) / 360;
 
       var leftPointAtLength = this.leftEye.getPointAtLength(leftAngle * this.leftLength % this.leftLength);
 
       var rightPointAtLength = this.rightEye.getPointAtLength(rightAngle * this.rightLength % this.rightLength);
 
-      if (_snapSvg2.default.path.isPointInside(this.leftEye, mouseRelativeX, mouseRelativeY)) {
+      if (_snapSvg2.default.path.isPointInside(this.leftEye, targetX, targetY)) {
         this.leftPupil.attr({
-          cx: mouseRelativeX,
-          cy: mouseRelativeY
+          cx: targetX,
+          cy: targetY
         });
       } else {
         this.leftPupil.attr({
@@ -1539,10 +1530,10 @@ var Eyes = function () {
         });
       }
 
-      if (_snapSvg2.default.path.isPointInside(this.rightEye, mouseRelativeX, mouseRelativeY)) {
+      if (_snapSvg2.default.path.isPointInside(this.rightEye, targetX, targetY)) {
         this.rightPupil.attr({
-          cx: mouseRelativeX,
-          cy: mouseRelativeY
+          cx: targetX,
+          cy: targetY
         });
       } else {
         this.rightPupil.attr({
