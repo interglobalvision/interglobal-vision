@@ -24,10 +24,6 @@ class Eyes {
     // assign svg .globie as Snap object
     const globie = Snap('#footer .globie');
 
-    // select eyes
-    this.leftEye = globie.select('.left-eye');
-    this.rightEye = globie.select('.right-eye');
-
     // select pupils
     this.leftPupil = globie.select('.left-pupil');
     this.rightPupil = globie.select('.right-pupil');
