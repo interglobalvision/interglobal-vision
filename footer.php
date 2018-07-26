@@ -16,7 +16,7 @@ $careers = get_post_meta($home_page->ID, '_igv_careers', true);
 
           if (!empty($clients)) {
         ?>
-          <div class="grid-row margin-bottom-micro">
+          <div class="grid-row">
             <div class="grid-item item-s-12 item-l-2 offset-l-2">
               <h4 class="font-size-tiny font-bold">Select Clients</h4>
             </div>
@@ -39,7 +39,7 @@ $careers = get_post_meta($home_page->ID, '_igv_careers', true);
 
           if (!empty($careers)) {
         ?>
-          <div class="grid-row margin-bottom-micro">
+          <div class="grid-row">
             <div class="grid-item item-s-12 item-l-2 offset-l-2">
               <h4 class="font-size-tiny font-bold">Careers</h4>
             </div>

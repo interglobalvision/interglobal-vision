@@ -18,7 +18,7 @@ if (!empty($email)) {
 
 if (!empty($phone)) {
 ?>
-<div class="grid-row margin-bottom-micro contact-item">
+<div class="grid-row contact-item">
   <div class="grid-item item-s-12 item-l-2 offset-l-2">
     <h4 class="font-size-tiny font-bold">Telephone</h4>
   </div>
