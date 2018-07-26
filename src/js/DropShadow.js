@@ -16,16 +16,16 @@ class DropShadow {
     this.imagedata = this.context.createImageData(this.width, this.height);
 
     // Bind ready and resize
-    this.onResize = this.onResize.bind(this)
-    this.onReady = this.onReady.bind(this)
+    this.onResize = this.onResize.bind(this);
+    this.onReady = this.onReady.bind(this);
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
 
     // Bind other function
-    this.animation = this.animation.bind(this)
-    this.handleFrame = this.handleFrame.bind(this)
-    this.startAnimation = this.startAnimation.bind(this)
-    this.stopAnimation = this.stopAnimation.bind(this)
+    this.animation = this.animation.bind(this);
+    this.handleFrame = this.handleFrame.bind(this);
+    this.startAnimation = this.startAnimation.bind(this);
+    this.stopAnimation = this.stopAnimation.bind(this);
 
     // Bind animation to open/close project events
     $(window)
@@ -39,7 +39,7 @@ class DropShadow {
   }
 
   startAnimation() {
-    this.animating = true;;
+    this.animating = true;
     this.handleFrame(0);
   }
 
@@ -61,29 +61,27 @@ class DropShadow {
     }
   }
 
-  animation(offset) {
-    // if( offset % 3 == 0) {
-      // Loop over all of the pixels
-      for (var x = 0; x < this.width; x++) {
-        for (var y = 0; y < this.height; y++) {
-          // Get the pixel index
-          var pixelindex = (y * this.width + x) * 4;
+  animation() {
+    // Loop over all of the pixels
+    for (var x = 0; x < this.width; x++) {
+      for (var y = 0; y < this.height; y++) {
+        // Get the pixel index
+        var pixelindex = (y * this.width + x) * 4;
 
-          // Generate a xor pattern with some random noise
-          var prob = 1.03 / this.width * x;
+        // Generate a xor pattern with some random noise
+        var prob = 1.03 / this.width * x;
 
-          prob = prob * prob;//* (offset * 0.001);
+        prob = prob * prob;//* (offset * 0.001);
 
-          var value = Math.random() >= prob;
+        var value = Math.random() >= prob;
 
-          // Set the pixel data
-          this.imagedata.data[pixelindex] = value ? 255 : 0; // Red
-          this.imagedata.data[pixelindex + 1] = value ? 255 : 0; // Green
-          this.imagedata.data[pixelindex + 2] = value ? 255 : 0; // Blue
-          this.imagedata.data[pixelindex + 3] = value ? 0 : 255; // Alpha
-        }
+        // Set the pixel data
+        this.imagedata.data[pixelindex] = value ? 255 : 0; // Red
+        this.imagedata.data[pixelindex + 1] = value ? 255 : 0; // Green
+        this.imagedata.data[pixelindex + 2] = value ? 255 : 0; // Blue
+        this.imagedata.data[pixelindex + 3] = value ? 0 : 255; // Alpha
       }
-    //}
+    }
   }
 
   onResize() {

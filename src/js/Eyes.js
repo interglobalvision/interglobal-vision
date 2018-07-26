@@ -64,7 +64,7 @@ class Eyes {
 
       // Save current globie into the globies object
       this.globies[index] = currentGlobie;
-    })
+    });
   }
 
   bindMovement() {

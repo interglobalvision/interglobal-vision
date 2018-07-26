@@ -1235,7 +1235,7 @@ var DropShadow = function () {
   _createClass(DropShadow, [{
     key: "startAnimation",
     value: function startAnimation() {
-      this.animating = true;;
+      this.animating = true;
       this.handleFrame(0);
     }
   }, {
@@ -1264,8 +1264,7 @@ var DropShadow = function () {
     }
   }, {
     key: "animation",
-    value: function animation(offset) {
-      // if( offset % 3 == 0) {
+    value: function animation() {
       // Loop over all of the pixels
       for (var x = 0; x < this.width; x++) {
         for (var y = 0; y < this.height; y++) {
@@ -1286,7 +1285,6 @@ var DropShadow = function () {
           this.imagedata.data[pixelindex + 3] = value ? 0 : 255; // Alpha
         }
       }
-      //}
     }
   }, {
     key: "onResize",
