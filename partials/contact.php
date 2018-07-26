@@ -7,7 +7,7 @@ if (!empty($email)) {
 ?>
 <div class="grid-row contact-item">
   <div class="grid-item item-s-12 item-l-2 offset-l-2">
-    <h4 class="font-size-tiny font-bold">Email</h4>
+    <h4 class="font-size-tiny font-bold"><?php _e('[:en]Email[:es]Email[:ko]이메일[:]'); ?></h4>
   </div>
   <div class="grid-item item-s-12 item-l-8">
     <p><a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a></p>
@@ -20,7 +20,7 @@ if (!empty($phone)) {
 ?>
 <div class="grid-row margin-bottom-micro contact-item">
   <div class="grid-item item-s-12 item-l-2 offset-l-2">
-    <h4 class="font-size-tiny font-bold">Telephone</h4>
+    <h4 class="font-size-tiny font-bold"><?php _e('[:en]Telephone[:es]Teléfono[:ko]전화[:]'); ?></h4>
   </div>
   <div class="grid-item item-s-12 item-l-8">
     <p><a href="tel:<?php echo $phone; ?>"><?php echo $phone; ?></a></p>
