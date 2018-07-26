@@ -66,6 +66,9 @@ if ($projects->have_posts()) {
   </div>
 </div>
 
+<div id="blue-box" style="position: fixed; width: 10px; height: 10px; background: transparent; border: 1px solid blue; z-index: 9999"></div>
+<div id="red-box" style="position: fixed; width: 10px; height: 10px; background: transparent; border: 1px solid red; z-index: 9999"></div>
+
 <?php
   get_footer();
 ?>

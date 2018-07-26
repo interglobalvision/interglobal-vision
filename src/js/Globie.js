@@ -45,7 +45,7 @@ class Globie {
     const frame = Math.floor(scrollTop % 24) + 1;
 
     this.$globie.find('g.show').removeClass('show');
-    this.$globie.find('g._Body_' + frame + '_').addClass('show');
+    this.$globie.find('g.body-' + frame + '').addClass('show');
   }
 
   triggerFootTap() {
@@ -58,9 +58,9 @@ class Globie {
   }
 
   tapFoot() {
-    this.$globie.find('path.Right-' + this.footFrame).removeClass('show');
+    this.$globie.find('path.right-' + this.footFrame).removeClass('show');
     this.footFrame = this.footFrame === 8 ? 1 : this.footFrame + 1;
-    this.$globie.find('path.Right-' + this.footFrame).addClass('show');
+    this.$globie.find('path.right-' + this.footFrame).addClass('show');
   }
 }
 
