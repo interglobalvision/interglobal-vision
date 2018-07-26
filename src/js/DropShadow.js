@@ -4,37 +4,40 @@
 class DropShadow {
   constructor() {
     this.mobileThreshold = 601;
-    // Get the canvas
-    this.canvas = document.getElementById("dropshadow");
-    this.context = this.canvas.getContext("2d");
 
-    // Define the image dimensions
-    this.width =  this.canvas.width = this.canvas.scrollWidth;
-    this.height = this.canvas.height = this.canvas.scrollHeight;
+    if (document.getElementById("dropshadow") !== null) {
+      // Get the canvas
+      this.canvas = document.getElementById("dropshadow");
+      this.context = this.canvas.getContext("2d");
 
-    // Create "image"
-    this.imagedata = this.context.createImageData(this.width, this.height);
+      // Define the image dimensions
+      this.width =  this.canvas.width = this.canvas.scrollWidth;
+      this.height = this.canvas.height = this.canvas.scrollHeight;
 
-    // Bind ready and resize
-    this.onResize = this.onResize.bind(this)
-    this.onReady = this.onReady.bind(this)
-    $(window).resize(this.onResize);
-    $(document).ready(this.onReady);
+      // Create "image"
+      this.imagedata = this.context.createImageData(this.width, this.height);
 
-    // Bind other function
-    this.animation = this.animation.bind(this)
-    this.handleFrame = this.handleFrame.bind(this)
-    this.startAnimation = this.startAnimation.bind(this)
-    this.stopAnimation = this.stopAnimation.bind(this)
+      // Bind ready and resize
+      this.onResize = this.onResize.bind(this)
+      this.onReady = this.onReady.bind(this)
+      $(window).resize(this.onResize);
+      $(document).ready(this.onReady);
 
-    // Bind animation to open/close project events
-    $(window)
-      .on('projectOpen', this.startAnimation)
-      .on('projectClose', this.stopAnimation);
+      // Bind other function
+      this.animation = this.animation.bind(this)
+      this.handleFrame = this.handleFrame.bind(this)
+      this.startAnimation = this.startAnimation.bind(this)
+      this.stopAnimation = this.stopAnimation.bind(this)
+
+      // Bind animation to open/close project events
+      $(window)
+        .on('projectOpen', this.startAnimation)
+        .on('projectClose', this.stopAnimation);
 
 
-    if ($('body').hasClass('project-open')) {
-      this.startAnimation();
+      if ($('body').hasClass('project-open')) {
+        this.startAnimation();
+      }
     }
   }
 
