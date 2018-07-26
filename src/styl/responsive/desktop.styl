@@ -10,9 +10,17 @@
   $margin-large = ($gutter * 6)
   $margin-extra = ($gutter * 8)
 
+  $font-size-tiny = 14px
+  $font-size-small = 18px
+  $font-size-basic = 24px
+  $font-size-mid = 36px
+  $font-size-large = 64px
+
   grid-maker(false, $gutter, xl)
 
   space-maker($margin-micro, $margin-tiny, $margin-small, $margin-basic, $margin-mid, $margin-large, $margin-extra)
+
+  font-sizes($font-size-basic, false, $font-size-large, $font-size-mid, $font-size-small, $font-size-tiny)
 
   .container
     width: calc('100vw - ' + $gutter)
