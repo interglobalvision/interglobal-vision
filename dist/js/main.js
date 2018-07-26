@@ -1342,6 +1342,8 @@ var Globie = function () {
     this.$globie = $('svg.globie');
     this.footFrame = 1;
     this.footTapRate = 60;
+    this.footTapNumber = this.footTapRate * (9 * 3); // 3 taps
+    this.footTapDelay = 10000; // 10 secs
     this.bodyRotateRate = 30;
   }
 
@@ -1351,8 +1353,8 @@ var Globie = function () {
   }, {
     key: 'onReady',
     value: function onReady() {
-      this.triggerFootTap();
-
+      this.setFootTap();
+      this.bindMouseMove();
       this.bindScroll();
     }
   }, {
@@ -1377,22 +1379,52 @@ var Globie = function () {
       this.$globie.find('g.body-' + frame + '').addClass('show');
     }
   }, {
+    key: 'setFootTap',
+    value: function setFootTap() {
+      var _this = this;
+
+      // trigger foot tapping after tap delay
+      setInterval(function () {
+        _this.triggerFootTap();
+
+        // cancel tapping after number of taps
+        setTimeout(_this.cancelFootTap.bind(_this), _this.footTapNumber);
+      }, this.footTapDelay);
+    }
+  }, {
     key: 'triggerFootTap',
     value: function triggerFootTap() {
-      setTimeout(this.runFootTap, this.footTapRate);
+      this.tapTimeout = setTimeout(this.runFootTap, this.footTapRate);
     }
   }, {
     key: 'runFootTap',
     value: function runFootTap() {
-      window.requestAnimationFrame(this.triggerFootTap);
+      this.tapRequest = window.requestAnimationFrame(this.triggerFootTap);
       this.tapFoot();
     }
   }, {
     key: 'tapFoot',
     value: function tapFoot() {
+      // hide current foot frame and show next
       this.$globie.find('path.right-' + this.footFrame).removeClass('show');
       this.footFrame = this.footFrame === 8 ? 1 : this.footFrame + 1;
       this.$globie.find('path.right-' + this.footFrame).addClass('show');
+    }
+  }, {
+    key: 'cancelFootTap',
+    value: function cancelFootTap() {
+      clearTimeout(this.tapTimeout);
+      window.cancelAnimationFrame(this.tapRequest);
+
+      // reset foot to first frame
+      this.$globie.find('path.right-' + this.footFrame).removeClass('show');
+      this.footFrame = 1;
+      this.$globie.find('path.right-1').addClass('show');
+    }
+  }, {
+    key: 'bindMouseMove',
+    value: function bindMouseMove() {
+      window.addEventListener('mousemove', this.cancelFootTap.bind(this));
     }
   }]);
 
