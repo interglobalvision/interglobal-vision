@@ -4,7 +4,11 @@ import Snap from 'imports-loader?this=>window,fix=>module.exports=0!snapsvg/dist
 
 class Eyes {
   constructor() {
+    // Object to hold the globies
+    this.globies = [];
+
     this.onReady = this.onReady.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
 
     $(window).resize(this.onResize);
 
@@ -21,49 +25,53 @@ class Eyes {
   }
 
   setupSvg() {
-    // assign svg .globie as Snap object
-    const globie = Snap('#footer .globie');
+    this.$globies = $('.globie');
 
-    // select pupils
-    this.leftPupil = globie.select('.left-pupil');
-    this.rightPupil = globie.select('.right-pupil');
+    this.$globies.each( (index, element) => {
+      // assign svg .globie as Snap object
+      const globie = Snap(element);
 
-    // select containers
-    this.leftContainer = globie.select('.left-pupil-container');
-    this.rightContainer = globie.select('.right-pupil-container');
+      // Temporary object to hold current globie props
+      const currentGlobie = {};
 
-    // get lengths of eye paths
-    this.leftLength = Snap.path.getTotalLength(this.leftContainer);
-    this.rightLength = Snap.path.getTotalLength(this.rightContainer);
+      // select pupils
+      currentGlobie.leftPupil = globie.select('.left-pupil');
+      currentGlobie.rightPupil = globie.select('.right-pupil');
 
-    // get eye bounding boxes
-    this.leftBBox = Snap.path.getBBox(this.leftContainer);
-    this.rightBBox = Snap.path.getBBox(this.rightContainer);
+      // select containers
+      currentGlobie.leftContainer = globie.select('.left-pupil-container');
+      currentGlobie.rightContainer = globie.select('.right-pupil-container');
 
-    // find center point of left eye
-    this.leftCenter = {
-      x: this.leftBBox.x + (this.leftBBox.width / 2),
-      y: this.leftBBox.y + (this.leftBBox.height / 2),
-    };
+      // get lengths of eye paths
+      currentGlobie.leftLength = Snap.path.getTotalLength(currentGlobie.leftContainer);
+      currentGlobie.rightLength = Snap.path.getTotalLength(currentGlobie.rightContainer);
 
-    // find center point of right eye
-    this.rightCenter = {
-      x: this.rightBBox.x + (this.rightBBox.width / 2),
-      y: this.rightBBox.y + (this.rightBBox.height / 2),
-    };
+      // get eye bounding boxes
+      currentGlobie.leftBBox = Snap.path.getBBox(currentGlobie.leftContainer);
+      currentGlobie.rightBBox = Snap.path.getBBox(currentGlobie.rightContainer);
+
+      // find center point of left eye
+      currentGlobie.leftCenter = {
+        x: currentGlobie.leftBBox.x + (currentGlobie.leftBBox.width / 2),
+        y: currentGlobie.leftBBox.y + (currentGlobie.leftBBox.height / 2),
+      };
+
+      // find center point of right eye
+      currentGlobie.rightCenter = {
+        x: currentGlobie.rightBBox.x + (currentGlobie.rightBBox.width / 2),
+        y: currentGlobie.rightBBox.y + (currentGlobie.rightBBox.height / 2),
+      };
+
+      // Save current globie into the globies object
+      this.globies[index] = currentGlobie;
+    })
   }
 
   bindMovement() {
     // mobile width check to be made does hover exist check
     if ( window.innerWidth > 720 ) {
       // Eyeballs follow cursor
-      $(document).mousemove(function (e) {
-        // get cursor position relative to Globie position
-        const targetX = e.clientX - $('#footer .globie').offset().left;
-        const targetY = e.clientY - ($('#footer .globie').offset().top - $(document).scrollTop());
-
-        this.moveEyes(targetX, targetY);
-      }.bind(this));
+      $(document).mousemove(this.onMouseMove);
     } else {
       if(window.DeviceOrientationEvent){
         window.addEventListener('deviceorientation', function(e) {
@@ -74,6 +82,17 @@ class Eyes {
 
   }
 
+  onMouseMove(event) {
+
+    this.$globies.each( (index, element) => {
+      // get cursor position relative to Globie position
+      const targetX = event.clientX - $(element).offset().left;
+      const targetY = event.clientY - ($(element).offset().top - $(document).scrollTop());
+
+      this.moveEyes(index, targetX, targetY);
+    });
+  }
+
   onDeviceOrientationChange(event) {
     var x = (event.gamma + 90) / 180 * window.innerWidth;
     var y = (event.beta - 45 + 90) / 180 * window.innerHeight;
@@ -82,42 +101,44 @@ class Eyes {
 
   }
 
-  moveEyes(targetX, targetY) {
+  moveEyes(index, targetX, targetY) {
+    const globie = this.globies[index];
+
     // get angles of cursor from eye centerpoints
-    const leftAngle = (Snap.angle(this.leftCenter.x, this.leftCenter.y, targetX, targetY) + 90) / 360;
-    const rightAngle = (Snap.angle(this.rightCenter.x, this.rightCenter.y, targetX, targetY) + 90) / 360;
+    const leftAngle = (Snap.angle(globie.leftCenter.x, globie.leftCenter.y, targetX, targetY) + 90) / 360;
+    const rightAngle = (Snap.angle(globie.rightCenter.x, globie.rightCenter.y, targetX, targetY) + 90) / 360;
 
     // get point of cursor angle from left eye centerpoint
-    const leftPointAtLength = this.leftContainer.getPointAtLength((leftAngle * this.leftLength) % this.leftLength);
+    const leftPointAtLength = globie.leftContainer.getPointAtLength((leftAngle * globie.leftLength) % globie.leftLength);
 
     // get point of cursor angle from left eye centerpoint
-    const rightPointAtLength = this.rightContainer.getPointAtLength((rightAngle * this.rightLength) % this.rightLength);
+    const rightPointAtLength = globie.rightContainer.getPointAtLength((rightAngle * globie.rightLength) % globie.rightLength);
 
-    if (Snap.path.isPointInsideBBox(this.leftBBox, targetX, targetY)) {
+    if (Snap.path.isPointInsideBBox(globie.leftBBox, targetX, targetY)) {
       // cursor is inside left pupil container bounding box
       // position left pupil center at cursor
-      this.leftPupil.attr({
+      globie.leftPupil.attr({
         cx: targetX,
         cy: targetY,
       });
     } else {
       // position left pupil at cursor angle from left eye centerpoint
-      this.leftPupil.attr({
+      globie.leftPupil.attr({
         cx: leftPointAtLength.x,
         cy: leftPointAtLength.y,
       });
     }
 
-    if (Snap.path.isPointInsideBBox(this.rightBBox, targetX, targetY)) {
+    if (Snap.path.isPointInsideBBox(globie.rightBBox, targetX, targetY)) {
       // cursor is inside right pupil container bounding box
       // position right pupil center at cursor
-      this.rightPupil.attr({
+      globie.rightPupil.attr({
         cx: targetX,
         cy: targetY,
       });
     } else {
       // position right pupil at cursor angle from right eye centerpoint
-      this.rightPupil.attr({
+      globie.rightPupil.attr({
         cx: rightPointAtLength.x,
         cy: rightPointAtLength.y,
       });
