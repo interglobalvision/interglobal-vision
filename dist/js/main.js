@@ -1419,11 +1419,7 @@ var Globie = function () {
   }, {
     key: 'bindMouseMove',
     value: function bindMouseMove() {
-      var _this2 = this;
-
-      window.addEventListener('mousemove', function () {
-        _this2.cancelFootTap();
-      });
+      window.addEventListener('mousemove', this.cancelFootTap.bind(this));
     }
   }]);
 

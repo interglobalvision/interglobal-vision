@@ -82,9 +82,7 @@ class Globie {
   }
 
   bindMouseMove() {
-    window.addEventListener('mousemove', () => {
-      this.cancelFootTap();
-    });
+    window.addEventListener('mousemove', this.cancelFootTap.bind(this));
   }
 }
 
