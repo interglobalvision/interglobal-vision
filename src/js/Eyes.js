@@ -94,8 +94,8 @@ class Eyes {
   }
 
   onDeviceOrientationChange(event) {
-    var x = (event.gamma + 90) / 180 * window.innerWidth;
-    var y = (event.beta - 45 + 90) / 180 * window.innerHeight;
+    const x = (event.gamma + 90) / 180 * window.innerWidth;
+    const y = (event.beta - 45 + 90) / 180 * window.innerHeight;
 
     this.moveEyes(x, y);
 

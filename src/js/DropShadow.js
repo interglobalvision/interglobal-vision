@@ -63,17 +63,17 @@ class DropShadow {
 
   animation() {
     // Loop over all of the pixels
-    for (var x = 0; x < this.width; x++) {
-      for (var y = 0; y < this.height; y++) {
+    for (let x = 0; x < this.width; x++) {
+      for (let y = 0; y < this.height; y++) {
         // Get the pixel index
-        var pixelindex = (y * this.width + x) * 4;
+        const pixelindex = (y * this.width + x) * 4;
 
         // Generate a xor pattern with some random noise
-        var prob = 1.03 / this.width * x;
+        let prob = 1.03 / this.width * x;
 
         prob = prob * prob;//* (offset * 0.001);
 
-        var value = Math.random() >= prob;
+        const value = Math.random() >= prob;
 
         // Set the pixel data
         this.imagedata.data[pixelindex] = value ? 255 : 0; // Red
