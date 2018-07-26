@@ -38,7 +38,7 @@ class Globie {
   }
 
   handleScroll(event) {
-    this.scrollTop = $(event.target).scrollTop()
+    this.scrollTop = $(event.target).scrollTop();
     this.rotateBody();
   }
 
