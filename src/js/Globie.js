@@ -17,6 +17,8 @@ class Globie {
     this.$globie = $('svg.globie');
     this.footFrame = 1;
     this.footTapRate = 60;
+    this.footTapNumber = this.footTapRate * (9 * 3); // 3 taps
+    this.footTapDelay = 10000; // 10 secs
     this.bodyRotateRate = 30;
   }
 
@@ -25,8 +27,8 @@ class Globie {
   }
 
   onReady() {
-    this.triggerFootTap();
-
+    this.setFootTap();
+    this.bindMouseMove();
     this.bindScroll();
   }
 
@@ -48,12 +50,20 @@ class Globie {
     this.$globie.find('g.body-' + frame + '').addClass('show');
   }
 
+  setFootTap() {
+    setInterval(() => {
+      this.triggerFootTap();
+
+      setTimeout(this.cancelFootTap.bind(this), this.footTapNumber);
+    }, this.footTapDelay);
+  }
+
   triggerFootTap() {
-    setTimeout(this.runFootTap, this.footTapRate);
+    this.tapTimeout = setTimeout(this.runFootTap, this.footTapRate);
   }
 
   runFootTap() {
-    window.requestAnimationFrame(this.triggerFootTap);
+    this.tapRequest = window.requestAnimationFrame(this.triggerFootTap);
     this.tapFoot();
   }
 
@@ -61,6 +71,20 @@ class Globie {
     this.$globie.find('path.right-' + this.footFrame).removeClass('show');
     this.footFrame = this.footFrame === 8 ? 1 : this.footFrame + 1;
     this.$globie.find('path.right-' + this.footFrame).addClass('show');
+  }
+
+  cancelFootTap() {
+    clearTimeout(this.tapTimeout);
+    window.cancelAnimationFrame(this.tapRequest);
+    this.$globie.find('path.right-' + this.footFrame).removeClass('show');
+    this.footFrame = 1;
+    this.$globie.find('path.right-1').addClass('show');
+  }
+
+  bindMouseMove() {
+    window.addEventListener('mousemove', () => {
+      this.cancelFootTap();
+    });
   }
 }
 

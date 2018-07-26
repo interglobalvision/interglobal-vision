@@ -1342,6 +1342,8 @@ var Globie = function () {
     this.$globie = $('svg.globie');
     this.footFrame = 1;
     this.footTapRate = 60;
+    this.footTapNumber = this.footTapRate * (9 * 3); // 3 taps
+    this.footTapDelay = 10000; // 10 secs
     this.bodyRotateRate = 30;
   }
 
@@ -1351,8 +1353,8 @@ var Globie = function () {
   }, {
     key: 'onReady',
     value: function onReady() {
-      this.triggerFootTap();
-
+      this.setFootTap();
+      this.bindMouseMove();
       this.bindScroll();
     }
   }, {
@@ -1377,14 +1379,25 @@ var Globie = function () {
       this.$globie.find('g.body-' + frame + '').addClass('show');
     }
   }, {
+    key: 'setFootTap',
+    value: function setFootTap() {
+      var _this = this;
+
+      setInterval(function () {
+        _this.triggerFootTap();
+
+        setTimeout(_this.cancelFootTap.bind(_this), _this.footTapNumber);
+      }, this.footTapDelay);
+    }
+  }, {
     key: 'triggerFootTap',
     value: function triggerFootTap() {
-      setTimeout(this.runFootTap, this.footTapRate);
+      this.tapTimeout = setTimeout(this.runFootTap, this.footTapRate);
     }
   }, {
     key: 'runFootTap',
     value: function runFootTap() {
-      window.requestAnimationFrame(this.triggerFootTap);
+      this.tapRequest = window.requestAnimationFrame(this.triggerFootTap);
       this.tapFoot();
     }
   }, {
@@ -1393,6 +1406,24 @@ var Globie = function () {
       this.$globie.find('path.right-' + this.footFrame).removeClass('show');
       this.footFrame = this.footFrame === 8 ? 1 : this.footFrame + 1;
       this.$globie.find('path.right-' + this.footFrame).addClass('show');
+    }
+  }, {
+    key: 'cancelFootTap',
+    value: function cancelFootTap() {
+      clearTimeout(this.tapTimeout);
+      window.cancelAnimationFrame(this.tapRequest);
+      this.$globie.find('path.right-' + this.footFrame).removeClass('show');
+      this.footFrame = 1;
+      this.$globie.find('path.right-1').addClass('show');
+    }
+  }, {
+    key: 'bindMouseMove',
+    value: function bindMouseMove() {
+      var _this2 = this;
+
+      window.addEventListener('mousemove', function () {
+        _this2.cancelFootTap();
+      });
     }
   }]);
 
