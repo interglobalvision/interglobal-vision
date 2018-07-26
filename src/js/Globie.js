@@ -51,9 +51,11 @@ class Globie {
   }
 
   setFootTap() {
+    // trigger foot tapping after tap delay
     setInterval(() => {
       this.triggerFootTap();
 
+      // cancel tapping after number of taps
       setTimeout(this.cancelFootTap.bind(this), this.footTapNumber);
     }, this.footTapDelay);
   }
@@ -68,6 +70,7 @@ class Globie {
   }
 
   tapFoot() {
+    // hide current foot frame and show next
     this.$globie.find('path.right-' + this.footFrame).removeClass('show');
     this.footFrame = this.footFrame === 8 ? 1 : this.footFrame + 1;
     this.$globie.find('path.right-' + this.footFrame).addClass('show');
@@ -76,6 +79,8 @@ class Globie {
   cancelFootTap() {
     clearTimeout(this.tapTimeout);
     window.cancelAnimationFrame(this.tapRequest);
+
+    // reset foot to first frame
     this.$globie.find('path.right-' + this.footFrame).removeClass('show');
     this.footFrame = 1;
     this.$globie.find('path.right-1').addClass('show');
