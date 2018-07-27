@@ -2,10 +2,11 @@
 if (have_posts()) {
   while (have_posts()) {
     the_post();
+    $next_project = get_previous_post();
     $project_doc = get_post_meta( get_the_ID(), '_igv_project_documentation', true );
 ?>
 
-        <article <?php post_class('project-content'); ?> id="project-<?php the_ID(); ?>">
+        <article <?php post_class('project-content'); ?> id="project-<?php the_ID(); ?>" >
           <header class="project-header grid-row align-items-center padding-top-small">
             <div class="arrow"></div>
             <h1 class="project-title font-size-basic font-bold flex-grow"><?php the_title(); ?></h1>
@@ -76,7 +77,9 @@ if (have_posts()) {
     }
 ?>
 
+          <span class="next-project" data-next-url="<?php echo esc_url( get_permalink( $next_project->ID ) ); ?>" data-next-id="<?php echo $next_project->ID; ?>"></span>
         </article>
+
 
 <?php
   }

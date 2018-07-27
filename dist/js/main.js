@@ -979,10 +979,12 @@ var Projects = function () {
     this.handleProjectListTitleClick = this.handleProjectListTitleClick.bind(this);
     this.handleProjectCloseOverlayClick = this.handleProjectCloseOverlayClick.bind(this);
     this.handleSiteTitleClick = this.handleSiteTitleClick.bind(this);
+    this.handleAjaxSuccess = this.handleAjaxSuccess.bind(this);
     this.stickTitle = this.stickTitle.bind(this);
     this.unstickTitle = this.unstickTitle.bind(this);
     this.stickGlobie = this.stickGlobie.bind(this);
     this.unstickGlobie = this.unstickGlobie.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
 
@@ -1007,6 +1009,8 @@ var Projects = function () {
   }, {
     key: 'onReady',
     value: function onReady() {
+      this.$window = $(window);
+
       this.bindProjectList();
       this.bindHomeClick();
 
@@ -1016,6 +1020,8 @@ var Projects = function () {
         // disable scrolling on home content
         $('.project-content').addClass('active');
         $('html').css('overflow', 'hidden');
+
+        this.bindNextProject();
       }
     }
   }, {
@@ -1028,15 +1034,18 @@ var Projects = function () {
     value: function handleProjectListTitleClick(e) {
       e.preventDefault();
 
-      this.getProject(e.target);
+      var url = e.target.href;
+      var id = e.target.dataset.id;
+
+      this.getProject(url, id, true);
     }
   }, {
     key: 'getProject',
-    value: function getProject(target) {
+    value: function getProject(url) {
       var _this = this;
 
-      var projectUrl = target.href;
-      var projectId = target.dataset.id;
+      var id = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+      var pushHistory = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
       if (!this.$body.hasClass('project-open')) {
         this.openProjectPanel();
@@ -1044,16 +1053,20 @@ var Projects = function () {
 
       $.ajax({
         type: 'GET',
-        url: projectUrl,
+        url: url,
         dataType: 'html',
         success: function success(data) {
-          return _this.handleAjaxSuccess(data, projectUrl, projectId);
+          return _this.handleAjaxSuccess(data, url, id, pushHistory);
         }
       });
     }
   }, {
     key: 'handleAjaxSuccess',
     value: function handleAjaxSuccess(data, projectUrl, projectId) {
+      var pushHistory = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+
+      console.log('AJAX SUCCESS');
+
       var $parsed = $('<div>').append($.parseHTML(data));
       var project = $parsed.find('#project-' + projectId);
       var title = $parsed.find('title').text();
@@ -1066,7 +1079,9 @@ var Projects = function () {
         $(project).addClass('active');
       }
 
-      this.updateHistory(title, projectUrl);
+      this.bindNextProject();
+
+      if (pushHistory) this.updateHistory(title, projectUrl);
     }
   }, {
     key: 'updateHistory',
@@ -1169,6 +1184,48 @@ var Projects = function () {
         this.$body.removeClass('globie-stuck');
       } else {
         this.globieSwapRequest = window.requestAnimationFrame(this.unstickGlobie);
+      }
+    }
+  }, {
+    key: 'bindScroll',
+    value: function bindScroll() {
+      console.log('BIND SCROLL');
+      $('#project-wrapper').on('scroll.projectScroll', this.handleScroll);
+    }
+  }, {
+    key: 'unbindScroll',
+    value: function unbindScroll() {
+      console.log('UNBIND SCROLL');
+      $('#project-wrapper').off('scroll.projectScroll', this.handleScroll);
+    }
+  }, {
+    key: 'handleScroll',
+    value: function handleScroll() {
+      if (this.$nextProject.length) {
+        if (this.$nextProject.offset().top - this.$window.height() * 1.2 <= 0) {
+          // unbind scroll to avoid mutiple loads
+
+          var _$nextProject$data = this.$nextProject.data(),
+              nextId = _$nextProject$data.nextId,
+              nextUrl = _$nextProject$data.nextUrl;
+
+          this.getProject(nextUrl, nextId, false);
+
+          console.log('LOAD NEW PROJECT', nextUrl);
+
+          // Reset next project
+          this.$nextProject.remove();
+          this.$nextProject = [];
+        }
+      }
+    }
+  }, {
+    key: 'bindNextProject',
+    value: function bindNextProject() {
+      if ($('.next-project').length) {
+        this.$nextProject = $('.next-project');
+        console.log('NEW NEXT PROJECT', this.$nextProject[0]);
+        this.bindScroll();
       }
     }
   }]);

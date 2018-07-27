@@ -7,10 +7,12 @@ class Projects {
     this.handleProjectListTitleClick = this.handleProjectListTitleClick.bind(this);
     this.handleProjectCloseOverlayClick = this.handleProjectCloseOverlayClick.bind(this);
     this.handleSiteTitleClick = this.handleSiteTitleClick.bind(this);
+    this.handleAjaxSuccess = this.handleAjaxSuccess.bind(this);
     this.stickTitle = this.stickTitle.bind(this);
     this.unstickTitle = this.unstickTitle.bind(this);
     this.stickGlobie = this.stickGlobie.bind(this);
     this.unstickGlobie = this.unstickGlobie.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
 
@@ -34,6 +36,8 @@ class Projects {
   }
 
   onReady() {
+    this.$window = $(window);
+
     this.bindProjectList();
     this.bindHomeClick();
 
@@ -43,6 +47,8 @@ class Projects {
       // disable scrolling on home content
       $('.project-content').addClass('active');
       $('html').css('overflow', 'hidden');
+
+      this.bindNextProject();
     }
   }
 
@@ -53,26 +59,28 @@ class Projects {
   handleProjectListTitleClick(e) {
     e.preventDefault();
 
-    this.getProject(e.target);
+    const url = e.target.href;
+    const id = e.target.dataset.id;
+
+    this.getProject(url, id, true);
   }
 
-  getProject(target) {
-    const projectUrl = target.href;
-    const projectId = target.dataset.id;
-
+  getProject(url, id = '', pushHistory = true) {
     if (!this.$body.hasClass('project-open')) {
       this.openProjectPanel();
     }
 
     $.ajax({
       type: 'GET',
-      url: projectUrl,
+      url,
       dataType: 'html',
-      success: (data) => this.handleAjaxSuccess(data, projectUrl, projectId),
+      success: (data) => this.handleAjaxSuccess(data, url, id, pushHistory),
     });
   }
 
-  handleAjaxSuccess(data, projectUrl, projectId) {
+  handleAjaxSuccess(data, projectUrl, projectId, pushHistory = true) {
+    console.log('AJAX SUCCESS');
+
     const $parsed = $('<div>').append($.parseHTML(data));
     const project = $parsed.find('#project-' + projectId);
     const title = $parsed.find('title').text();
@@ -85,7 +93,10 @@ class Projects {
       $(project).addClass('active');
     }
 
-    this.updateHistory(title, projectUrl);
+    this.bindNextProject();
+
+    if(pushHistory)
+      this.updateHistory(title, projectUrl);
   }
 
   updateHistory(title, url) {
@@ -178,6 +189,41 @@ class Projects {
       this.$body.removeClass('globie-stuck');
     } else {
       this.globieSwapRequest = window.requestAnimationFrame(this.unstickGlobie);
+    }
+  }
+
+  bindScroll() {
+    console.log('BIND SCROLL');
+    $('#project-wrapper').on('scroll.projectScroll', this.handleScroll);
+  }
+
+  unbindScroll() {
+    console.log('UNBIND SCROLL');
+    $('#project-wrapper').off('scroll.projectScroll', this.handleScroll);
+  }
+
+  handleScroll() {
+    if (this.$nextProject.length) {
+      if(this.$nextProject.offset().top - this.$window.height() * 1.2 <= 0) {
+        // unbind scroll to avoid mutiple loads
+
+        const { nextId, nextUrl } = this.$nextProject.data();
+        this.getProject(nextUrl, nextId, false);
+
+        console.log('LOAD NEW PROJECT', nextUrl);
+
+        // Reset next project
+        this.$nextProject.remove();
+        this.$nextProject = [];
+      }
+    }
+  }
+
+  bindNextProject() {
+    if ($('.next-project').length) {
+      this.$nextProject = $('.next-project');
+      console.log('NEW NEXT PROJECT', this.$nextProject[0]);
+      this.bindScroll();
     }
   }
 }
