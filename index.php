@@ -24,7 +24,14 @@ if ($projects->have_posts()) {
 
           <h1 class="project-list-title font-size-large"><a href="<?php the_permalink() ?>" data-id="<?php the_ID(); ?>"><?php the_title(); ?></a></h1>
 
-          <span class="project-list-service font-size-tiny"><?php echo !empty($services) ? $services[0]->name : ''; ?></span>
+          <span class="project-list-service font-size-tiny"><?php
+            if (!empty($services)) {
+              foreach ($services as $key => $value) {
+                echo $value->name;
+                echo ($key + 1) !== count($services) ? ' / ' : '';
+              }
+            }
+          ?></span>
 
         </article>
 
