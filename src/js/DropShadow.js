@@ -42,7 +42,7 @@ class DropShadow {
   }
 
   startAnimation() {
-    this.animating = true;;
+    this.animating = true;
     this.handleFrame(0);
   }
 
@@ -64,29 +64,27 @@ class DropShadow {
     }
   }
 
-  animation(offset) {
-    // if( offset % 3 == 0) {
-      // Loop over all of the pixels
-      for (var x = 0; x < this.width; x++) {
-        for (var y = 0; y < this.height; y++) {
-          // Get the pixel index
-          var pixelindex = (y * this.width + x) * 4;
+  animation() {
+    // Loop over all of the pixels
+    for (let x = 0; x < this.width; x++) {
+      for (let y = 0; y < this.height; y++) {
+        // Get the pixel index
+        const pixelindex = (y * this.width + x) * 4;
 
-          // Generate a xor pattern with some random noise
-          var prob = 1.03 / this.width * x;
+        // Generate a xor pattern with some random noise
+        let prob = 1.03 / this.width * x;
 
-          prob = prob * prob;//* (offset * 0.001);
+        prob = prob * prob;//* (offset * 0.001);
 
-          var value = Math.random() >= prob;
+        const value = Math.random() >= prob;
 
-          // Set the pixel data
-          this.imagedata.data[pixelindex] = value ? 255 : 0; // Red
-          this.imagedata.data[pixelindex + 1] = value ? 255 : 0; // Green
-          this.imagedata.data[pixelindex + 2] = value ? 255 : 0; // Blue
-          this.imagedata.data[pixelindex + 3] = value ? 0 : 255; // Alpha
-        }
+        // Set the pixel data
+        this.imagedata.data[pixelindex] = value ? 255 : 0; // Red
+        this.imagedata.data[pixelindex + 1] = value ? 255 : 0; // Green
+        this.imagedata.data[pixelindex + 2] = value ? 255 : 0; // Blue
+        this.imagedata.data[pixelindex + 3] = value ? 0 : 255; // Alpha
       }
-    //}
+    }
   }
 
   onResize() {

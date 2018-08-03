@@ -215,6 +215,7 @@ function igv_cmb_metaboxes() {
       'textarea_rows' => 5,
       'media_buttons' => false,
       'teeny' => true,
+      'editor_class' => 'cmb2-qtranslate',
     ),
   ) );
 }

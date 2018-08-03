@@ -7,10 +7,10 @@ $careers = get_post_meta($home_page->ID, '_igv_careers', true);
   <footer id="footer" class="shadow shadow-top padding-top-mid padding-bottom-small">
     <div class="container">
       <div class="grid-row">
-        <div class="grid-item item-s-12 item-m-6 item-l-5 item-xl-4 padding-bottom-mid">
+        <div class="grid-item item-s-12 item-m-6 item-l-6 item-xl-7 padding-bottom-mid font-size-mid">
           <?php echo apply_filters('the_content', $about); ?>
         </div>
-        <div class="grid-item item-s-12 item-m-6 item-l-6 offset-l-1 item-xl-5 offset-xl-3 no-gutter font-size-small padding-bottom-mid">
+        <div class="grid-item item-s-12 item-m-6 item-l-6 item-xl-5 no-gutter font-size-small padding-bottom-mid">
         <?php
           get_template_part('partials/contact');
 
