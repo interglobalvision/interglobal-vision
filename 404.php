@@ -11,17 +11,17 @@ get_header();
 switch(qtranxf_getLanguage()) {
   case 'es':
 ?>
-          <span>¡404 No se encontraron los <span id="globie-part">Pies</span>!</span>
+          <span>404: ¡No se encontraron los <span id="globie-part">Pies</span>!</span>
 <?php
     break;
   case 'ko':
 ?>
-          <span>404 <span id="globie-part">발</span>를 찾을 수 없음!</span>
+          <span>404: <span id="globie-part">발</span>를 찾을 수 없음!</span>
 <?php
     break;
   default:
 ?>
-          <span>404 <span id="globie-part">Feet</span> not found!</span>
+          <span>404: <span id="globie-part">Feet</span> not found!</span>
 <?php
 }
 ?>
