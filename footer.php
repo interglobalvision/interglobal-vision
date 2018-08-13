@@ -18,7 +18,7 @@ $careers = get_post_meta($home_page->ID, '_igv_careers', true);
         ?>
           <div class="grid-row">
             <div class="grid-item item-s-12 item-l-2 offset-l-2">
-              <h4 class="font-size-tiny font-bold"><?php _e('[:en]Select Clients[:es]Clientes selectos[:ko]셀렉트 <span class="u-inline-block">엄선된 고객들</span>[:]'); ?></h4>
+              <h4 class="font-size-tiny font-bold"><?php _e('[:en]Clients[:es]Clientes[:ko]고객[:]'); ?></h4>
             </div>
             <div class="grid-item item-s-12 item-l-6 item-l-8">
               <p>
