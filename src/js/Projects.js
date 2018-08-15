@@ -13,6 +13,7 @@ class Projects {
     this.unstickGlobie = this.unstickGlobie.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
+    this.handlePopState = this.handlePopState.bind(this);
 
     // Project Events
     this.openEvent = new Event('projectOpen');
@@ -27,6 +28,9 @@ class Projects {
 
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
+
+    // Listen for `popstate` event
+    $(window).bind('popstate', this.handlePopState);
 
   }
 
@@ -46,9 +50,17 @@ class Projects {
     }
   }
 
+  handlePopState(e) {
+    // Check if back button
+    if (document.location.origin + document.location.pathname === WP.siteUrl || document.location.origin + document.location.pathname === WP.siteUrl + '/') {
+      this.handleSiteTitleClick();
+    }
+  }
+
   bindProjectList() {
     $('.project-list-title a').on('click', this.handleProjectListTitleClick);
   }
+
 
   handleProjectListTitleClick(e) {
     e.preventDefault();
@@ -106,7 +118,11 @@ class Projects {
 
   handleSiteTitleClick(e) {
     if ($('body').hasClass('project-open')) {
-      e.preventDefault();
+
+      if(e) {
+        e.preventDefault();
+      }
+
       this.closeProjectPanel();
       this.updateHistory(WP.siteTitle, WP.siteUrl);
     }

@@ -985,6 +985,7 @@ var Projects = function () {
     this.unstickGlobie = this.unstickGlobie.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
+    this.handlePopState = this.handlePopState.bind(this);
 
     // Project Events
     this.openEvent = new Event('projectOpen');
@@ -999,6 +1000,9 @@ var Projects = function () {
 
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
+
+    // Listen for `popstate` event
+    $(window).bind('popstate', this.handlePopState);
   }
 
   _createClass(Projects, [{
@@ -1016,6 +1020,14 @@ var Projects = function () {
         // disable scrolling on home content
         $('.project-content').addClass('active');
         $('html').css('overflow', 'hidden');
+      }
+    }
+  }, {
+    key: 'handlePopState',
+    value: function handlePopState(e) {
+      // Check if back button
+      if (document.location.origin + document.location.pathname === WP.siteUrl || document.location.origin + document.location.pathname === WP.siteUrl + '/') {
+        this.handleSiteTitleClick();
       }
     }
   }, {
@@ -1091,7 +1103,11 @@ var Projects = function () {
     key: 'handleSiteTitleClick',
     value: function handleSiteTitleClick(e) {
       if ($('body').hasClass('project-open')) {
-        e.preventDefault();
+
+        if (e) {
+          e.preventDefault();
+        }
+
         this.closeProjectPanel();
         this.updateHistory(WP.siteTitle, WP.siteUrl);
       }
