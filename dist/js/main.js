@@ -1559,10 +1559,10 @@ var Eyes = function () {
     value: function onDeviceOrientationChange(event) {
       var _this3 = this;
 
-      this.$globies.each(function (index, element) {
+      this.$globies.each(function (index) {
 
         var x = event.gamma / -180 * window.innerWidth;
-        var y = event.beta / -180 * window.innerHeight;
+        var y = (event.beta - 55) / -180 * window.innerHeight;
 
         _this3.moveEyes(index, x, y);
       });

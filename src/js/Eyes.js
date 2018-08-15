@@ -93,10 +93,10 @@ class Eyes {
   }
 
   onDeviceOrientationChange(event) {
-    this.$globies.each( (index, element) => {
+    this.$globies.each( (index) => {
 
       const x = (event.gamma) / -180 * window.innerWidth;
-      const y = (event.beta) / -180 * window.innerHeight;
+      const y = (event.beta - 55) / -180 * window.innerHeight;
 
       this.moveEyes(index, x, y);
     });
