@@ -34,8 +34,10 @@ if (!empty($thumb) && is_single()) {
 
 if (is_home()) {
 ?>
+  <link rel="canonical" href=<?php bloginfo('url'); ?>"" />
   <meta property="og:url" content="<?php bloginfo('url'); ?>"/>
   <meta property="og:description" content="<?php bloginfo('description'); ?>" />
+  <meta name="description" content="<?php bloginfo('description'); ?>">
   <meta property="og:type" content="website" />
 <?php
 } else if (is_single()) {
@@ -49,14 +51,18 @@ if (is_home()) {
   // clean special cars
   $excerpt = htmlspecialchars($excerpt);
 ?>
+  <link rel="canonical" href="<?php the_permalink(); ?>" />
+  <meta name="description" content="<?php echo $excerpt; ?>">
   <meta property="og:url" content="<?php the_permalink(); ?>"/>
   <meta property="og:description" content="<?php echo $excerpt; ?>" />
   <meta property="og:type" content="article" />
 <?php
 } else {
 ?>
+  <link rel="canonical" href="<?php the_permalink(); ?>" />
   <meta property="og:url" content="<?php the_permalink() ?>"/>
   <meta property="og:description" content="<?php bloginfo('description'); ?>" />
+  <meta name="description" content="<?php bloginfo('description'); ?>">
   <meta property="og:type" content="website" />
 <?php
 }
