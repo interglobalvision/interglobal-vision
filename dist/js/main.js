@@ -1024,7 +1024,7 @@ var Projects = function () {
     }
   }, {
     key: 'handlePopState',
-    value: function handlePopState(e) {
+    value: function handlePopState() {
       // Check if back button
       if (document.location.origin + document.location.pathname === WP.siteUrl || document.location.origin + document.location.pathname === WP.siteUrl + '/') {
         this.handleSiteTitleClick();

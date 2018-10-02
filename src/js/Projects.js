@@ -50,7 +50,7 @@ class Projects {
     }
   }
 
-  handlePopState(e) {
+  handlePopState() {
     // Check if back button
     if (document.location.origin + document.location.pathname === WP.siteUrl || document.location.origin + document.location.pathname === WP.siteUrl + '/') {
       this.handleSiteTitleClick();

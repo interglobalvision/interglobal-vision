@@ -18,16 +18,16 @@ class DropShadow {
       this.imagedata = this.context.createImageData(this.width, this.height);
 
       // Bind ready and resize
-      this.onResize = this.onResize.bind(this)
-      this.onReady = this.onReady.bind(this)
+      this.onResize = this.onResize.bind(this);
+      this.onReady = this.onReady.bind(this);
       $(window).resize(this.onResize);
       $(document).ready(this.onReady);
 
       // Bind other function
-      this.animation = this.animation.bind(this)
-      this.handleFrame = this.handleFrame.bind(this)
-      this.startAnimation = this.startAnimation.bind(this)
-      this.stopAnimation = this.stopAnimation.bind(this)
+      this.animation = this.animation.bind(this);
+      this.handleFrame = this.handleFrame.bind(this);
+      this.startAnimation = this.startAnimation.bind(this);
+      this.stopAnimation = this.stopAnimation.bind(this);
 
       // Bind animation to open/close project events
       $(window)
