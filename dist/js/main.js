@@ -985,6 +985,7 @@ var Projects = function () {
     this.unstickGlobie = this.unstickGlobie.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
+    this.handlePopState = this.handlePopState.bind(this);
 
     // Project Events
     this.openEvent = new Event('projectOpen');
@@ -999,6 +1000,9 @@ var Projects = function () {
 
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
+
+    // Listen for `popstate` event
+    $(window).bind('popstate', this.handlePopState);
   }
 
   _createClass(Projects, [{
@@ -1019,6 +1023,17 @@ var Projects = function () {
       }
     }
   }, {
+    key: 'handlePopState',
+    value: function handlePopState() {
+      // Check if back button
+      if (document.location.origin + document.location.pathname === WP.siteUrl || document.location.origin + document.location.pathname === WP.siteUrl + '/') {
+        this.handleSiteTitleClick();
+      } else if (document.location.href === this.projectUrl && !this.$body.hasClass('project-open')) {
+        this.openProjectPanel();
+        this.$body.addClass('project-loaded');
+      }
+    }
+  }, {
     key: 'bindProjectList',
     value: function bindProjectList() {
       $('.project-list-title a').on('click', this.handleProjectListTitleClick);
@@ -1035,7 +1050,7 @@ var Projects = function () {
     value: function getProject(target) {
       var _this = this;
 
-      var projectUrl = target.href;
+      this.projectUrl = target.href;
       var projectId = target.dataset.id;
 
       if (!this.$body.hasClass('project-open')) {
@@ -1044,16 +1059,16 @@ var Projects = function () {
 
       $.ajax({
         type: 'GET',
-        url: projectUrl,
+        url: this.projectUrl,
         dataType: 'html',
         success: function success(data) {
-          return _this.handleAjaxSuccess(data, projectUrl, projectId);
+          return _this.handleAjaxSuccess(data, projectId);
         }
       });
     }
   }, {
     key: 'handleAjaxSuccess',
-    value: function handleAjaxSuccess(data, projectUrl, projectId) {
+    value: function handleAjaxSuccess(data, projectId) {
       var $parsed = $('<div>').append($.parseHTML(data));
       var project = $parsed.find('#project-' + projectId);
       var title = $parsed.find('title').text();
@@ -1066,7 +1081,7 @@ var Projects = function () {
         $(project).addClass('active');
       }
 
-      this.updateHistory(title, projectUrl);
+      this.updateHistory(title, this.projectUrl);
     }
   }, {
     key: 'updateHistory',
@@ -1091,7 +1106,11 @@ var Projects = function () {
     key: 'handleSiteTitleClick',
     value: function handleSiteTitleClick(e) {
       if ($('body').hasClass('project-open')) {
-        e.preventDefault();
+
+        if (e) {
+          e.preventDefault();
+        }
+
         this.closeProjectPanel();
         this.updateHistory(WP.siteTitle, WP.siteUrl);
       }
@@ -1466,6 +1485,7 @@ var Eyes = function () {
 
     this.onReady = this.onReady.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.onDeviceOrientationChange = this.onDeviceOrientationChange.bind(this);
 
     $(window).resize(this.onResize);
 
@@ -1536,9 +1556,7 @@ var Eyes = function () {
         $(document).mousemove(this.onMouseMove);
       } else {
         if (window.DeviceOrientationEvent) {
-          window.addEventListener('deviceorientation', function (e) {
-            return this.onDeviceOrientationChange(e);
-          }.bind(this), false);
+          window.addEventListener('deviceorientation', this.onDeviceOrientationChange, false);
         }
       }
     }
@@ -1558,10 +1576,15 @@ var Eyes = function () {
   }, {
     key: 'onDeviceOrientationChange',
     value: function onDeviceOrientationChange(event) {
-      var x = (event.gamma + 90) / 180 * window.innerWidth;
-      var y = (event.beta - 45 + 90) / 180 * window.innerHeight;
+      var _this3 = this;
 
-      this.moveEyes(x, y);
+      this.$globies.each(function (index) {
+
+        var x = event.gamma / -180 * window.innerWidth;
+        var y = (event.beta - 55) / -180 * window.innerHeight;
+
+        _this3.moveEyes(index, x, y);
+      });
     }
   }, {
     key: 'moveEyes',

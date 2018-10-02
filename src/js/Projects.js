@@ -13,6 +13,7 @@ class Projects {
     this.unstickGlobie = this.unstickGlobie.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
+    this.handlePopState = this.handlePopState.bind(this);
 
     // Project Events
     this.openEvent = new Event('projectOpen');
@@ -27,6 +28,9 @@ class Projects {
 
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
+
+    // Listen for `popstate` event
+    $(window).bind('popstate', this.handlePopState);
 
   }
 
@@ -46,9 +50,20 @@ class Projects {
     }
   }
 
+  handlePopState() {
+    // Check if back button
+    if (document.location.origin + document.location.pathname === WP.siteUrl || document.location.origin + document.location.pathname === WP.siteUrl + '/') {
+      this.handleSiteTitleClick();
+    } else if (document.location.href === this.projectUrl && !this.$body.hasClass('project-open')) {
+      this.openProjectPanel();
+      this.$body.addClass('project-loaded');
+    }
+  }
+
   bindProjectList() {
     $('.project-list-title a').on('click', this.handleProjectListTitleClick);
   }
+
 
   handleProjectListTitleClick(e) {
     e.preventDefault();
@@ -57,7 +72,7 @@ class Projects {
   }
 
   getProject(target) {
-    const projectUrl = target.href;
+    this.projectUrl = target.href;
     const projectId = target.dataset.id;
 
     if (!this.$body.hasClass('project-open')) {
@@ -66,13 +81,13 @@ class Projects {
 
     $.ajax({
       type: 'GET',
-      url: projectUrl,
+      url: this.projectUrl,
       dataType: 'html',
-      success: (data) => this.handleAjaxSuccess(data, projectUrl, projectId),
+      success: (data) => this.handleAjaxSuccess(data, projectId),
     });
   }
 
-  handleAjaxSuccess(data, projectUrl, projectId) {
+  handleAjaxSuccess(data, projectId) {
     const $parsed = $('<div>').append($.parseHTML(data));
     const project = $parsed.find('#project-' + projectId);
     const title = $parsed.find('title').text();
@@ -85,7 +100,7 @@ class Projects {
       $(project).addClass('active');
     }
 
-    this.updateHistory(title, projectUrl);
+    this.updateHistory(title, this.projectUrl);
   }
 
   updateHistory(title, url) {
@@ -106,7 +121,11 @@ class Projects {
 
   handleSiteTitleClick(e) {
     if ($('body').hasClass('project-open')) {
-      e.preventDefault();
+
+      if(e) {
+        e.preventDefault();
+      }
+
       this.closeProjectPanel();
       this.updateHistory(WP.siteTitle, WP.siteUrl);
     }
