@@ -34,7 +34,7 @@ if (!empty($thumb) && is_single()) {
 
 if (is_home()) {
 ?>
-  <link rel="canonical" href=<?php bloginfo('url'); ?>"" />
+  <link rel="canonical" href="<?php bloginfo('url'); ?>" />
   <meta property="og:url" content="<?php bloginfo('url'); ?>"/>
   <meta property="og:description" content="<?php bloginfo('description'); ?>" />
   <meta name="description" content="<?php bloginfo('description'); ?>">
