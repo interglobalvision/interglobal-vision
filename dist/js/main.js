@@ -985,6 +985,7 @@ var Projects = function () {
     this.unstickGlobie = this.unstickGlobie.bind(this);
     this.onResize = this.onResize.bind(this);
     this.onReady = this.onReady.bind(this);
+    this.handlePopState = this.handlePopState.bind(this);
 
     // Project Events
     this.openEvent = new Event('projectOpen');
@@ -999,6 +1000,9 @@ var Projects = function () {
 
     $(window).resize(this.onResize);
     $(document).ready(this.onReady);
+
+    // Listen for `popstate` event
+    $(window).bind('popstate', this.handlePopState);
   }
 
   _createClass(Projects, [{
@@ -1019,6 +1023,17 @@ var Projects = function () {
       }
     }
   }, {
+    key: 'handlePopState',
+    value: function handlePopState() {
+      // Check if back button
+      if (document.location.origin + document.location.pathname === WP.siteUrl || document.location.origin + document.location.pathname === WP.siteUrl + '/') {
+        this.handleSiteTitleClick();
+      } else if (document.location.href === this.projectUrl && !this.$body.hasClass('project-open')) {
+        this.openProjectPanel();
+        this.$body.addClass('project-loaded');
+      }
+    }
+  }, {
     key: 'bindProjectList',
     value: function bindProjectList() {
       $('.project-list-title a').on('click', this.handleProjectListTitleClick);
@@ -1035,7 +1050,7 @@ var Projects = function () {
     value: function getProject(target) {
       var _this = this;
 
-      var projectUrl = target.href;
+      this.projectUrl = target.href;
       var projectId = target.dataset.id;
 
       if (!this.$body.hasClass('project-open')) {
@@ -1044,16 +1059,16 @@ var Projects = function () {
 
       $.ajax({
         type: 'GET',
-        url: projectUrl,
+        url: this.projectUrl,
         dataType: 'html',
         success: function success(data) {
-          return _this.handleAjaxSuccess(data, projectUrl, projectId);
+          return _this.handleAjaxSuccess(data, projectId);
         }
       });
     }
   }, {
     key: 'handleAjaxSuccess',
-    value: function handleAjaxSuccess(data, projectUrl, projectId) {
+    value: function handleAjaxSuccess(data, projectId) {
       var $parsed = $('<div>').append($.parseHTML(data));
       var project = $parsed.find('#project-' + projectId);
       var title = $parsed.find('title').text();
@@ -1066,7 +1081,7 @@ var Projects = function () {
         $(project).addClass('active');
       }
 
-      this.updateHistory(title, projectUrl);
+      this.updateHistory(title, this.projectUrl);
     }
   }, {
     key: 'updateHistory',
@@ -1091,7 +1106,11 @@ var Projects = function () {
     key: 'handleSiteTitleClick',
     value: function handleSiteTitleClick(e) {
       if ($('body').hasClass('project-open')) {
-        e.preventDefault();
+
+        if (e) {
+          e.preventDefault();
+        }
+
         this.closeProjectPanel();
         this.updateHistory(WP.siteTitle, WP.siteUrl);
       }
