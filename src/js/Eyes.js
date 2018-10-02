@@ -9,6 +9,7 @@ class Eyes {
 
     this.onReady = this.onReady.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.onDeviceOrientationChange = this.onDeviceOrientationChange.bind(this);
 
     $(window).resize(this.onResize);
 
@@ -74,9 +75,7 @@ class Eyes {
       $(document).mousemove(this.onMouseMove);
     } else {
       if(window.DeviceOrientationEvent){
-        window.addEventListener('deviceorientation', function(e) {
-          return this.onDeviceOrientationChange(e);
-        }.bind(this), false);
+        window.addEventListener('deviceorientation', this.onDeviceOrientationChange, false);
       }
     }
 
@@ -94,10 +93,13 @@ class Eyes {
   }
 
   onDeviceOrientationChange(event) {
-    const x = (event.gamma + 90) / 180 * window.innerWidth;
-    const y = (event.beta - 45 + 90) / 180 * window.innerHeight;
+    this.$globies.each( (index) => {
 
-    this.moveEyes(x, y);
+      const x = (event.gamma) / -180 * window.innerWidth;
+      const y = (event.beta - 55) / -180 * window.innerHeight;
+
+      this.moveEyes(index, x, y);
+    });
 
   }
 

@@ -1485,6 +1485,7 @@ var Eyes = function () {
 
     this.onReady = this.onReady.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.onDeviceOrientationChange = this.onDeviceOrientationChange.bind(this);
 
     $(window).resize(this.onResize);
 
@@ -1555,9 +1556,7 @@ var Eyes = function () {
         $(document).mousemove(this.onMouseMove);
       } else {
         if (window.DeviceOrientationEvent) {
-          window.addEventListener('deviceorientation', function (e) {
-            return this.onDeviceOrientationChange(e);
-          }.bind(this), false);
+          window.addEventListener('deviceorientation', this.onDeviceOrientationChange, false);
         }
       }
     }
@@ -1577,10 +1576,15 @@ var Eyes = function () {
   }, {
     key: 'onDeviceOrientationChange',
     value: function onDeviceOrientationChange(event) {
-      var x = (event.gamma + 90) / 180 * window.innerWidth;
-      var y = (event.beta - 45 + 90) / 180 * window.innerHeight;
+      var _this3 = this;
 
-      this.moveEyes(x, y);
+      this.$globies.each(function (index) {
+
+        var x = event.gamma / -180 * window.innerWidth;
+        var y = (event.beta - 55) / -180 * window.innerHeight;
+
+        _this3.moveEyes(index, x, y);
+      });
     }
   }, {
     key: 'moveEyes',
