@@ -1028,6 +1028,9 @@ var Projects = function () {
       // Check if back button
       if (document.location.origin + document.location.pathname === WP.siteUrl || document.location.origin + document.location.pathname === WP.siteUrl + '/') {
         this.handleSiteTitleClick();
+      } else if (document.location.href === this.projectUrl && !this.$body.hasClass('project-open')) {
+        this.openProjectPanel();
+        this.$body.addClass('project-loaded');
       }
     }
   }, {
@@ -1047,7 +1050,7 @@ var Projects = function () {
     value: function getProject(target) {
       var _this = this;
 
-      var projectUrl = target.href;
+      this.projectUrl = target.href;
       var projectId = target.dataset.id;
 
       if (!this.$body.hasClass('project-open')) {
@@ -1056,16 +1059,16 @@ var Projects = function () {
 
       $.ajax({
         type: 'GET',
-        url: projectUrl,
+        url: this.projectUrl,
         dataType: 'html',
         success: function success(data) {
-          return _this.handleAjaxSuccess(data, projectUrl, projectId);
+          return _this.handleAjaxSuccess(data, projectId);
         }
       });
     }
   }, {
     key: 'handleAjaxSuccess',
-    value: function handleAjaxSuccess(data, projectUrl, projectId) {
+    value: function handleAjaxSuccess(data, projectId) {
       var $parsed = $('<div>').append($.parseHTML(data));
       var project = $parsed.find('#project-' + projectId);
       var title = $parsed.find('title').text();
@@ -1078,7 +1081,7 @@ var Projects = function () {
         $(project).addClass('active');
       }
 
-      this.updateHistory(title, projectUrl);
+      this.updateHistory(title, this.projectUrl);
     }
   }, {
     key: 'updateHistory',
